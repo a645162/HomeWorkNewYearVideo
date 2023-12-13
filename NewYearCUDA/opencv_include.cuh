@@ -1,0 +1,8 @@
+//
+// Created by konghaomin on 2023/12/12.
+//
+
+#ifndef NEWYEARCUDA_OPENCV_INCLUDE_CUH
+#define NEWYEARCUDA_OPENCV_INCLUDE_CUH
+
+#endif //NEWYEARCUDA_OPENCV_INCLUDE_CUH

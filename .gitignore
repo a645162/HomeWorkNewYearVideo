@@ -31,3 +31,7 @@
 *.out
 *.app
 NewYearOpenCL/.idea/
+*.pyc
+NewYearPy/.idea/
+NewYearCUDA/.idea/
+NewYearPy/res/ball.psd
