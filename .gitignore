@@ -35,3 +35,5 @@ NewYearOpenCL/.idea/
 NewYearPy/.idea/
 NewYearCUDA/.idea/
 NewYearPy/res/ball.psd
+NewYearOpenCL/cmake-build-debug/
+NewYearOpenCL/cmake-build-default-win64vc-vcpkg/

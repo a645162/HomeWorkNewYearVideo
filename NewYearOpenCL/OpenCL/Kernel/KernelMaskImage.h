@@ -2,10 +2,10 @@
 // Created by konghaomin on 23-12-12.
 //
 
-#ifndef NEW_YEAR_OPENCL_MASKIMAGEKERNEL_H
-#define NEW_YEAR_OPENCL_MASKIMAGEKERNEL_H
+#ifndef NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H
+#define NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H
 
-const char *mask_image_circle_kernel = R"(// MaskImageCircle.cl
+const char *cl_kernel_mask_image_circle = R"(// MaskImageCircle.cl
 __kernel void
 MaskImageCircle(const __global uchar *input, __global uchar *output,
                 const int width, const int height, const int channels,
@@ -91,4 +91,4 @@ MaskImageCircle(const __global uchar *input, __global uchar *output,
   }
 })";
 
-#endif //NEW_YEAR_OPENCL_MASKIMAGEKERNEL_H
+#endif //NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H
