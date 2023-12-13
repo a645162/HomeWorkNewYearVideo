@@ -1,0 +1,8 @@
+//
+// Created by konghaomin on 23-12-12.
+//
+
+#ifndef NEWYEAROPENCL_RESIZEIMAGE_H
+#define NEWYEAROPENCL_RESIZEIMAGE_H
+
+#endif //NEWYEAROPENCL_RESIZEIMAGE_H
