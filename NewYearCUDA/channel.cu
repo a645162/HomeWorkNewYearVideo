@@ -27,6 +27,41 @@ __global__ void convert4To3Channels(const uchar4 *inputImage, uchar3 *outputImag
     }
 }
 
+__global__ void ImageChannelConvert(
+        const uchar *inputImage, uchar *outputImage,
+        int width, int height,
+        int src_channels, int dst_channels) {
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (x < width && y < height) {
+
+        for (int c = 0; c < dst_channels; c++) {
+            int dst_index = (y * width + x) * dst_channels + c;
+            int src_index = (y * width + x) * src_channels + c;
+            outputImage[dst_index] = inputImage[src_index];
+        }
+
+        // big to small
+        // 3,4->1 [index_0]
+        // 4->3 [index_0, index_1, index_2]
+        // small to big
+        // 1->3,4 [index_0, index_0, index_0, 255]
+        // 3->4 [index_0, index_1, index_2, 255]
+        if (dst_channels > src_channels) {
+            int src_index = (y * width + x) * src_channels;
+            for (int c = src_channels; c < dst_channels; c++) {
+                int dst_index = (y * width + x) * dst_channels + c;
+                if (c == 3) {
+                    outputImage[dst_index] = 255;
+                } else {
+                    outputImage[dst_index] = inputImage[src_index];
+                }
+            }
+        }
+    }
+}
+
 int main() {
     // Read the 3-channel image using OpenCV
     cv::Mat inputImage = cv::imread("../Resources/input.png");
@@ -68,9 +103,18 @@ int main() {
     dim3 gridSize((width + blockSize.x - 1) / blockSize.x, (height + blockSize.y - 1) / blockSize.y);
 
     // Launch the CUDA kernel
-    convert3To4Channels<<<gridSize, blockSize>>>(deviceInputImage, deviceOutputImage, width, height);
+//    convert3To4Channels<<<gridSize, blockSize>>>(deviceInputImage, deviceOutputImage, width, height);
 
-    convert4To3Channels<<<gridSize, blockSize>>>(deviceOutputImage, deviceOutput3Image, width, height);
+//    convert4To3Channels<<<gridSize, blockSize>>>(deviceOutputImage, deviceOutput3Image, width, height);
+
+    ImageChannelConvert<<<gridSize, blockSize>>>(
+            (uchar *) deviceInputImage, (uchar *) deviceOutputImage, width, height,
+            3, 4
+    );
+
+    ImageChannelConvert<<<gridSize, blockSize>>>(
+            (uchar *) deviceOutputImage, (uchar *) deviceOutput3Image, width, height,
+            4, 3);
 
     // Copy the result back to the host
     cudaMemcpy(hostOutputImage, deviceOutputImage, width * height * sizeof(uchar4), cudaMemcpyDeviceToHost);
