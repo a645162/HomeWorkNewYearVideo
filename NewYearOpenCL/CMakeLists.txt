@@ -3,13 +3,6 @@ project(NewYearOpenCL CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 
-# VcPkg
-#if (WIN32)
-#    set(CMAKE_TOOLCHAIN_FILE D:/Dev/vcpkg/scripts/buildsystems/vcpkg.cmake)
-#elseif (APPLE)
-#    set(CMAKE_TOOLCHAIN_FILE /Users/konghaomin/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake)
-#endif ()
-
 if (WIN32)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         message(STATUS "Using MSVC compiler on Windows.")
@@ -64,23 +57,22 @@ add_executable(
         OpenCL/Devices/OpenCLDevicesList.cpp
         OpenCL/Devices/OpenCLDevicesList.h
 
-#        OpenCL/Image/ImageMask.cpp
-#        OpenCL/Image/ImageMask.h
-#        OpenCL/Kernel/KernelMaskImage.h
+        #        OpenCL/Image/ImageMask.cpp
+        #        OpenCL/Image/ImageMask.h
+        #        OpenCL/Kernel/KernelMaskImage.h
 
         OpenCL/Image/ImageResize.cpp
         OpenCL/Image/ImageResize.h
-
-#        OpenCL/Image/ImageConvolution.cpp
-        OpenCL/Image/ImageConvolution.h
-        OpenCL/Kernel/KernelConvolution.h
         OpenCL/Kernel/KernelImageResize.h
 
+        OpenCL/Image/ImageConvolution.cpp
+        OpenCL/Image/ImageConvolution.h
+        OpenCL/Kernel/KernelConvolution.h
 
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
-#        OpenCL/Image/ImageGaussianBlur.h
-#        OpenCL/Kernel/KernelGaussianConvKernel.h
+        #        OpenCL/Image/ImageGaussianBlur.h
+        #        OpenCL/Kernel/KernelGaussianConvKernel.h
 
         #        OpenCL/Test/TestOpenCLRect.cpp
 )
@@ -95,9 +87,9 @@ target_compile_definitions(NewYearOpenCL PRIVATE CL_HPP_MINIMUM_OPENCL_VERSION=1
 
 target_link_libraries(NewYearOpenCL PRIVATE ${OpenCL_LIBRARIES})
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(NewYearOpenCL PRIVATE DEBUG_MODE)
-endif()
+endif ()
 
 # OpenCV
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})

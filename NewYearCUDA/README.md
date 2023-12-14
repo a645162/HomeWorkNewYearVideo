@@ -147,22 +147,3 @@ https://developer.nvidia.com/cuda-gpus
 
 不可以为CUDA开启Fast Math选项， 
 否则可能会导致聚光灯效果出现异常。
-
-### VCPkg OpenCV
-
-#### AVI
-XVID Fail
-MJPG Fail
-
-#### MP4
-MP4V Fail
-H264
-X264
-X265
-HEVC
-AVC1 Fail
-
-
-### My Build Static OpenCV
-
-#### AVI
