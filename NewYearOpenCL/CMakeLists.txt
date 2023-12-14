@@ -68,6 +68,8 @@ add_executable(
         OpenCL/Image/ImageConvolution.cpp
         OpenCL/Image/ImageConvolution.h
         OpenCL/Kernel/KernelConvolution.h
+        Utils/ProgramIO.cpp
+        Utils/ProgramIO.h
 
 
         #        OpenCL/Image/ImageGaussianBlur.cpp

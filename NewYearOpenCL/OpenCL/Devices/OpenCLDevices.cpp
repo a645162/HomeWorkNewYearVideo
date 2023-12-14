@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+#include "../../Utils/ProgramIO.h"
+
 #include "../Include/OpenCLInclude.h"
 #include "OpenCLDevices.h"
 #include "OpenCLDevicesList.h"
@@ -49,9 +51,15 @@ cl_device_id getOpenCLDeviceByIndex(const int platformIndex, const int deviceInd
 
     // Get available devices on the platform
     cl_uint numDevices;
-    clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 0, nullptr, &numDevices);
+    clGetDeviceIDs(
+            platform, CL_DEVICE_TYPE_ALL,
+            0, nullptr, &numDevices
+    );
     std::vector<cl_device_id> devices(numDevices);
-    clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, numDevices, devices.data(), nullptr);
+    clGetDeviceIDs(
+            platform, CL_DEVICE_TYPE_ALL,
+            numDevices, devices.data(), nullptr
+    );
 
     // Get count of devices
     unsigned int deviceSize = devices.size();
@@ -63,13 +71,59 @@ cl_device_id getOpenCLDeviceByIndex(const int platformIndex, const int deviceInd
     // Choose the device (index)
     cl_device_id device = devices[deviceIndex];
 
+    print_multi_char('-', 56);
+    std::cout << "Using OpenCL Platform: " << std::endl;
+
+    // Output platform name
+    size_t platformNameSize;
+    clGetPlatformInfo(
+            platform, CL_PLATFORM_NAME, 0,
+            nullptr, &platformNameSize
+    );
+    std::vector<char> platformName(platformNameSize);
+    clGetPlatformInfo(
+            platform, CL_PLATFORM_NAME, platformNameSize,
+            platformName.data(), nullptr
+    );
+    std::cout << "\tPlatform Name: " << platformName.data() << std::endl;
+
+    std::cout << "Using OpenCL Device: " << std::endl;
+
     // Output device name
     size_t deviceNameSize;
-    clGetDeviceInfo(device, CL_DEVICE_NAME, 0, nullptr, &deviceNameSize);
+    clGetDeviceInfo(
+            device, CL_DEVICE_NAME,
+            0, nullptr, &deviceNameSize
+    );
     std::vector<char> deviceName(deviceNameSize);
-    clGetDeviceInfo(device, CL_DEVICE_NAME, deviceNameSize, deviceName.data(), nullptr);
-    std::cout << "Using OpenCL device: " << deviceName.data() << std::endl;
+    clGetDeviceInfo(
+            device, CL_DEVICE_NAME,
+            deviceNameSize, deviceName.data(), nullptr
+    );
+    std::cout << "\tDevice Name: " << deviceName.data() << std::endl;
 
+    // Output device vendor
+    size_t deviceVendorSize;
+    clGetDeviceInfo(
+            device, CL_DEVICE_VENDOR,
+            0, nullptr, &deviceVendorSize
+    );
+    std::vector<char> deviceVendor(deviceVendorSize);
+    clGetDeviceInfo(
+            device, CL_DEVICE_VENDOR,
+            deviceVendorSize, deviceVendor.data(), nullptr
+    );
+    std::cout << "\tDevice Vendor: " << deviceVendor.data() << std::endl;
+
+    // Output device memory
+    cl_ulong deviceMemory;
+    clGetDeviceInfo(
+            device, CL_DEVICE_GLOBAL_MEM_SIZE,
+            sizeof(deviceMemory), &deviceMemory, nullptr
+    );
+    std::cout << "\tDevice Memory: " << deviceMemory / 1024 / 1024 << " MB" << std::endl;
+
+    print_multi_char('-', 56);
 //    CLGetInfoMaxWorkGroupSize(device);
 
     return device;

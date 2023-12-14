@@ -71,7 +71,6 @@ __global__ void convertToGraySingleChannel(
         auto blueIndex = targetIndex * channels;
         auto greenIndex = blueIndex + 1;
         auto redIndex = blueIndex + 2;
-        auto alphaIndex = blueIndex + 3;
 
         auto r = inputImage[redIndex];
         auto g = inputImage[greenIndex];
