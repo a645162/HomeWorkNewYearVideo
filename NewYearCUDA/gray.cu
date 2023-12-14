@@ -91,7 +91,11 @@ __global__ void convertToGraySingleChannel(
 
 int main() {
     // Read the image using OpenCV
-    cv::Mat inputImage = cv::imread("input.png", cv::IMREAD_UNCHANGED);
+    cv::Mat inputImage = cv::imread("../Resources/input.png", cv::IMREAD_UNCHANGED);
+    cv::resize(
+            inputImage, inputImage,
+            cv::Size(inputImage.cols / 4, inputImage.rows / 4)
+    );
 
     if (inputImage.empty()) {
         std::cerr << "Failed to read the image." << std::endl;
@@ -107,6 +111,7 @@ int main() {
     // Allocate memory on the host
     uchar *hostInputImage = inputImage.data;
     uchar *hostOutputImage = new uchar[inputImage.total() * channels];
+    uchar *hostOutputImage1 = new uchar[inputImage.total() * channels];
 
     // Allocate memory on the device
     uchar *deviceInputImage;
@@ -133,25 +138,32 @@ int main() {
 //    );
 
     convertToGrayRGB<<<gridSize, blockSize>>>(
+            deviceInputImage, deviceOutputImage,
+            width, height, channels,
+            1
+    );
+
+    convertToGraySingleChannel<<<gridSize, blockSize>>>(
             deviceInputImage, deviceOutput1ChannelImage,
             width, height, channels,
             1
     );
 
     // Copy the result back to the host
-//    cudaMemcpy(hostOutputImage, deviceOutputImage, inputImage.total() * channels * sizeof(uchar),
-//               cudaMemcpyDeviceToHost);
+    cudaMemcpy(hostOutputImage, deviceOutputImage, inputImage.total() * channels * sizeof(uchar),
+               cudaMemcpyDeviceToHost);
 //
 //    // Create a new OpenCV image with the grayscale data
-//    cv::Mat outputImage(height, width, (channels == 4) ? CV_8UC4 : CV_8UC3, hostOutputImage);
+    cv::Mat outputImage(height, width, CV_8UC(channels), hostOutputImage);
 
-    cudaMemcpy(hostOutputImage, deviceOutput1ChannelImage, inputImage.total() * sizeof(uchar),
+    cudaMemcpy(hostOutputImage1, deviceOutput1ChannelImage, inputImage.total() * sizeof(uchar),
                cudaMemcpyDeviceToHost);
-    outputImage = cv::Mat(height, width, CV_8UC1, hostOutputImage);
+    cv::Mat outputImage1(height, width, CV_8UC1, hostOutputImage1);
 
     // Display the original and grayscale images
     cv::imshow("Original Image", inputImage);
     cv::imshow("Grayscale Image", outputImage);
+    cv::imshow("Grayscale Image1", outputImage1);
     cv::waitKey(0);
 
     // Free memory
