@@ -11,6 +11,21 @@
 
 #include "../../Config/DebugVar.h"
 
+size_t CLGetInfoMaxWorkGroupSize(cl_device_id device) {
+    // Query the maximum work group size
+    size_t maxWorkGroupSize;
+    clGetDeviceInfo(
+            device,
+            CL_DEVICE_MAX_WORK_GROUP_SIZE,
+            sizeof(maxWorkGroupSize),
+            &maxWorkGroupSize,
+            nullptr
+    );
+
+    std::cout << "Max work group size: " << maxWorkGroupSize << std::endl;
+
+    return maxWorkGroupSize;
+}
 
 cl_device_id getOpenCLDeviceByIndex(const int platformIndex, const int deviceIndex) {
 
@@ -54,6 +69,8 @@ cl_device_id getOpenCLDeviceByIndex(const int platformIndex, const int deviceInd
     std::vector<char> deviceName(deviceNameSize);
     clGetDeviceInfo(device, CL_DEVICE_NAME, deviceNameSize, deviceName.data(), nullptr);
     std::cout << "Using OpenCL device: " << deviceName.data() << std::endl;
+
+//    CLGetInfoMaxWorkGroupSize(device);
 
     return device;
 }
