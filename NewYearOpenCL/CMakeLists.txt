@@ -1,11 +1,23 @@
 cmake_minimum_required(VERSION 3.12)
-project(NewYearOpenCL CXX)
+message(STATUS "@CMake version: ${CMAKE_VERSION}")
+
+project(NewYearOpenCL C CXX)
+message(STATUS "@Project name: ${PROJECT_NAME}")
 
 set(CMAKE_CXX_STANDARD 23)
 
+message(STATUS "@Build type: ${CMAKE_BUILD_TYPE}")
+#if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(STATUS "Buildind in Debug Mode.")
+    message(STATUS "\t#define DEBUG_MODE")
+    add_definitions(-DDEBUG_MODE)
+    #    target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG_MODE)
+endif ()
+
 if (WIN32)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        message(STATUS "Using MSVC compiler on Windows.")
+        message(STATUS "@Using MSVC compiler on Windows.")
 
         # https://blog.csdn.net/liangshui999/article/details/128332182
         message(STATUS "Set MSVC compiler to use UTF-8 as the character set.")
@@ -13,13 +25,13 @@ if (WIN32)
         #add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/execution-charset:gbk>")
     else ()
         message(STATUS "Not using MSVC compiler on Windows.")
-        message(STATUS "Program may not compatible with MinGW or Other compilers on Windows.")
+        message(STATUS "!!!Program may not compatible with MinGW or Other compilers on Windows.")
     endif ()
 endif ()
 
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
-message(STATUS "OpenCV Version: ${OpenCV_VERSION}")
+message(STATUS "@OpenCV Version: ${OpenCV_VERSION}")
 
 #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kernel_template.h
 #        ${CMAKE_CURRENT_BINARY_DIR}/kernel_template.hpp @ONLY)
@@ -89,10 +101,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE CL_HPP_TARGET_OPENCL_VERSION=
 target_compile_definitions(${PROJECT_NAME} PRIVATE CL_HPP_MINIMUM_OPENCL_VERSION=120)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCL_LIBRARIES})
-
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG_MODE)
-endif ()
 
 # OpenCV
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
