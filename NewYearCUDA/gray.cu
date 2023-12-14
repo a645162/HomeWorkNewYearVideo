@@ -14,7 +14,7 @@
 
 
 // 0: average 1: weighted
-__global__ void convertToGray(
+__global__ void convertToGrayRGB(
         const uchar *inputImage, uchar *outputImage,
         int width, int height, int channels,
         int type = 0
@@ -56,6 +56,39 @@ __global__ void convertToGray(
     }
 }
 
+__global__ void convertToGraySingleChannel(
+        const uchar *inputImage, uchar *outputImage,
+        int width, int height, int channels,
+        int type = 0
+) {
+    auto x = blockIdx.x * blockDim.x + threadIdx.x;
+    auto y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (x < width && y < height) {
+        auto targetIndex = y * width + x;
+
+        // Calculate pixel index for each channel
+        auto blueIndex = targetIndex * channels;
+        auto greenIndex = blueIndex + 1;
+        auto redIndex = blueIndex + 2;
+        auto alphaIndex = blueIndex + 3;
+
+        auto r = inputImage[redIndex];
+        auto g = inputImage[greenIndex];
+        auto b = inputImage[blueIndex];
+
+        uchar grayValue;
+
+        if (type == 0) {
+            grayValue = CONVERT_TO_GRAY_AVG(r, g, b);
+        } else {
+            grayValue = CONVERT_TO_WEIGHTED_GRAY(r, g, b);
+        }
+
+        outputImage[targetIndex] = grayValue;
+    }
+}
+
 int main() {
     // Read the image using OpenCV
     cv::Mat inputImage = cv::imread("input.png", cv::IMREAD_UNCHANGED);
@@ -78,9 +111,12 @@ int main() {
     // Allocate memory on the device
     uchar *deviceInputImage;
     uchar *deviceOutputImage;
+    uchar *deviceOutput1ChannelImage;
 
     cudaMalloc((void **) &deviceInputImage, inputImage.total() * channels * sizeof(uchar));
     cudaMalloc((void **) &deviceOutputImage, inputImage.total() * channels * sizeof(uchar));
+
+    cudaMalloc((void **) &deviceOutput1ChannelImage, inputImage.total() * sizeof(uchar));
 
     // Copy the input image to the device
     cudaMemcpy(deviceInputImage, hostInputImage, inputImage.total() * channels * sizeof(uchar), cudaMemcpyHostToDevice);
@@ -90,18 +126,28 @@ int main() {
     dim3 gridSize((width + blockSize.x - 1) / blockSize.x, (height + blockSize.y - 1) / blockSize.y);
 
     // Launch the CUDA kernel
-    convertToGray<<<gridSize, blockSize>>>(
-            deviceInputImage, deviceOutputImage,
+//    convertToGrayRGB<<<gridSize, blockSize>>>(
+//            deviceInputImage, deviceOutputImage,
+//            width, height, channels,
+//            1
+//    );
+
+    convertToGrayRGB<<<gridSize, blockSize>>>(
+            deviceInputImage, deviceOutput1ChannelImage,
             width, height, channels,
             1
     );
 
     // Copy the result back to the host
-    cudaMemcpy(hostOutputImage, deviceOutputImage, inputImage.total() * channels * sizeof(uchar),
-               cudaMemcpyDeviceToHost);
+//    cudaMemcpy(hostOutputImage, deviceOutputImage, inputImage.total() * channels * sizeof(uchar),
+//               cudaMemcpyDeviceToHost);
+//
+//    // Create a new OpenCV image with the grayscale data
+//    cv::Mat outputImage(height, width, (channels == 4) ? CV_8UC4 : CV_8UC3, hostOutputImage);
 
-    // Create a new OpenCV image with the grayscale data
-    cv::Mat outputImage(height, width, (channels == 4) ? CV_8UC4 : CV_8UC3, hostOutputImage);
+    cudaMemcpy(hostOutputImage, deviceOutput1ChannelImage, inputImage.total() * sizeof(uchar),
+               cudaMemcpyDeviceToHost);
+    outputImage = cv::Mat(height, width, CV_8UC1, hostOutputImage);
 
     // Display the original and grayscale images
     cv::imshow("Original Image", inputImage);
