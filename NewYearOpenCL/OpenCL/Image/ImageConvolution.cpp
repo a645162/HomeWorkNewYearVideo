@@ -30,26 +30,26 @@ OpenCLProgram CLCreateProgramImageResize(cl_context context, cl_device_id device
 
 void KernelSetArgImageConv(
         cl_kernel kernel,
-        cl_mem devSrc,
-        cl_mem devDst,
-        int srcWidth,
-        int srcHeight,
+        cl_mem device_src,
+        cl_mem device_dst,
+        int width,
+        int height,
         int channels,
         cl_mem conv_kernel,
-        int kernelSize,
+        int conv_kernel_size,
         int padSize
 ) {
     cl_uint kernel_arg_index1 = 0;
 
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &devSrc);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &devDst);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &device_src);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &device_dst);
 
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &srcWidth);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &srcHeight);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &width);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &height);
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &channels);
 
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &conv_kernel);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &kernelSize);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &conv_kernel_size);
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &padSize);
 }
 

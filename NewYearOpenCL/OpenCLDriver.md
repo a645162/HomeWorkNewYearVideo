@@ -61,6 +61,10 @@ sudo usermod -a -G render $LOGNAME
 
 ### Intel GPU (Include Intel HD Graphics)
 
+For Intel Integrated GPU users,you need to confirm that your CPU support OpenCL 1.2.
+The Intel Integrated GPU (Integrated in Intel Core Gen3 Ivy Bridge) is start to support OpenCL 1.2.
+So that your CPU must be Intel Core Gen3 Ivy Bridge or newer.
+
 ```bash
 # This software package is already included in the Ubuntu source.
 sudo apt install intel-opencl-icd
