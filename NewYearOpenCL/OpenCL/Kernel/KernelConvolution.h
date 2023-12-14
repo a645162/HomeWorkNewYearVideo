@@ -5,7 +5,8 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
 #define NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
 
-const char *cl_kernel_convolution = R"(// Convolution.cl
+const char *cl_kernel_convolution = R"(
+// Convolution.cl
 // Define OpenCL kernel for 2D convolution
 __kernel void convolution2D(__global uchar *input, __global uchar *output,
                             int height, int width, int channels,
@@ -46,6 +47,7 @@ __kernel void convolution2D(__global uchar *input, __global uchar *output,
         }
     }
 }
+
 )";
 
 #endif //NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H

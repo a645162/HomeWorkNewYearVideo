@@ -5,7 +5,8 @@
 #ifndef NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H
 #define NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H
 
-const char *cl_kernel_mask_image_circle = R"(// MaskImageCircle.cl
+const char *cl_kernel_mask_image_circle = R"(
+// MaskImageCircle.cl
 __kernel void
 MaskImageCircle(const __global uchar *input, __global uchar *output,
                 const int width, const int height, const int channels,
@@ -92,6 +93,7 @@ MaskImageCircle(const __global uchar *input, __global uchar *output,
             output[index + 3] = input[index + 3];
         }
     }
-})";
+}
+)";
 
 #endif //NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H

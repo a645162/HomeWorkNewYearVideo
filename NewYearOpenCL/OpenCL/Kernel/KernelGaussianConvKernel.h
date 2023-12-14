@@ -5,7 +5,8 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
 #define NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
 
-const char *cl_kernel_gaussian_conv_kernel = R"(// GaussianConvKernel.cl
+const char *cl_kernel_gaussian_conv_kernel = R"(
+// GaussianConvKernel.cl
 // OpenCL kernel for generating Gaussian convolution kernels on GPU
 
 __kernel void matrixElementSum(__global float *matrix, __global float *result,
@@ -48,6 +49,7 @@ __kernel void generateGaussianKernel(__global float *kernel, int size,
             value; // Divide by strength to match Python implementation
     }
 }
+
 )";
 
 #endif //NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H

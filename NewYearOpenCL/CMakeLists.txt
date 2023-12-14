@@ -80,15 +80,15 @@ add_executable(
 # OpenCL
 # Set OpenCL Version to 1.2
 # Because AMD GPU and Apple Mac Series Devices is not support OpenCL 2.0 or higher.
-target_compile_definitions(NewYearOpenCL PRIVATE CL_TARGET_OPENCL_VERSION=120)
-target_compile_definitions(NewYearOpenCL PRIVATE CL_MINIMUM_OPENCL_VERSION=120)
-target_compile_definitions(NewYearOpenCL PRIVATE CL_HPP_TARGET_OPENCL_VERSION=120)
-target_compile_definitions(NewYearOpenCL PRIVATE CL_HPP_MINIMUM_OPENCL_VERSION=120)
+target_compile_definitions(${PROJECT_NAME} PRIVATE CL_TARGET_OPENCL_VERSION=120)
+target_compile_definitions(${PROJECT_NAME} PRIVATE CL_MINIMUM_OPENCL_VERSION=120)
+target_compile_definitions(${PROJECT_NAME} PRIVATE CL_HPP_TARGET_OPENCL_VERSION=120)
+target_compile_definitions(${PROJECT_NAME} PRIVATE CL_HPP_MINIMUM_OPENCL_VERSION=120)
 
-target_link_libraries(NewYearOpenCL PRIVATE ${OpenCL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCL_LIBRARIES})
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_definitions(NewYearOpenCL PRIVATE DEBUG_MODE)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG_MODE)
 endif ()
 
 # OpenCV

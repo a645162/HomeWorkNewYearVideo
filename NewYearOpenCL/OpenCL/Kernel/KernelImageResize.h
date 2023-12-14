@@ -5,7 +5,8 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGERE_SIZE_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGERE_SIZE_H
 
-const char *cl_kernel_resize_image = R"(// ImageResize.cl
+const char *cl_kernel_resize_image = R"(
+// ImageResize.cl
 
 kernel void resizeImage(__global const uchar *src, __global uchar *dst,
                         int srcWidth, int srcHeight, int dstWidth,
@@ -39,6 +40,7 @@ kernel void resizeImage(__global const uchar *src, __global uchar *dst,
         }
     }
 }
+
 )";
 
 #endif //NEW_YEAR_OPENCL_KERNEL_IMAGERE_SIZE_H
