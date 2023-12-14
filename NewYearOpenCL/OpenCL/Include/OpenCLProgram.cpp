@@ -28,6 +28,6 @@ cl_kernel OpenCLProgram::CreateKernel() {
 }
 
 OpenCLProgram::~OpenCLProgram() {
-//    std::cout << "Class OpenCLProgram Destructor called" << std::endl;
+//    std::cout << "Class OpenCLProgram " << program_kernel_name << " Destructor called" << std::endl;
     clReleaseProgram(program);
 }

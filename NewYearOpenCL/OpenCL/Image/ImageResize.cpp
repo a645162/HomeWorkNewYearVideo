@@ -142,12 +142,11 @@ void resize_demo(cl_context context, cl_device_id device) {
 
     // Define global and local work sizes
     size_t globalWorkSize[2] = {static_cast<size_t>(dstWidth), static_cast<size_t>(dstHeight)};
-    size_t localWorkSize[2] = {16, 16};
 
     // Execute the OpenCL kernel
     CLKernelEnqueue(
             queue, kernel,
-            2, globalWorkSize, localWorkSize
+            2, globalWorkSize
     );
 
     clFinish(queue);

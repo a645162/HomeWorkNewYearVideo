@@ -33,8 +33,7 @@ void CLKernelEnqueue(
         cl_command_queue queue,
         cl_kernel kernel,
         size_t work_dim,
-        size_t *global_work_size,
-        size_t *local_work_size
+        size_t *global_work_size
 );
 
 #endif //NEWYEAROPENCL_OPENCLFLOW_H

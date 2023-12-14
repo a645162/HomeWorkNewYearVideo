@@ -46,6 +46,25 @@ cl_program CLCreateProgram(cl_context context, cl_device_id device, const char *
             "Failed to build program."
     );
 
+//    cl_int build_status;
+//    err = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_STATUS, sizeof(build_status), &build_status, nullptr);
+//    CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
+//
+//    if (build_status != CL_SUCCESS) {
+//        // 获取构建日志
+//        size_t log_size;
+//        err = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, 0, nullptr, &log_size);
+//        CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
+//
+//        std::vector<char> build_log(log_size);
+//        err = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, log_size, build_log.data(), nullptr);
+//        CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
+//
+//        // 打印或记录构建日志
+//        std::cerr << "Build log:\n" << build_log.data() << std::endl;
+//        exit(EXIT_FAILURE);
+//    }
+
     return program;
 }
 
@@ -94,8 +113,7 @@ void CLKernelEnqueue(
         cl_command_queue queue,
         cl_kernel kernel,
         size_t work_dim,
-        size_t *global_work_size,
-        size_t *local_work_size
+        size_t *global_work_size
 ) {
     cl_int err;
     err = clEnqueueNDRangeKernel(
@@ -104,7 +122,7 @@ void CLKernelEnqueue(
             work_dim,
             nullptr,
             global_work_size,
-            local_work_size,
+            nullptr,
             0,
             nullptr,
             nullptr

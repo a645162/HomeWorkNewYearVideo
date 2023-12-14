@@ -11,9 +11,9 @@
 
 unsigned int print_cl_devices_list() {
     print_multi_char('=', 27);
-    std::cout << "\tOpenCL Devices List\n";
+    std::cout << "    OpenCL Devices List\n";
     print_multi_char('=', 27);
-    std::cout << "\tAuthor: Haomin Kong" << std::endl;
+    std::cout << "    Author: Haomin Kong" << std::endl;
     print_multi_char('=', 27);
     std::cout << std::endl;
 

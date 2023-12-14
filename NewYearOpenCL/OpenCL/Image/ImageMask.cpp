@@ -16,6 +16,9 @@
 
 #include "../Include/OpenCLInclude.h"
 #include "../Include/OpenCLError.h"
+#include "../Include/OpenCLFlow.h"
+#include "../Include/OpenCLProgram.h"
+
 #include "../Devices/OpenCLDevices.h"
 
 
@@ -26,7 +29,8 @@
 } uchar3;
 
 void processImageOpenCL(
-        const cl_device_id device,
+        cl_device_id device,
+        cl_context context,
         unsigned char *h_input, unsigned char *h_output,
         int width, int height, int channels,
         int centerX, int centerY,
@@ -34,48 +38,26 @@ void processImageOpenCL(
 ) {
     cl_int err;
 
-    cl_context context = clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
-    CHECK_CL_ERROR(err, "clCreateContext");
+    cl_command_queue queue = CLCreateCommandQueue(context, device);
 
-    cl_command_queue queue = clCreateCommandQueue(context, device, 0, &err);
-    CHECK_CL_ERROR(err, "clCreateCommandQueue");
+    OpenCLProgram program_mask = OpenCLProgram(
+            context, device,
+            "MaskImageCircle",
+            cl_kernel_mask_image_circle
+    );
 
-    // 创建并构建OpenCL程序
-    cl_program program = clCreateProgramWithSource(context, 1, &cl_kernel_mask_image_circle, nullptr, &err);
-    CHECK_CL_ERROR(err, "clCreateProgramWithSource");
+    cl_kernel kernel = program_mask.CreateKernel();
 
-    err = clBuildProgram(program, 1, &device, nullptr, nullptr, nullptr);
-    CHECK_CL_ERROR(err, "clBuildProgram");
-
-    cl_int build_status;
-    err = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_STATUS, sizeof(build_status), &build_status, nullptr);
-    CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
-
-    if (build_status != CL_SUCCESS) {
-        // 获取构建日志
-        size_t log_size;
-        err = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, 0, nullptr, &log_size);
-        CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
-
-        std::vector<char> build_log(log_size);
-        err = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, log_size, build_log.data(), nullptr);
-        CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
-
-        // 打印或记录构建日志
-        std::cerr << "Build log:\n" << build_log.data() << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // 创建内核
-    cl_kernel kernel = clCreateKernel(program, "MaskImageCircle", &err);
-    CHECK_CL_ERROR(err, "clCreateKernel");
-
-    cl_mem d_input = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-                                    width * height * channels * sizeof(unsigned char), h_input, &err);
+    cl_mem d_input = clCreateBuffer(
+            context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+            width * height * channels * sizeof(unsigned char), h_input, &err
+    );
     CHECK_CL_ERROR(err, "clCreateBuffer");
 
-    cl_mem d_output = clCreateBuffer(context, CL_MEM_WRITE_ONLY, width * height * channels * sizeof(unsigned char),
-                                     nullptr, &err);
+    cl_mem d_output = clCreateBuffer(
+            context, CL_MEM_WRITE_ONLY, width * height * channels * sizeof(unsigned char),
+            nullptr, &err
+    );
     CHECK_CL_ERROR(err, "clCreateBuffer");
 
 //    int centerX = 2 * width / 3, centerY = height / 2;
@@ -139,25 +121,30 @@ void processImageOpenCL(
     size_t global_size[2] = {static_cast<size_t>(width), static_cast<size_t>(height)};
     err = clEnqueueNDRangeKernel(queue, kernel, 2, nullptr, global_size, nullptr, 0, nullptr, nullptr);
     CHECK_CL_ERROR(err, "clEnqueueNDRangeKernel");
+
+
     clFinish(queue);
 
     // 从设备端读取结果到主机端
-    err = clEnqueueReadBuffer(queue, d_output, CL_TRUE, 0, width * height * channels * sizeof(unsigned char), h_output,
-                              0, nullptr, nullptr);
+    err = clEnqueueReadBuffer(
+            queue, d_output, CL_TRUE, 0, width * height * channels * sizeof(unsigned char), h_output,
+            0, nullptr, nullptr
+    );
     CHECK_CL_ERROR(err, "clEnqueueReadBuffer");
 
     // 释放OpenCL资源
     clReleaseMemObject(d_input);
     clReleaseMemObject(d_output);
     clReleaseKernel(kernel);
-    clReleaseProgram(program);
+
     clReleaseCommandQueue(queue);
-    clReleaseContext(context);
+
 }
 
 int main() {
 
     auto devices = UserSelectDevice();
+    auto context = CLCreateContext(devices);
 
     cv::Mat image = cv::imread("../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
     cv::resize(image, image, cv::Size(1080, 607));
@@ -222,6 +209,7 @@ int main() {
 
         processImageOpenCL(
                 devices,
+                context,
                 h_input, result.data, width, height, channels, centerX, centerY, radius
         );
 
@@ -238,6 +226,9 @@ int main() {
 //    cv::imshow("Input", image);
 //    cv::imshow("Output", result);
 //    cv::waitKey(0);
+
+    clReleaseContext(context);
+    clReleaseDevice(devices);
 
     return 0;
 }
