@@ -1,8 +1,8 @@
 // ImageResize.cl
 
 __kernel void resizeImage(__global const uchar *src, __global uchar *dst,
-                        int srcWidth, int srcHeight, int dstWidth,
-                        int dstHeight, int channels) {
+                          int srcWidth, int srcHeight, int dstWidth,
+                          int dstHeight, int channels) {
     const unsigned int x = get_global_id(0);
     const unsigned int y = get_global_id(1);
 

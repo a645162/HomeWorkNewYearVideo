@@ -32,8 +32,8 @@ void KernelSetArgImageConv(
         cl_kernel kernel,
         cl_mem device_src,
         cl_mem device_dst,
-        int width,
         int height,
+        int width,
         int channels,
         cl_mem conv_kernel,
         int conv_kernel_size,
@@ -44,8 +44,8 @@ void KernelSetArgImageConv(
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &device_src);
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &device_dst);
 
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &width);
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &height);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &width);
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &channels);
 
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &conv_kernel);
@@ -55,17 +55,16 @@ void KernelSetArgImageConv(
 
 void conv_demo(cl_context context, cl_device_id device) {
 
-    // Read input image
-    cv::Mat image3 = cv::imread("../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
+    cv::Mat image_ori = cv::imread("../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
 //    cv::Mat image3 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
-    cv::resize(image3, image3, cv::Size(image3.cols / 4, image3.rows / 4));
+    cv::resize(image_ori, image_ori, cv::Size(image_ori.cols / 4, image_ori.rows / 4));
 
     // Convert to gray
-    cv::cvtColor(image3, image3, cv::COLOR_BGR2GRAY);
+//    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGR2GRAY);
 
-    int width = image3.cols;
-    int height = image3.rows;
-    int channels = image3.channels();
+    auto width = image_ori.cols;
+    auto height = image_ori.rows;
+    auto channels = image_ori.channels();
 
     std::cout << "Image size: " << width << "x" << height << "x" << channels << std::endl;
 
@@ -77,24 +76,24 @@ void conv_demo(cl_context context, cl_device_id device) {
 
     // Create OpenCL buffers for input and output data
 
-    const auto data_size = width * height * channels * sizeof(uchar);
+    const auto img_data_size = width * height * channels * sizeof(uchar);
 
     cl_mem devSrc = OpenCLMalloc(
             context,
-            data_size,
+            img_data_size,
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            image3.data
+            image_ori.data
     );
 
     cl_mem devDst = OpenCLMalloc(
             context,
-            data_size,
+            img_data_size,
             CL_MEM_WRITE_ONLY,
             nullptr
     );
 
-//    const float kernel_laplacian[] = {0, 1, 0, 1, -4, 1, 0, 1, 0};
-    const float kernel_laplacian[] = {0, 0, 0, 0, 1, 0, 0, 0, 0};
+    const float kernel_laplacian[] = {0, 1, 0, 1, -4, 1, 0, 1, 0};
+//    const float kernel_laplacian[] = {0, 0, 0, 0, 1, 0, 0, 0, 0};
     const int kernelSize = 3;
     const int padSize = kernelSize / 2;
 
@@ -111,7 +110,7 @@ void conv_demo(cl_context context, cl_device_id device) {
     KernelSetArgImageConv(
             kernel,
             devSrc, devDst,
-            width, height, channels,
+            height, width, channels,
             devConvKernel, kernelSize, padSize
     );
 
@@ -137,7 +136,7 @@ void conv_demo(cl_context context, cl_device_id device) {
             queue,
             result.data,
             devDst,
-            data_size
+            img_data_size
     );
 
     // Free OpenCL resources
@@ -150,6 +149,7 @@ void conv_demo(cl_context context, cl_device_id device) {
 
     clReleaseCommandQueue(queue);
 
+    cv::imshow("Input Image", image_ori);
     cv::imshow("Output Image", result);
     cv::waitKey(0);
 }

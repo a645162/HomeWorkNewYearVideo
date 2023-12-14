@@ -1,9 +1,10 @@
 // Convolution.cl
 // Define OpenCL kernel for 2-Dim convolution
 __kernel void convolution2Dim(__global uchar *input, __global uchar *output,
-                            int height, int width, int channels,
-                            __global float *conv_kernel, int kernelSize,
-                            int padSize) {
+                              int height, int width, int channels,
+                              __global float *conv_kernel, int kernelSize,
+                              int padSize) {
+
     const unsigned int x = get_global_id(0);
     const unsigned int y = get_global_id(1);
     const unsigned int c = get_global_id(2);
