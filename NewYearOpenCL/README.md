@@ -65,7 +65,17 @@ NVIDIA Tesla P40
 - Image Gaussian Filter
 - Image Mirror
 - 3-channel image to 4-channel image
+- 4-channel image to 3-channel image
 
-## Plan
+## Plan to port kernel function from OpenCV
 
+- Image Rotate
+- Image Crop
+- Image Gray (average gray and weighted gray)
+- Gradient Color Generate
+- Gradient Image Generate
+- Image Gaussian Blur
+- Image Gaussian Filter
+- Image Mirror
+- 3-channel image to 4-channel image
 - 4-channel image to 3-channel image

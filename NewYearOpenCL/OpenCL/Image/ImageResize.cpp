@@ -117,14 +117,14 @@ void resize_demo(cl_context context, cl_device_id device) {
 
     cl_mem devSrc = OpenCLMalloc(
             context,
-            srcWidth * srcHeight * channels,
+            srcWidth * srcHeight * channels * sizeof(uchar),
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
             image3.data
     );
 
     cl_mem devDst = OpenCLMalloc(
             context,
-            dstWidth * dstHeight * channels,
+            dstWidth * dstHeight * channels * sizeof(uchar),
             CL_MEM_WRITE_ONLY,
             nullptr
     );
@@ -158,7 +158,7 @@ void resize_demo(cl_context context, cl_device_id device) {
             queue,
             result.data,
             devDst,
-            dstWidth * dstHeight * channels
+            dstWidth * dstHeight * channels * sizeof(uchar)
     );
 
     // Free OpenCL resources
