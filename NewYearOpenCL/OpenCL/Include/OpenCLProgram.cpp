@@ -17,7 +17,12 @@ OpenCLProgram::OpenCLProgram(
 
 cl_kernel OpenCLProgram::CreateKernel() {
     cl_int err;
-    cl_kernel kernel = clCreateKernel(program, program_kernel_name, &err);
+    cl_kernel kernel =
+            clCreateKernel(
+                    program,
+                    program_kernel_name,
+                    &err
+            );
     CHECK_CL_ERROR(err, "Failed to create kernel.");
     return kernel;
 }

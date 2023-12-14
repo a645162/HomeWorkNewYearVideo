@@ -61,9 +61,9 @@ add_executable(
         #        OpenCL/Image/ImageMask.h
         #        OpenCL/Kernel/KernelMaskImage.h
 
-#        OpenCL/Image/ImageResize.cpp
-#        OpenCL/Image/ImageResize.h
-#        OpenCL/Kernel/KernelImageResize.h
+        #        OpenCL/Image/ImageResize.cpp
+        #        OpenCL/Image/ImageResize.h
+        #        OpenCL/Kernel/KernelImageResize.h
 
         OpenCL/Image/ImageConvolution.cpp
         OpenCL/Image/ImageConvolution.h

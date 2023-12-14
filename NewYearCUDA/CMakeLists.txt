@@ -182,7 +182,8 @@ add_executable(NewYearCUDA
         #        opencv_include.cuh
 
 #        main.cu
-        gaussian_blur_video.cu
+#        gaussian_blur_video.cu
+        channel.cu
         #        matrix_add.cu
 
         #        focus.cu

@@ -2,15 +2,17 @@
 // Created by konghaomin on 23-12-13.
 //
 
-#ifndef NEWYEAROPENCL_KERNELIMAGERESIZE_H
-#define NEWYEAROPENCL_KERNELIMAGERESIZE_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_IMAGERE_SIZE_H
+#define NEW_YEAR_OPENCL_KERNEL_IMAGERE_SIZE_H
 
 const char *cl_kernel_resize_image = R"(// ImageResize.cl
 
 kernel void resizeImage(__global const uchar *src, __global uchar *dst,
-                        int srcWidth, int srcHeight, int dstWidth, int dstHeight, int channels) {
-    int x = get_global_id(0);
-    int y = get_global_id(1);
+                        int srcWidth, int srcHeight, int dstWidth,
+                        int dstHeight, int channels) {
+    const unsigned int x = get_global_id(0);
+    const unsigned int y = get_global_id(1);
+
     if (x < dstWidth && y < dstHeight) {
         float scaleX = (float)srcWidth / dstWidth;
         float scaleY = (float)srcHeight / dstHeight;
@@ -27,12 +29,16 @@ kernel void resizeImage(__global const uchar *src, __global uchar *dst,
             float topRight = src[(y1 * srcWidth + x2) * channels + c];
             float bottomLeft = src[(y2 * srcWidth + x1) * channels + c];
             float bottomRight = src[(y2 * srcWidth + x2) * channels + c];
-            float topInterpolation = topLeft * (1 - xWeight) + topRight * xWeight;
-            float bottomInterpolation = bottomLeft * (1 - xWeight) + bottomRight * xWeight;
-            dst[(y * dstWidth + x) * channels + c] = topInterpolation * (1 - yWeight) + bottomInterpolation * yWeight;
+            float topInterpolation =
+                topLeft * (1 - xWeight) + topRight * xWeight;
+            float bottomInterpolation =
+                bottomLeft * (1 - xWeight) + bottomRight * xWeight;
+            dst[(y * dstWidth + x) * channels + c] =
+                topInterpolation * (1 - yWeight) +
+                bottomInterpolation * yWeight;
         }
     }
 }
 )";
 
-#endif //NEWYEAROPENCL_KERNELIMAGERESIZE_H
+#endif //NEW_YEAR_OPENCL_KERNEL_IMAGERE_SIZE_H

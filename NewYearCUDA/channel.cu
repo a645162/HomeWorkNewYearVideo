@@ -29,7 +29,11 @@ __global__ void convert4To3Channels(const uchar4 *inputImage, uchar3 *outputImag
 
 int main() {
     // Read the 3-channel image using OpenCV
-    cv::Mat inputImage = cv::imread("image1.png");
+    cv::Mat inputImage = cv::imread("../Resources/input.png");
+    cv::resize(
+            inputImage, inputImage,
+            cv::Size(inputImage.cols / 4, inputImage.rows / 4)
+    );
 
     if (inputImage.empty()) {
         std::cerr << "Failed to read the image." << std::endl;
@@ -41,11 +45,15 @@ int main() {
 
     // Allocate memory on the host
     uchar3 *hostInputImage = (uchar3 *) inputImage.ptr();
+
     uchar4 *hostOutputImage = new uchar4[width * height];
+    uchar4 *hostOutputImage3 = new uchar4[width * height];
 
     // Allocate memory on the device
     uchar3 *deviceInputImage;
     uchar4 *deviceOutputImage;
+
+    uchar3 *deviceOutput3Image;
 
     cudaMalloc((void **) &deviceInputImage, width * height * sizeof(uchar3));
     cudaMalloc((void **) &deviceOutputImage, width * height * sizeof(uchar4));
@@ -61,20 +69,32 @@ int main() {
 
     // Launch the CUDA kernel
     convert3To4Channels<<<gridSize, blockSize>>>(deviceInputImage, deviceOutputImage, width, height);
+
     convert4To3Channels<<<gridSize, blockSize>>>(deviceOutputImage, deviceOutput3Image, width, height);
 
     // Copy the result back to the host
-//    cudaMemcpy(hostOutputImage, deviceOutputImage, width * height * sizeof(uchar4), cudaMemcpyDeviceToHost);
+    cudaMemcpy(hostOutputImage, deviceOutputImage, width * height * sizeof(uchar4), cudaMemcpyDeviceToHost);
 
     // Create a new OpenCV image with the 4-channel data
-//    cv::Mat outputImage(height, width, CV_8UC4, hostOutputImage);
+    cv::Mat outputImage(height, width, CV_8UC4, hostOutputImage);
 
-    cudaMemcpy(hostOutputImage, deviceOutput3Image, width * height * sizeof(uchar3), cudaMemcpyDeviceToHost);
-    cv::Mat outputImage(height, width, CV_8UC3, hostOutputImage);
+    cudaMemcpy(hostOutputImage3, deviceOutput3Image, width * height * sizeof(uchar3), cudaMemcpyDeviceToHost);
+    cv::Mat outputImage3(height, width, CV_8UC3, hostOutputImage3);
 
     // Display the original and converted images
+    std::cout << "Original Image" << std::endl;
+    std::cout << inputImage.channels() << std::endl;
     cv::imshow("Original Image", inputImage);
-    cv::imshow("4-Channel Image", outputImage);
+
+
+    std::cout << "4Channel Image" << std::endl;
+    std::cout << outputImage.channels() << std::endl;
+    cv::imshow("4Channel Image", outputImage);
+
+    std::cout << "3Channel Image" << std::endl;
+    std::cout << outputImage3.channels() << std::endl;
+    cv::imshow("3Channel Image", outputImage3);
+
     cv::waitKey(0);
 
     // Free memory
