@@ -1,6 +1,6 @@
 // OpenCLFlow.cpp
 // Created by Haomin Kong on 2023-12-13.
-// OpenCL Flow Simplified.
+// OpenCL Flow Simplified and add error checking.
 
 #include "OpenCLFlow.h"
 #include "OpenCLError.h"

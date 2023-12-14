@@ -19,7 +19,7 @@
 
 #include <opencv2/opencv.hpp>
 
-OpenCLProgram CLCreateProgramImageResize(cl_context context, cl_device_id device) {
+OpenCLProgram CLCreateProgramImageConv(cl_context context, cl_device_id device) {
     return {
             context,
             device,
@@ -58,7 +58,7 @@ void conv_demo(cl_context context, cl_device_id device) {
     // Read input image
     cv::Mat image3 = cv::imread("../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
 //    cv::Mat image3 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
-    cv::resize(image3, image3, cv::Size(image3.cols / 2, image3.rows / 2));
+    cv::resize(image3, image3, cv::Size(image3.cols / 4, image3.rows / 4));
 
     // Convert to gray
     cv::cvtColor(image3, image3, cv::COLOR_BGR2GRAY);
@@ -72,7 +72,7 @@ void conv_demo(cl_context context, cl_device_id device) {
 
 //    cl_program program = CLCreateProgramImageResize(context, device);
 
-    OpenCLProgram program_conv = CLCreateProgramImageResize(context, device);
+    OpenCLProgram program_conv = CLCreateProgramImageConv(context, device);
 
     // Create OpenCL buffers for input and output data
 

@@ -43,6 +43,9 @@ add_executable(
         Config/Path.h
         Config/DebugVar.h
 
+        Utils/ProgramIO.cpp
+        Utils/ProgramIO.h
+
         OpenCL/Include/OpenCLInclude.cpp
         OpenCL/Include/OpenCLInclude.h
         OpenCL/Include/OpenCLError.cpp
@@ -61,15 +64,13 @@ add_executable(
         #        OpenCL/Image/ImageMask.h
         #        OpenCL/Kernel/KernelMaskImage.h
 
-        #        OpenCL/Image/ImageResize.cpp
-        #        OpenCL/Image/ImageResize.h
-        #        OpenCL/Kernel/KernelImageResize.h
+#        OpenCL/Image/ImageResize.cpp
+#        OpenCL/Image/ImageResize.h
+#        OpenCL/Kernel/KernelImageResize.h
 
         OpenCL/Image/ImageConvolution.cpp
         OpenCL/Image/ImageConvolution.h
         OpenCL/Kernel/KernelConvolution.h
-        Utils/ProgramIO.cpp
-        Utils/ProgramIO.h
 
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
