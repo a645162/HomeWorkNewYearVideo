@@ -35,6 +35,8 @@ void KernelSetArgImageCrop(
         cl_mem devDst,
         int input_width,
         int input_height,
+        int output_width,
+        int output_height,
         int x1, int y1,
         int x2, int y2,
         int channels
@@ -44,24 +46,16 @@ void KernelSetArgImageCrop(
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &devSrc);
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &devDst);
 
-    const int x_1 = std::min(x1, x2);
-    const int y_1 = std::min(y1, y2);
-    const int x_2 = std::max(x1, x2);
-    const int y_2 = std::max(y1, y2);
-
-    const int output_width = x_2 - x_1;
-    const int output_height = y_2 - y_1;
-
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &input_width);
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &input_height);
 
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &output_width);
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &output_height);
 
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &x_1);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &y_1);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &x_2);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &y_2);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &x1);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &y1);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &x2);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &y2);
 
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &channels);
 }
@@ -72,8 +66,8 @@ void crop_demo(cl_context context, cl_device_id device) {
     cv::Mat image3 = cv::imread("../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
     cv::resize(image3, image3, cv::Size(image3.cols / 4, image3.rows / 4));
 
-    int srcWidth = image3.cols;
-    int srcHeight = image3.rows;
+    int input_width = image3.cols;
+    int input_height = image3.rows;
     int channels = image3.channels();
 
     const int x1 = 300, x2 = 700, y1 = 100, y2 = 600;
@@ -92,7 +86,7 @@ void crop_demo(cl_context context, cl_device_id device) {
 
     cl_mem devSrc = OpenCLMalloc(
             context,
-            srcWidth * srcHeight * channels * sizeof(uchar),
+            input_width * input_height * channels * sizeof(uchar),
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
             image3.data
     );
@@ -110,7 +104,8 @@ void crop_demo(cl_context context, cl_device_id device) {
     KernelSetArgImageCrop(
             kernel,
             devSrc, devDst,
-            srcWidth, srcHeight,
+            input_width, input_height,
+            output_width, output_height,
             x1, y1, x2, y2,
             channels
     );
