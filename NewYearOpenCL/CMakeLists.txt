@@ -115,9 +115,12 @@ add_executable(
 
         OpenCL/Image/ImageGrayRGB.cpp
         OpenCL/Image/ImageGrayRGB.h
+        OpenCV/Video/OpenCVVideo.cpp
+        OpenCV/Video/OpenCVVideo.h
+        OpenCV/Include/OpenCVInclude.h
 
-#        OpenCL/Image/ImageMirror.cpp
-#        OpenCL/Image/ImageMirror.h
+        OpenCL/Image/ImageMirror.cpp
+        OpenCL/Image/ImageMirror.h
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h

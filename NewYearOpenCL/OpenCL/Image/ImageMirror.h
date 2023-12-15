@@ -10,4 +10,6 @@
 #include "../Include/OpenCLFlow.h"
 #include "../Include/OpenCLProgram.h"
 
+void mirror_demo(cl_context context, cl_device_id device);
+
 #endif //NEWYEAROPENCL_IMAGEMIRROR_H

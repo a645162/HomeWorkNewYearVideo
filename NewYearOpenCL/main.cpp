@@ -14,6 +14,7 @@
 #include "OpenCL/Image/ImageChannelConvert.h"
 #include "OpenCL/Image/ImageMerge.h"
 #include "OpenCL/Image/ImageGrayRGB.h"
+#include "OpenCL/Image/ImageMirror.h"
 
 int main() {
 
@@ -27,12 +28,14 @@ int main() {
             CLCreateContext(device);
 
     // convert channel demo
-    convert_channel_demo(context, device);
+//    convert_channel_demo(context, device);
 
     // merge demo
-    merge_demo(context, device);
+//    merge_demo(context, device);
 
-    convert_gray_demo(context, device);
+//    convert_gray_demo(context, device);
+
+    mirror_demo(context, device);
 
     clReleaseContext(context);
 
