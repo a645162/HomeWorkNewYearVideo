@@ -53,49 +53,25 @@ convert_cl_to_c_header(
 )
 
 # Image Resize
-file(READ
+convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageResize.cl"
-        CL_KERNEL_RESIZE_IMAGE
-)
-string(CONCAT CL_KERNEL_RESIZE_IMAGE "\n" "${CL_KERNEL_RESIZE_IMAGE}" "\n")
-configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageResize.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageResize.h
-        @ONLY
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageResize.hpp"
 )
 
 # Image Mask
-file(READ
+convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageMaskCircle.cl"
-        CL_KERNEL_MASK_CIRCLE
-)
-string(CONCAT CL_KERNEL_MASK_CIRCLE "\n" "${CL_KERNEL_MASK_CIRCLE}" "\n")
-configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelMaskImage.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelMaskImage.h
-        @ONLY
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelMaskImage.hpp"
 )
 
 # Image Convolution
-file(READ
+convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageConvolution.cl"
-        CL_KERNEL_CONVOLUTION
-)
-string(CONCAT CL_KERNEL_CONVOLUTION "\n" "${CL_KERNEL_CONVOLUTION}" "\n")
-configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelConvolution.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelConvolution.h
-        @ONLY
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelConvolution.hpp"
 )
 
 # Image Gaussian Convolution Kernel
-file(READ
+convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/GaussianConvKernel.cl"
-        CL_KERNEL_GAUSSIAN_CONV_KERNEL
-)
-string(CONCAT CL_KERNEL_GAUSSIAN_CONV_KERNEL "\n" "${CL_KERNEL_GAUSSIAN_CONV_KERNEL}" "\n")
-configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelGaussianConvKernel.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelGaussianConvKernel.h
-        @ONLY
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelGaussianConvKernel.hpp"
 )
