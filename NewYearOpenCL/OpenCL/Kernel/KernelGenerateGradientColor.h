@@ -1,3 +1,12 @@
+//
+// Created by konghaomin on 23-12-13.
+//
+
+#ifndef NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+#define NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+
+const char *cl_kernel_generate_gradient_color = R"(
+// GradientColorGenerate.cl
 __kernel void generateGradientColor(__global uchar *gradientColor,
                                     const int length, const int startR,
                                     const int startG, const int startB,
@@ -27,3 +36,7 @@ __kernel void generateGradientColor(__global uchar *gradientColor,
         }
     }
 }
+
+)";
+
+#endif //NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H

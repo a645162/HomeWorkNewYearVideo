@@ -29,6 +29,16 @@ function(convert_cl_to_c_header cl_file hpp_template_file)
     )
 endfunction()
 
+# Gradient Image
+convert_cl_to_c_header(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/GenerateGradientColor.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelGenerateGradientColor.hpp"
+)
+convert_cl_to_c_header(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/GenerateGradientImage.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelGenerateGradientImage.hpp"
+)
+
 # Image Mirror
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageMirror.cl"

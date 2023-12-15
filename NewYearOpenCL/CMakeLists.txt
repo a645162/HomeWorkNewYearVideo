@@ -71,6 +71,11 @@ add_executable(
         Utils/ProgramIO.cpp
         Utils/ProgramIO.h
 
+        # OpenCV Function
+        OpenCV/Include/OpenCVInclude.h
+        OpenCV/Video/OpenCVVideo.cpp
+        OpenCV/Video/OpenCVVideo.h
+
         # OpenCL Function
         OpenCL/Include/OpenCLInclude.cpp
         OpenCL/Include/OpenCLInclude.h
@@ -87,11 +92,14 @@ add_executable(
         OpenCL/Include/OpenCLMem.cpp
         OpenCL/Include/OpenCLMem.h
 
+        # OpenCL Device
         OpenCL/Devices/OpenCLDevices.cpp
         OpenCL/Devices/OpenCLDevices.h
+
         OpenCL/Devices/OpenCLDevicesList.cpp
         OpenCL/Devices/OpenCLDevicesList.h
 
+        # Image Process
         OpenCL/Image/ImageMask.cpp
         OpenCL/Image/ImageMask.h
 
@@ -115,12 +123,14 @@ add_executable(
 
         OpenCL/Image/ImageGrayRGB.cpp
         OpenCL/Image/ImageGrayRGB.h
-        OpenCV/Video/OpenCVVideo.cpp
-        OpenCV/Video/OpenCVVideo.h
-        OpenCV/Include/OpenCVInclude.h
 
         OpenCL/Image/ImageMirror.cpp
         OpenCL/Image/ImageMirror.h
+
+        OpenCL/Image/GenerateGradientImage.cpp
+        OpenCL/Image/GenerateGradientImage.h
+
+        OpenCL/Test/TestOpenCLMatrixAdd.cpp
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h
