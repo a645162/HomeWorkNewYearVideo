@@ -53,6 +53,10 @@ message(STATUS "OpenCL Include Dirs: ${OpenCL_INCLUDE_DIRS}")
 # Use to generate C Header include OpenCL Kernel.
 add_subdirectory(OpenCL)
 
+find_package(Eigen3 REQUIRED)
+INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
+message(STATUS "Eigen3 Include Dirs: ${EIGEN3_INCLUDE_DIR}")
+
 add_executable(
         ${PROJECT_NAME}
 
@@ -151,3 +155,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCL_LIBRARIES})
 
 # OpenCV
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
+
+# Eigen3
+target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen)
