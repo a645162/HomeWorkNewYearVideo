@@ -59,21 +59,24 @@ NVIDIA P102-100 10 GB
 - Image Rotate
 - Image Merge
 - Channel Convert
+- Image Gray (average gray and weighted gray)
+
+## Now work forward
+
+- Image Mirror
 
 ## Plan to port from CUDA
 
-- Image Gray (average gray and weighted gray)
 - Gradient Color Generate
 - Gradient Image Generate
 - Image Gaussian Blur
 - Image Gaussian Filter
-- Image Mirror
+- Image Rectangle
 
 ## Plan to port kernel function from OpenCV
 
-- Image Gray (average gray and weighted gray)
 - Gradient Color Generate
 - Gradient Image Generate
 - Image Gaussian Blur
 - Image Gaussian Filter
-- Image Mirror
+- Image Rectangle
