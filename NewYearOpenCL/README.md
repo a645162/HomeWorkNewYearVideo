@@ -45,9 +45,11 @@ pthread-Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz
 
 ### GPU
 
-AMD Radeon Pro 560X Compute Engine
-AMD Radeon Vega 64
-NVIDIA Tesla P40
+AMD Radeon Pro 560X 4 GB
+AMD Radeon Vega 64 8 GB
+NVIDIA Tesla P40 24 GB
+NVIDIA GeForce GTX 1660 Super 6 GB
+NVIDIA P102-100 10 GB
 
 ## Already done
 
@@ -56,6 +58,7 @@ NVIDIA Tesla P40
 - Image Crop
 - Image Rotate
 - Image Merge
+- Channel Convert
 
 ## Plan to port from CUDA
 
@@ -65,7 +68,6 @@ NVIDIA Tesla P40
 - Image Gaussian Blur
 - Image Gaussian Filter
 - Image Mirror
-- Channel Convert
 
 ## Plan to port kernel function from OpenCV
 
@@ -75,4 +77,3 @@ NVIDIA Tesla P40
 - Image Gaussian Blur
 - Image Gaussian Filter
 - Image Mirror
-- Channel Convert

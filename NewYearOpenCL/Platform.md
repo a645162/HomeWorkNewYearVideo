@@ -23,7 +23,7 @@ Include the following platforms:
 - Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz
 - NVIDIA Tesla P40 24 GB
 - NVIDIA GTX 1660 Super 6 GB
-- NVIDIA P102 10 GB
+- NVIDIA P102-100 10 GB
 
 ### My PC
 
@@ -32,7 +32,7 @@ Include the following platforms:
 - AMD Radeon Vega 64 8 GB(gfx900)
 - NVIDIA Tesla P40 24 GB
 - NVIDIA GTX 1660 Super 6 GB
-- NVIDIA P102 10 GB
+- NVIDIA P102-100 10 GB
 
 #### Windows 11 Enterprise 23H2
 
