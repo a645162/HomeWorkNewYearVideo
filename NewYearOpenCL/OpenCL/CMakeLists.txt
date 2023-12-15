@@ -34,6 +34,12 @@ convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelCrop.hpp"
 )
 
+# Image Rotate
+convert_cl_to_c_header(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageRotate.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelRotate.hpp"
+)
+
 # Image Resize
 file(READ
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageResize.cl"

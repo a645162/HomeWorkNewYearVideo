@@ -1,9 +1,9 @@
 //
-// Created by konghaomin on 23-12-13.
+// Created by 孔昊旻 on 2023/12/15.
 //
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
-#define NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_CROP_H
+#define NEW_YEAR_OPENCL_KERNEL_CROP_H
 
 const char *cl_kernel_crop = R"(
 __kernel void cropImage(__global const uchar *input, __global uchar *output,
@@ -32,4 +32,4 @@ __kernel void cropImage(__global const uchar *input, __global uchar *output,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+#endif //NEW_YEAR_OPENCL_KERNEL_CROP_H
