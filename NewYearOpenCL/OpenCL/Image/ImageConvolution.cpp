@@ -58,7 +58,7 @@ void conv_demo(cl_context context, cl_device_id device) {
 //    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGRA2BGR);
 
     // Convert to gray
-//    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGR2GRAY);
 
     auto width = image_ori.cols;
     auto height = image_ori.rows;
@@ -86,42 +86,81 @@ void conv_demo(cl_context context, cl_device_id device) {
     cl_mem devDst = OpenCLMalloc(
             context,
             img_data_size,
+            CL_MEM_READ_WRITE,
+            nullptr
+    );
+
+    cl_mem devDst1 = OpenCLMalloc(
+            context,
+            img_data_size,
             CL_MEM_WRITE_ONLY,
             nullptr
     );
 
     const float kernel_laplacian[] = {0, 1, 0, 1, -4, 1, 0, 1, 0};
-//    const float kernel_laplacian[] = {0, 0, 0, 0, 1, 0, 0, 0, 0};
+
+    const float kernel_ori[] = {0, 0, 0, 0, 1, 0, 0, 0, 0};
+
+    const float kernel_x[] = {
+            -1, 0, 1,
+            -1, 0, 1,
+            -1, 0, 1
+    };
+    const float kernel_y[] = {
+            1, 1, 1,
+            0, 0, 0,
+            -1, -1, -1
+    };
     const int kernelSize = 3;
     const int padSize = kernelSize / 2;
 
-    cl_mem devConvKernel = OpenCLMalloc(
+    cl_mem devConvKernel1 = OpenCLMalloc(
             context,
             kernelSize * kernelSize * sizeof(float),
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            (void *) (kernel_laplacian)
+            (void *) (kernel_x)
     );
 
-//    cl_kernel kernel = CLCreateKernelImageResize(program);
+    cl_mem devConvKernel2 = OpenCLMalloc(
+            context,
+            kernelSize * kernelSize * sizeof(float),
+            CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+            (void *) (kernel_y)
+    );
+
     cl_kernel kernel = program_conv.CreateKernel();
 
     KernelSetArgImageConv(
             kernel,
             devSrc, devDst,
             height, width, channels,
-            devConvKernel, kernelSize, padSize
+            devConvKernel1, kernelSize, padSize
     );
 
-    // Define global and local work sizes
     size_t globalWorkSize[3] = {
             static_cast<size_t>(width),
             static_cast<size_t>(height),
             static_cast<size_t>(channels)
     };
 
-    // Execute the OpenCL kernel
     CLKernelEnqueue(
             queue, kernel,
+            3, globalWorkSize
+    );
+
+    clFinish(queue);
+
+    cl_kernel kernel1 = program_conv.CreateKernel();
+
+    KernelSetArgImageConv(
+            kernel1,
+            devDst, devDst1,
+            height, width, channels,
+            devConvKernel2, kernelSize, padSize
+    );
+
+    CLKernelEnqueue(
+            queue, kernel1,
             3, globalWorkSize
     );
 
@@ -133,7 +172,7 @@ void conv_demo(cl_context context, cl_device_id device) {
     OpenCLMemcpyFromDevice(
             queue,
             result.data,
-            devDst,
+            devDst1,
             img_data_size
     );
 

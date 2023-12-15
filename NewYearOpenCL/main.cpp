@@ -21,6 +21,36 @@
 #include "OpenCL/Image/ImageRotate.h"
 #include "OpenCL/Image/ImageMask.h"
 
+void demo(cl_context context, cl_device_id device) {
+
+    // Rotate
+    rotate_demo(context, device);
+
+    // Crop
+    crop_demo(context, device);
+
+    // Convolution
+    conv_demo(context, device);
+
+    // Resize demo
+    resize_demo(context, device);
+
+    // Convert Channel demo
+    convert_channel_demo(context, device);
+
+    // Merge two images demo
+    merge_demo(context, device);
+
+    convert_gray_demo(context, device);
+
+    // Image Mirror Horizontal
+    mirror_demo(context, device);
+
+    // Mask demo
+    mask_video_demo(context, device);
+
+}
+
 int main() {
 
 #ifndef DEBUG_MODE
@@ -28,33 +58,13 @@ int main() {
 #endif
 
     cl_device_id device = UserSelectDevice();
+    cl_context context = CLCreateContext(device);
 
-    cl_context context =
-            CLCreateContext(device);
-
-//    mask_video_demo(context, device);
-
-//    rotate_demo(context, device);
-
-//    crop_demo(context, device);
-
-//    conv_demo(context, device);
-
-    // resize demo
-//    resize_demo(context, device);
-
-    // convert channel demo
-//    convert_channel_demo(context, device);
-
-    // merge demo
-//    merge_demo(context, device);
-
-//    convert_gray_demo(context, device);
-
-    // Image Mirror Horizontal
-//    mirror_demo(context, device);
+    // All features demo
+    demo(context, device);
 
     clReleaseContext(context);
+    clReleaseDevice(device);
 
     return 0;
 }
