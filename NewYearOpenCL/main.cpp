@@ -27,10 +27,10 @@ int main() {
             CLCreateContext(device);
 
     // convert channel demo
-//    convert_channel_demo(context, device);
+    convert_channel_demo(context, device);
 
     // merge demo
-//    merge_demo(context, device);
+    merge_demo(context, device);
 
     convert_gray_demo(context, device);
 

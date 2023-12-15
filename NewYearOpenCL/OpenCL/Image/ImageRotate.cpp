@@ -4,7 +4,7 @@
 
 #include "ImageRotate.h"
 
-#include "../Kernel/KernelRotate.h"
+#include "../Kernel/KernelImageRotate.h"
 
 #include <iostream>
 

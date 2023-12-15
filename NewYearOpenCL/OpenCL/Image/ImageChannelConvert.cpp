@@ -4,7 +4,7 @@
 
 #include "ImageChannelConvert.h"
 
-#include "../Kernel/KernelChannel.h"
+#include "../Kernel/KernelImageChannel.h"
 
 #include <iostream>
 

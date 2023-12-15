@@ -29,34 +29,40 @@ function(convert_cl_to_c_header cl_file hpp_template_file)
     )
 endfunction()
 
+# Image Mirror
+convert_cl_to_c_header(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageMirror.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageMirror.hpp"
+)
+
 # Image Gray RGB
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageGrayRGB.cl"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelGrayRGB.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageGrayRGB.hpp"
 )
 
 # Image Crop
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageCrop.cl"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelCrop.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageCrop.hpp"
 )
 
 # Image Rotate
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageRotate.cl"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelRotate.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageRotate.hpp"
 )
 
 # Image Merge
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageMerge.cl"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelMerge.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageMerge.hpp"
 )
 
 # Image Channel Convert
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageChannel.cl"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelChannel.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageChannel.hpp"
 )
 
 # Image Resize
@@ -74,7 +80,7 @@ convert_cl_to_c_header(
 # Image Convolution
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageConvolution.cl"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelConvolution.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageConvolution.hpp"
 )
 
 # Image Gaussian Convolution Kernel

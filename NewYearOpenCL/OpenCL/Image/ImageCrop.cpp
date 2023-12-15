@@ -4,7 +4,7 @@
 
 #include "ImageCrop.h"
 
-#include "../Kernel/KernelCrop.h"
+#include "../Kernel/KernelImageCrop.h"
 
 
 #include <iostream>

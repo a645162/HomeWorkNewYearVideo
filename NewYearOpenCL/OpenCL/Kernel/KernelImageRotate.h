@@ -9,7 +9,7 @@ const char *cl_kernel_rotate = R"(
 #define PI 3.14159265
 
 __kernel void rotateImage(__global const uchar *input, __global uchar *output,
-                          int width, int height,int channels, float angle) {
+                          int width, int height, int channels, float angle) {
     int x = get_global_id(0);
     int y = get_global_id(1);
 
@@ -30,9 +30,9 @@ __kernel void rotateImage(__global const uchar *input, __global uchar *output,
         int inputIndex = (rotatedY * width + rotatedX) * channels;
         int outputIndex = (y * width + x) * channels;
 
-		for (int c = 0; c < channels; ++c){
-			output[outputIndex + c] = input[inputIndex + c];
-		}
+        for (int c = 0; c < channels; ++c) {
+            output[outputIndex + c] = input[inputIndex + c];
+        }
     }
 }
 

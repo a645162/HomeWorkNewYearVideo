@@ -94,33 +94,30 @@ add_executable(
 
         #        OpenCL/Image/ImageMask.cpp
         #        OpenCL/Image/ImageMask.h
-        #        OpenCL/Kernel/KernelMaskImage.h
 
         #        OpenCL/Image/ImageResize.cpp
         #        OpenCL/Image/ImageResize.h
-        #        OpenCL/Kernel/KernelImageResize.h
 
         #        OpenCL/Image/ImageConvolution.cpp
         #        OpenCL/Image/ImageConvolution.h
-        #        OpenCL/Kernel/KernelConvolution.h
 
         #        OpenCL/Image/ImageCrop.cpp
         #        OpenCL/Image/ImageCrop.h
-        #        OpenCL/Kernel/KernelCrop.h
 
         #        OpenCL/Image/ImageRotate.cpp
         #        OpenCL/Image/ImageRotate.h
-        #        OpenCL/Kernel/KernelRotate.h
 
         OpenCL/Image/ImageMerge.cpp
         OpenCL/Image/ImageMerge.h
-        OpenCL/Kernel/KernelMerge.h
 
         OpenCL/Image/ImageChannelConvert.cpp
         OpenCL/Image/ImageChannelConvert.h
-        OpenCL/Kernel/KernelChannel.h
+
         OpenCL/Image/ImageGrayRGB.cpp
         OpenCL/Image/ImageGrayRGB.h
+
+#        OpenCL/Image/ImageMirror.cpp
+#        OpenCL/Image/ImageMirror.h
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h

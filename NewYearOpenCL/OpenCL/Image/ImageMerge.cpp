@@ -4,7 +4,7 @@
 
 #include "ImageMerge.h"
 
-#include "../Kernel/KernelMerge.h"
+#include "../Kernel/KernelImageMerge.h"
 
 #include <iostream>
 

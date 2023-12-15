@@ -4,7 +4,7 @@
 
 #include "ImageGrayRGB.h"
 
-#include "../Kernel/KernelGrayRGB.h"
+#include "../Kernel/KernelImageGrayRGB.h"
 
 #include <iostream>
 

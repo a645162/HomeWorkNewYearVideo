@@ -15,7 +15,7 @@
 
 #include "../Devices/OpenCLDevices.h"
 
-#include "../Kernel/KernelConvolution.h"
+#include "../Kernel/KernelImageConvolution.h"
 
 #include <opencv2/opencv.hpp>
 
