@@ -29,7 +29,10 @@ size_t CLGetInfoMaxWorkGroupSize(cl_device_id device) {
     return maxWorkGroupSize;
 }
 
-cl_device_id getOpenCLDeviceByIndex(const int platformIndex, const int deviceIndex) {
+cl_device_id getOpenCLDeviceByIndex(
+        const unsigned int platformIndex,
+        const unsigned int deviceIndex
+) {
 
     std::cout << "Use Platform " << platformIndex << " Device " << deviceIndex << std::endl;
 
@@ -40,10 +43,10 @@ cl_device_id getOpenCLDeviceByIndex(const int platformIndex, const int deviceInd
     clGetPlatformIDs(numPlatforms, platforms.data(), nullptr);
 
     // Get count of platforms
-    unsigned int platformSize = platforms.size();
+    const auto platformSize = platforms.size();
 
     // Choose the platform (index)
-    if (platformSize <= platformIndex) {
+    if (static_cast<unsigned int>(platformSize) <= platformIndex) {
         std::cout << "Error: Platform index out of range!" << std::endl;
         return nullptr;
     }
@@ -62,9 +65,9 @@ cl_device_id getOpenCLDeviceByIndex(const int platformIndex, const int deviceInd
     );
 
     // Get count of devices
-    unsigned int deviceSize = devices.size();
+    const auto deviceSize = devices.size();
 
-    if (deviceSize <= deviceIndex) {
+    if (static_cast<unsigned int>(deviceSize) <= deviceIndex) {
         std::cout << "Error: Device index out of range!" << std::endl;
         return nullptr;
     }

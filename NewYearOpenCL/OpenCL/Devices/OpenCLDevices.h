@@ -7,7 +7,10 @@
 
 size_t CLGetInfoMaxWorkGroupSize(cl_device_id device);
 
-cl_device_id getOpenCLDeviceByIndex(int platformIndex, int deviceIndex);
+cl_device_id getOpenCLDeviceByIndex(
+    unsigned int platformIndex,
+    unsigned int deviceIndex
+);
 
 cl_device_id UserSelectDevice();
 

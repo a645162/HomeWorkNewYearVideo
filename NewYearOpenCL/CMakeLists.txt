@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 3.12)
 message(STATUS "@CMake version: ${CMAKE_VERSION}")
 
+#if (WIN32)
+#    message(STATUS "@Use VCPkg on Windows")
+#
+#    set(CMAKE_TOOLCHAIN_FILE "D:/Dev/vcpkg/scripts/buildsystems/vcpkg.cmake")
+#    set(VCPKG_TARGET_TRIPLET "x64-windows" CACHE STRING "")
+#    if(DEFINED ENV{VCPKG_DEFAULT_TRIPLET} AND NOT DEFINED VCPKG_TARGET_TRIPLET)
+#        set(VCPKG_TARGET_TRIPLET "$ENV{VCPKG_DEFAULT_TRIPLET}" CACHE STRING "")
+#    endif()
+#endif ()
+
 project(NewYearOpenCL C CXX)
 message(STATUS "@Project name: ${PROJECT_NAME}")
 
