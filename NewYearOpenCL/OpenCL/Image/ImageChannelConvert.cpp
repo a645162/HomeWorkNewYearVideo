@@ -30,61 +30,44 @@ OpenCLProgram CLCreateProgramImageChannel(cl_context context, cl_device_id devic
 
 void KernelSetArgImageChannel(
         cl_kernel kernel,
-        cl_mem image1,
-        cl_mem image2,
-        cl_mem device_output,
-        int image1_width, int image1_height, int image1_channels,
-        int image2_target_x, int image2_target_y,
-        int image2_width, int image2_height, int image2_channels,
-        int image2_alpha
+        cl_mem device_image_input,
+        cl_mem device_image_output,
+        int image_width, int image_height,
+        int src_channels, int dst_channels
 ) {
     cl_uint kernel_arg_index1 = 0;
 
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &image1);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &image2);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &device_image_input);
 
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &device_output);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(cl_mem), &device_image_output);
 
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image1_width);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image1_height);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image1_channels);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image_width);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image_height);
 
-    // Target Position
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image2_target_x);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image2_target_y);
-
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image2_width);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image2_height);
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image2_channels);
-
-    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image2_alpha);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &src_channels);
+    OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &dst_channels);
 }
 
-void crop_demo(cl_context context, cl_device_id device) {
+void convert_channel_demo(cl_context context, cl_device_id device) {
 
     cv::Mat image1 = cv::imread("../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
-    cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
+//    cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
+
+//    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
+//    cv::cvtColor(image1, image1, cv::COLOR_BGRA2GRAY);
+    cv::cvtColor(image1, image1, cv::COLOR_BGRA2BGR);
 
     cv::resize(image1, image1, cv::Size(image1.cols / 4, image1.rows / 4));
-    cv::resize(image2, image2, cv::Size(image2.cols / 5, image2.rows / 5));
-
     int image1_width = image1.cols;
     int image1_height = image1.rows;
     int image1_channels = image1.channels();
     std::cout << image1_width << "x" << image1_height << "x" << image1_channels << std::endl;
 
-
-    int image2_width = image2.cols;
-    int image2_height = image2.rows;
-    int image2_channels = image2.channels();
-    std::cout << image2_width << "x" << image2_height << "x" << image2_channels << std::endl;
-
-    int target_x = -100, target_y = 100;
-
+    const unsigned int output_channel = 4;
 
     cl_command_queue queue = CLCreateCommandQueue(context, device);
 
-    OpenCLProgram program_merge = CLCreateProgramImageMerge(context, device);
+    OpenCLProgram program_channel = CLCreateProgramImageChannel(context, device);
 
     cl_mem device_image1 = OpenCLMalloc(
             context,
@@ -93,29 +76,21 @@ void crop_demo(cl_context context, cl_device_id device) {
             image1.data
     );
 
-    cl_mem device_image2 = OpenCLMalloc(
-            context,
-            image2_width * image2_height * image2_channels * sizeof(uchar),
-            CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            image2.data
-    );
-
     cl_mem device_output = OpenCLMalloc(
             context,
-            image1_width * image1_height * image1_channels * sizeof(uchar),
+            image1_width * image1_height * output_channel * sizeof(uchar),
             CL_MEM_WRITE_ONLY,
             nullptr
     );
 
-    cl_kernel kernel = program_merge.CreateKernel();
+    cl_kernel kernel = program_channel.CreateKernel();
 
-    KernelSetArgImageMerge(
+    KernelSetArgImageChannel(
             kernel,
-            device_image1, device_image2, device_output,
-            image1_width, image1_height, image1_channels,
-            target_x, target_y,
-            image2_width, image2_height, image2_channels,
-            100
+            device_image1, device_output,
+            image1_width, image1_height,
+            image1_channels,
+            output_channel
     );
 
     size_t globalWorkSize[2] = {
@@ -131,19 +106,18 @@ void crop_demo(cl_context context, cl_device_id device) {
     clFinish(queue);
 
     // Copy the result from OpenCL device memory back to Mat
-    cv::Mat result(image1_height, image1_width, CV_8UC(image1_channels));
+    cv::Mat result(image1_height, image1_width, CV_8UC(output_channel));
 
     OpenCLMemcpyFromDevice(
             queue,
             result.data,
             device_output,
-            image1_width * image1_height * image1_channels * sizeof(uchar)
+            image1_width * image1_height * output_channel * sizeof(uchar)
     );
 
     // Free OpenCL resources
 
     clReleaseMemObject(device_image1);
-    clReleaseMemObject(device_image2);
     clReleaseMemObject(device_output);
     clReleaseKernel(kernel);
 
@@ -151,7 +125,9 @@ void crop_demo(cl_context context, cl_device_id device) {
 
     clReleaseCommandQueue(queue);
 
-    cv::imshow("Croped Image", result);
+    std::cout << "Output:" << std::endl;
+    std::cout << result.cols << "x" << result.rows << "x" << result.channels() << std::endl;
+    cv::imshow("Output Image", result);
     cv::waitKey(0);
 }
 
@@ -164,7 +140,7 @@ int main() {
             CLCreateContext(device);
 
     // resize demo
-    crop_demo(context, device);
+    convert_channel_demo(context, device);
 
     clReleaseContext(context);
 
