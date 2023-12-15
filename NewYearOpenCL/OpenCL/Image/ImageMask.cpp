@@ -13,12 +13,6 @@
 
 #include <opencv2/opencv.hpp>
 
-
-#include "../Include/OpenCLInclude.h"
-#include "../Include/OpenCLError.h"
-#include "../Include/OpenCLFlow.h"
-#include "../Include/OpenCLProgram.h"
-
 #include "../Devices/OpenCLDevices.h"
 
 
@@ -141,10 +135,7 @@ void processImageOpenCL(
 
 }
 
-int main() {
-
-    auto devices = UserSelectDevice();
-    auto context = CLCreateContext(devices);
+void mask_video_demo(cl_context context, cl_device_id device) {
 
     cv::Mat image = cv::imread("../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
     cv::resize(image, image, cv::Size(1080, 607));
@@ -153,7 +144,7 @@ int main() {
 
     if (image.empty()) {
         std::cerr << "Error loading image!" << std::endl;
-        return -1;
+        exit(1);
     }
 
     int width = image.cols;
@@ -182,7 +173,7 @@ int main() {
 
     if (!writer.isOpened()) {
         std::cerr << "Error: Couldn't create the output video file." << std::endl;
-        return -1;
+        exit(1);
     }
 
     // Save h_output as your result image
@@ -208,7 +199,7 @@ int main() {
         );
 
         processImageOpenCL(
-                devices,
+                device,
                 context,
                 h_input, result.data, width, height, channels, centerX, centerY, radius
         );
@@ -226,9 +217,4 @@ int main() {
 //    cv::imshow("Input", image);
 //    cv::imshow("Output", result);
 //    cv::waitKey(0);
-
-    clReleaseContext(context);
-    clReleaseDevice(devices);
-
-    return 0;
 }

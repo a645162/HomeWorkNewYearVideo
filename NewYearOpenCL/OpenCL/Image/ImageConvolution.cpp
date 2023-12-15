@@ -8,11 +8,6 @@
 
 #include "../../Author/Author.h"
 
-#include "../Include/OpenCLInclude.h"
-#include "../Include/OpenCLError.h"
-#include "../Include/OpenCLFlow.h"
-#include "../Include/OpenCLProgram.h"
-
 #include "../Devices/OpenCLDevices.h"
 
 #include "../Kernel/KernelImageConvolution.h"
@@ -155,22 +150,4 @@ void conv_demo(cl_context context, cl_device_id device) {
     cv::imshow("Input Image", image_ori);
     cv::imshow("Output Image", result);
     cv::waitKey(0);
-}
-
-int main() {
-//    KHM::sayHello();
-
-    cl_device_id device = UserSelectDevice();
-
-    auto max_work_group_size = CLGetInfoMaxWorkGroupSize(device);
-
-    cl_context context =
-            CLCreateContext(device);
-
-    // demo
-    conv_demo(context, device);
-
-    clReleaseContext(context);
-
-    return 0;
 }

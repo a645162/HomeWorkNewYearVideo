@@ -10,11 +10,6 @@
 
 #include "../../Author/Author.h"
 
-#include "../Include/OpenCLInclude.h"
-#include "../Include/OpenCLError.h"
-#include "../Include/OpenCLFlow.h"
-#include "../Include/OpenCLProgram.h"
-
 #include "../Devices/OpenCLDevices.h"
 
 #include <opencv2/opencv.hpp>
@@ -50,7 +45,7 @@ void KernelSetArgImageRotate(
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(float), &angle);
 }
 
-void crop_demo(cl_context context, cl_device_id device) {
+void rotate_demo(cl_context context, cl_device_id device) {
 
     cv::Mat image3 = cv::imread("../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
     cv::resize(image3, image3, cv::Size(image3.cols / 4, image3.rows / 4));
@@ -121,20 +116,4 @@ void crop_demo(cl_context context, cl_device_id device) {
 
     cv::imshow("Croped Image", result);
     cv::waitKey(0);
-}
-
-int main() {
-//    KHM::sayHello();
-
-    cl_device_id device = UserSelectDevice();
-
-    cl_context context =
-            CLCreateContext(device);
-
-    // resize demo
-    crop_demo(context, device);
-
-    clReleaseContext(context);
-
-    return 0;
 }

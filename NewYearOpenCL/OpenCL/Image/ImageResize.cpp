@@ -8,11 +8,6 @@
 
 #include "../../Author/Author.h"
 
-#include "../Include/OpenCLInclude.h"
-#include "../Include/OpenCLError.h"
-#include "../Include/OpenCLFlow.h"
-#include "../Include/OpenCLProgram.h"
-
 #include "../Devices/OpenCLDevices.h"
 
 #include "../Kernel/KernelImageResize.h"
@@ -173,20 +168,4 @@ void resize_demo(cl_context context, cl_device_id device) {
 
     cv::imshow("Resized Image", result);
     cv::waitKey(0);
-}
-
-int main() {
-//    KHM::sayHello();
-
-    cl_device_id device = UserSelectDevice();
-
-    cl_context context =
-            CLCreateContext(device);
-
-    // resize demo
-    resize_demo(context, device);
-
-    clReleaseContext(context);
-
-    return 0;
 }

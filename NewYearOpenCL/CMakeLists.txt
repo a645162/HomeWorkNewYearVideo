@@ -92,20 +92,20 @@ add_executable(
         OpenCL/Devices/OpenCLDevicesList.cpp
         OpenCL/Devices/OpenCLDevicesList.h
 
-        #        OpenCL/Image/ImageMask.cpp
-        #        OpenCL/Image/ImageMask.h
+        OpenCL/Image/ImageMask.cpp
+        OpenCL/Image/ImageMask.h
 
-        #        OpenCL/Image/ImageResize.cpp
-        #        OpenCL/Image/ImageResize.h
+        OpenCL/Image/ImageResize.cpp
+        OpenCL/Image/ImageResize.h
 
-        #        OpenCL/Image/ImageConvolution.cpp
-        #        OpenCL/Image/ImageConvolution.h
+        OpenCL/Image/ImageConvolution.cpp
+        OpenCL/Image/ImageConvolution.h
 
-        #        OpenCL/Image/ImageCrop.cpp
-        #        OpenCL/Image/ImageCrop.h
+        OpenCL/Image/ImageCrop.cpp
+        OpenCL/Image/ImageCrop.h
 
-        #        OpenCL/Image/ImageRotate.cpp
-        #        OpenCL/Image/ImageRotate.h
+        OpenCL/Image/ImageRotate.cpp
+        OpenCL/Image/ImageRotate.h
 
         OpenCL/Image/ImageMerge.cpp
         OpenCL/Image/ImageMerge.h
@@ -124,7 +124,6 @@ add_executable(
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h
-        #        OpenCL/Kernel/KernelGaussianConvKernel.h
 
         #        OpenCL/Test/TestOpenCLRect.cpp
 )

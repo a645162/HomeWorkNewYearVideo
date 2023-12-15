@@ -15,6 +15,11 @@
 #include "OpenCL/Image/ImageMerge.h"
 #include "OpenCL/Image/ImageGrayRGB.h"
 #include "OpenCL/Image/ImageMirror.h"
+#include "OpenCL/Image/ImageResize.h"
+#include "OpenCL/Image/ImageConvolution.h"
+#include "OpenCL/Image/ImageCrop.h"
+#include "OpenCL/Image/ImageRotate.h"
+#include "OpenCL/Image/ImageMask.h"
 
 int main() {
 
@@ -27,6 +32,17 @@ int main() {
     cl_context context =
             CLCreateContext(device);
 
+//    mask_video_demo(context, device);
+
+//    rotate_demo(context, device);
+
+//    crop_demo(context, device);
+
+//    conv_demo(context, device);
+
+    // resize demo
+//    resize_demo(context, device);
+
     // convert channel demo
 //    convert_channel_demo(context, device);
 
@@ -35,7 +51,8 @@ int main() {
 
 //    convert_gray_demo(context, device);
 
-    mirror_demo(context, device);
+    // Image Mirror Horizontal
+//    mirror_demo(context, device);
 
     clReleaseContext(context);
 

@@ -11,11 +11,6 @@
 
 #include "../../Author/Author.h"
 
-#include "../Include/OpenCLInclude.h"
-#include "../Include/OpenCLError.h"
-#include "../Include/OpenCLFlow.h"
-#include "../Include/OpenCLProgram.h"
-
 #include "../Devices/OpenCLDevices.h"
 
 #include <opencv2/opencv.hpp>
@@ -144,20 +139,4 @@ void crop_demo(cl_context context, cl_device_id device) {
 
     cv::imshow("Croped Image", result);
     cv::waitKey(0);
-}
-
-int main() {
-//    KHM::sayHello();
-
-    cl_device_id device = UserSelectDevice();
-
-    cl_context context =
-            CLCreateContext(device);
-
-    // resize demo
-    crop_demo(context, device);
-
-    clReleaseContext(context);
-
-    return 0;
 }
