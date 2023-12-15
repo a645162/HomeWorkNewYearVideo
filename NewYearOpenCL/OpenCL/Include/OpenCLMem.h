@@ -1,0 +1,8 @@
+//
+// Created by 孔昊旻 on 2023/12/15.
+//
+
+#ifndef NEWYEAROPENCL_OPENCLMEM_H
+#define NEWYEAROPENCL_OPENCLMEM_H
+
+#endif //NEWYEAROPENCL_OPENCLMEM_H

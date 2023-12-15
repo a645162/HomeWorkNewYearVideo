@@ -58,24 +58,34 @@ add_executable(
 
         main.cpp
 
+        # Author Information
         Author/Author.cpp
         Author/Author.h
 
+        # Program Config
         Config/Config.h
         Config/Path.h
         Config/DebugVar.h
 
+        # Some IO Operate
         Utils/ProgramIO.cpp
         Utils/ProgramIO.h
 
+        # OpenCL Function
         OpenCL/Include/OpenCLInclude.cpp
         OpenCL/Include/OpenCLInclude.h
+
         OpenCL/Include/OpenCLError.cpp
         OpenCL/Include/OpenCLError.h
+
         OpenCL/Include/OpenCLFlow.cpp
         OpenCL/Include/OpenCLFlow.h
+
         OpenCL/Include/OpenCLProgram.cpp
         OpenCL/Include/OpenCLProgram.h
+
+        OpenCL/Include/OpenCLMem.cpp
+        OpenCL/Include/OpenCLMem.h
 
         OpenCL/Devices/OpenCLDevices.cpp
         OpenCL/Devices/OpenCLDevices.h
@@ -98,18 +108,17 @@ add_executable(
         #        OpenCL/Image/ImageCrop.h
         #        OpenCL/Kernel/KernelCrop.h
 
-#                OpenCL/Image/ImageRotate.cpp
-#                OpenCL/Image/ImageRotate.h
-#                OpenCL/Kernel/KernelRotate.h
+        #        OpenCL/Image/ImageRotate.cpp
+        #        OpenCL/Image/ImageRotate.h
+        #        OpenCL/Kernel/KernelRotate.h
 
-        OpenCL/Image/ImageMerge.cpp
-        OpenCL/Image/ImageMerge.h
-        OpenCL/Kernel/KernelMerge.h
+        #        OpenCL/Image/ImageMerge.cpp
+        #        OpenCL/Image/ImageMerge.h
+        #        OpenCL/Kernel/KernelMerge.h
 
         OpenCL/Image/ImageChannelConvert.cpp
         OpenCL/Image/ImageChannelConvert.h
         OpenCL/Kernel/KernelChannel.h
-
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h
