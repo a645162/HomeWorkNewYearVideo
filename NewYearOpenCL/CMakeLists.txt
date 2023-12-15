@@ -112,9 +112,9 @@ add_executable(
         #        OpenCL/Image/ImageRotate.h
         #        OpenCL/Kernel/KernelRotate.h
 
-        #        OpenCL/Image/ImageMerge.cpp
-        #        OpenCL/Image/ImageMerge.h
-        #        OpenCL/Kernel/KernelMerge.h
+        OpenCL/Image/ImageMerge.cpp
+        OpenCL/Image/ImageMerge.h
+        OpenCL/Kernel/KernelMerge.h
 
         OpenCL/Image/ImageChannelConvert.cpp
         OpenCL/Image/ImageChannelConvert.h

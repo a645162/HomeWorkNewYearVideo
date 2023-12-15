@@ -28,30 +28,33 @@ __kernel void mergeImages(__global const uchar *image1,
             int image2_index =
                 (image2_Y * image2_width + image2_X) * image2_channels;
 
+            const float user_set_alpha = image2_alpha / 255.0f;
             if (image2_channels == 4) {
                 // Normalize alpha to range [0, 1]
                 const float alpha = image2[image2_index + 3] / 255.0f;
-                const float user_set_alpha = image2_alpha / 255.0f;
-				const float alpha_final = alpha * user_set_alpha;
+                const float alpha_final = alpha * user_set_alpha;
 
-                output[index] = convert_uchar_rte(
-                    image1[index] * (1.0f - alpha_final) +
-                    image2[image2_index] * alpha_final);
-                output[index + 1] = convert_uchar_rte(
-                    image1[index + 1] * (1.0f - alpha_final) +
-                    image2[image2_index + 1] * alpha_final);
-                output[index + 2] = convert_uchar_rte(
-                    image1[index + 2] * (1.0f - alpha_final) +
-                    image2[image2_index + 2] * alpha_final);
+                output[index] =
+                    convert_uchar_rte(image1[index] * (1.0f - alpha_final) +
+                                      image2[image2_index] * alpha_final);
+                output[index + 1] =
+                    convert_uchar_rte(image1[index + 1] * (1.0f - alpha_final) +
+                                      image2[image2_index + 1] * alpha_final);
+                output[index + 2] =
+                    convert_uchar_rte(image1[index + 2] * (1.0f - alpha_final) +
+                                      image2[image2_index + 2] * alpha_final);
             } else {
-                output[index] = image2[image2_index];
-                output[index + 1] = image2[image2_index + 1];
-                output[index + 2] = image2[image2_index + 2];
+                for (int c = 0; c < min(image1_channels, image2_channels);
+                     ++c) {
+                    output[index + c] = convert_uchar_rte(
+                        image1[index + c] * (1.0f - user_set_alpha) +
+                        image2[image2_index + c] * user_set_alpha);
+                }
             }
         } else {
-            output[index] = image1[index];
-            output[index + 1] = image1[index + 1];
-            output[index + 2] = image1[index + 2];
+            for (int c = 0; c < image1_channels; ++c) {
+                output[index + c] = image1[index + c];
+            }
         }
 
         // Copy image1 alpha channel to output if it exists

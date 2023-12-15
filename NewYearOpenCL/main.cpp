@@ -8,9 +8,11 @@
 
 #include <iostream>
 
-#include "OpenCL/Image/ImageChannelConvert.h"
-
 #include "OpenCL/Devices/OpenCLDevices.h"
+
+// Image Processing
+#include "OpenCL/Image/ImageChannelConvert.h"
+#include "OpenCL/Image/ImageMerge.h"
 
 int main() {
 
@@ -24,7 +26,10 @@ int main() {
             CLCreateContext(device);
 
     // convert channel demo
-    convert_channel_demo(context, device);
+//    convert_channel_demo(context, device);
+
+    // merge demo
+//    merge_demo(context, device);
 
     clReleaseContext(context);
 

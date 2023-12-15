@@ -10,11 +10,6 @@
 
 #include "../../Author/Author.h"
 
-#include "../Include/OpenCLInclude.h"
-#include "../Include/OpenCLError.h"
-#include "../Include/OpenCLFlow.h"
-#include "../Include/OpenCLProgram.h"
-
 #include "../Devices/OpenCLDevices.h"
 
 #include <opencv2/opencv.hpp>
@@ -60,13 +55,19 @@ void KernelSetArgImageMerge(
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(int), &image2_alpha);
 }
 
-void crop_demo(cl_context context, cl_device_id device) {
+void merge_demo(cl_context context, cl_device_id device) {
+
+    std::cout << "Image Merge Demo" << std::endl;
 
     cv::Mat image1 = cv::imread("../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
     cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
 
     cv::resize(image1, image1, cv::Size(image1.cols / 4, image1.rows / 4));
     cv::resize(image2, image2, cv::Size(image2.cols / 5, image2.rows / 5));
+
+    // Test on 3 channel
+//    cv::cvtColor(image1, image1, cv::COLOR_BGRA2BGR);
+//    cv::cvtColor(image2, image2, cv::COLOR_BGRA2BGR);
 
     int image1_width = image1.cols;
     int image1_height = image1.rows;
@@ -153,20 +154,4 @@ void crop_demo(cl_context context, cl_device_id device) {
 
     cv::imshow("Croped Image", result);
     cv::waitKey(0);
-}
-
-int main() {
-//    KHM::sayHello();
-
-    cl_device_id device = UserSelectDevice();
-
-    cl_context context =
-            CLCreateContext(device);
-
-    // resize demo
-    crop_demo(context, device);
-
-    clReleaseContext(context);
-
-    return 0;
 }
