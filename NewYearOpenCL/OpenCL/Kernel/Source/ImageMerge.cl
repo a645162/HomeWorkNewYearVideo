@@ -24,16 +24,17 @@ __kernel void mergeImages(__global const uchar *image1,
                 // Normalize alpha to range [0, 1]
                 const float alpha = image2[image2_index + 3] / 255.0f;
                 const float user_set_alpha = image2_alpha / 255.0f;
+				const float alpha_final = alpha * user_set_alpha;
 
                 output[index] = convert_uchar_rte(
-                    image1[index] * (1.0f - alpha) +
-                    image2[image2_index] * alpha * user_set_alpha);
+                    image1[index] * (1.0f - alpha_final) +
+                    image2[image2_index] * alpha_final);
                 output[index + 1] = convert_uchar_rte(
-                    image1[index + 1] * (1.0f - alpha) +
-                    image2[image2_index + 1] * alpha * user_set_alpha);
+                    image1[index + 1] * (1.0f - alpha_final) +
+                    image2[image2_index + 1] * alpha_final);
                 output[index + 2] = convert_uchar_rte(
-                    image1[index + 2] * (1.0f - alpha) +
-                    image2[image2_index + 2] * alpha * user_set_alpha);
+                    image1[index + 2] * (1.0f - alpha_final) +
+                    image2[image2_index + 2] * alpha_final);
             } else {
                 output[index] = image2[image2_index];
                 output[index + 1] = image2[image2_index + 1];

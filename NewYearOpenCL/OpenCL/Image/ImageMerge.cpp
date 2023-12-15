@@ -66,7 +66,7 @@ void crop_demo(cl_context context, cl_device_id device) {
     cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
 
     cv::resize(image1, image1, cv::Size(image1.cols / 4, image1.rows / 4));
-    cv::resize(image2, image2, cv::Size(image2.cols / 3, image2.rows / 3));
+    cv::resize(image2, image2, cv::Size(image2.cols / 5, image2.rows / 5));
 
     int image1_width = image1.cols;
     int image1_height = image1.rows;
@@ -74,12 +74,12 @@ void crop_demo(cl_context context, cl_device_id device) {
     std::cout << image1_width << "x" << image1_height << "x" << image1_channels << std::endl;
 
 
-    int image2_width = image1.cols;
-    int image2_height = image1.rows;
-    int image2_channels = image1.channels();
+    int image2_width = image2.cols;
+    int image2_height = image2.rows;
+    int image2_channels = image2.channels();
     std::cout << image2_width << "x" << image2_height << "x" << image2_channels << std::endl;
 
-    int target_x = 100, target_y = 100;
+    int target_x = -100, target_y = 100;
 
 
     cl_command_queue queue = CLCreateCommandQueue(context, device);
@@ -115,7 +115,7 @@ void crop_demo(cl_context context, cl_device_id device) {
             image1_width, image1_height, image1_channels,
             target_x, target_y,
             image2_width, image2_height, image2_channels,
-            255
+            100
     );
 
     size_t globalWorkSize[2] = {
