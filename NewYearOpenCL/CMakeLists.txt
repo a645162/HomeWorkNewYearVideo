@@ -106,6 +106,10 @@ add_executable(
         OpenCL/Image/ImageMerge.h
         OpenCL/Kernel/KernelMerge.h
 
+        OpenCL/Image/ImageChannelConvert.cpp
+        OpenCL/Image/ImageChannelConvert.h
+        OpenCL/Kernel/KernelChannel.h
+
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h

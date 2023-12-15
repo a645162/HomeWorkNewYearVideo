@@ -46,6 +46,12 @@ convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelMerge.hpp"
 )
 
+# Image Channel Convert
+convert_cl_to_c_header(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageChannel.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelChannel.hpp"
+)
+
 # Image Resize
 file(READ
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageResize.cl"
