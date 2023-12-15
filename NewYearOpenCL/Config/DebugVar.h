@@ -18,9 +18,9 @@
 // Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
 //#define DEBUG_CL_DEVICE_INDEX 0
 // Intel(R) UHD Graphics 630
-#define DEBUG_CL_DEVICE_INDEX 1
+//#define DEBUG_CL_DEVICE_INDEX 1
 // AMD Radeon Pro 560X Compute Engine
-//#define DEBUG_CL_DEVICE_INDEX 2
+#define DEBUG_CL_DEVICE_INDEX 2
 
 #else
 

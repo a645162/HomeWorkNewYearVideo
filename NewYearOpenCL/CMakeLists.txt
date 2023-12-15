@@ -98,9 +98,9 @@ add_executable(
         #        OpenCL/Image/ImageCrop.h
         #        OpenCL/Kernel/KernelCrop.h
 
-        #        OpenCL/Image/ImageRotate.cpp
-        #        OpenCL/Image/ImageRotate.h
-        #        OpenCL/Kernel/KernelRotate.h
+#                OpenCL/Image/ImageRotate.cpp
+#                OpenCL/Image/ImageRotate.h
+#                OpenCL/Kernel/KernelRotate.h
 
         OpenCL/Image/ImageMerge.cpp
         OpenCL/Image/ImageMerge.h
