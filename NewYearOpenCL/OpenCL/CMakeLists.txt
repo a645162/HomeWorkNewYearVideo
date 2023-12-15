@@ -40,6 +40,12 @@ convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelRotate.hpp"
 )
 
+# Image Merge
+convert_cl_to_c_header(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageMerge.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelMerge.hpp"
+)
+
 # Image Resize
 file(READ
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageResize.cl"
