@@ -13,6 +13,7 @@
 // Image Processing
 #include "OpenCL/Image/ImageChannelConvert.h"
 #include "OpenCL/Image/ImageMerge.h"
+#include "OpenCL/Image/ImageGrayRGB.h"
 
 int main() {
 
@@ -30,6 +31,8 @@ int main() {
 
     // merge demo
 //    merge_demo(context, device);
+
+    convert_gray_demo(context, device);
 
     clReleaseContext(context);
 
