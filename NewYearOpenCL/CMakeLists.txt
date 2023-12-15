@@ -56,7 +56,7 @@ add_subdirectory(OpenCL)
 add_executable(
         ${PROJECT_NAME}
 
-        main.cpp
+#        main.cpp
 
         # Author Information
         Author/Author.cpp
@@ -130,11 +130,12 @@ add_executable(
         OpenCL/Image/GenerateGradientImage.cpp
         OpenCL/Image/GenerateGradientImage.h
 
-        OpenCL/Test/TestOpenCLMatrixAdd.cpp
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h
 
+        OpenCL/Test/TestOpenCLMatrixAddFloat.cpp
+#        OpenCL/Test/TestOpenCLMatrixAddInt.cpp
         #        OpenCL/Test/TestOpenCLRect.cpp
 )
 
