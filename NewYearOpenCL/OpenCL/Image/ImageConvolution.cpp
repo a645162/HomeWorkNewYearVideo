@@ -59,6 +59,9 @@ void conv_demo(cl_context context, cl_device_id device) {
 //    cv::Mat image3 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
     cv::resize(image_ori, image_ori, cv::Size(image_ori.cols / 4, image_ori.rows / 4));
 
+    // remove alpha
+//    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGRA2BGR);
+
     // Convert to gray
 //    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGR2GRAY);
 

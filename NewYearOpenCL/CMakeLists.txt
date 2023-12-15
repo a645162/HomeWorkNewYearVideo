@@ -90,12 +90,16 @@ add_executable(
 #        OpenCL/Image/ImageResize.h
 #        OpenCL/Kernel/KernelImageResize.h
 
-        OpenCL/Image/ImageConvolution.cpp
-        OpenCL/Image/ImageConvolution.h
-        OpenCL/Kernel/KernelConvolution.h
+#        OpenCL/Image/ImageConvolution.cpp
+#        OpenCL/Image/ImageConvolution.h
+#        OpenCL/Kernel/KernelConvolution.h
+
+        OpenCL/Image/ImageCrop.cpp
+        OpenCL/Image/ImageCrop.h
+        OpenCL/Kernel/KernelCrop.h
 
 
-#        OpenCL/Image/ImageGaussianBlur.cpp
+        #        OpenCL/Image/ImageGaussianBlur.cpp
 #        OpenCL/Image/ImageGaussianBlur.h
 #        OpenCL/Kernel/KernelGaussianConvKernel.h
 
