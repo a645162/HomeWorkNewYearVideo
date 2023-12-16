@@ -1,13 +1,16 @@
-// Image Operation on GPU Demo
+// Demo:Image Operation on GPU
 // Created by Haomin Kong on 23-12-16.
 // https://github.com/a645162/HomeWorkNewYearVideo
 
 #include "../Devices/OpenCLDevices.h"
 #include "../Include/OpenCLInclude.h"
 
+#include "Draw/DrawRect/DrawRectDemo.h"
+
+#include "Generate/GradientImage/GradientImageDemo.h"
+
 #include "Image/Convolution/ImageConvolutionDemo.h"
 #include "Image/Convolution/ImageGaussianBlurDemo.h"
-#include "Draw/DrawRect/DrawRectDemo.h"
 
 int main(){
 
@@ -17,10 +20,10 @@ int main(){
     // All features demo
 
     // Generate Gradient Color Image
-//    gradient_image_demo(context, device);
+    gradient_image_demo(context, device);
 
     // Draw Rect
-    draw_rect_demo(context, device);
+//    draw_rect_demo(context, device);
 
 //    blur_conv_demo(context, device);
 

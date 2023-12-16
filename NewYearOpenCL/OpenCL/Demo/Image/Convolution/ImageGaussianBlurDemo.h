@@ -1,4 +1,4 @@
-// Image Gaussian Convolution Blur Demo
+// Demo:Image Gaussian Convolution Blur
 // Created by Haomin Kong on 23-12-16.
 // https://github.com/a645162/HomeWorkNewYearVideo
 

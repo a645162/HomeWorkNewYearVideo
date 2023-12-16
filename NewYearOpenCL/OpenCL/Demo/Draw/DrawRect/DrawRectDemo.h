@@ -1,4 +1,4 @@
-// Demo:Draw/Rect
+// Demo:Draw a Rectangle on Image
 // Created by Haomin Kong on 23-12-16.
 // https://github.com/a645162/HomeWorkNewYearVideo
 

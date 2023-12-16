@@ -1,4 +1,4 @@
-// Image Convolution Demo
+// Demo:Image Convolution
 // Created by Haomin Kong on 23-12-16.
 // https://github.com/a645162/HomeWorkNewYearVideo
 
