@@ -4,7 +4,7 @@
 
 #include "ImageConvolutionDemo.h"
 
-#include "../../Image/ImageConvolution.h"
+#include "../../../Image/ImageConvolution.h"
 
 void conv_demo(cl_context context, cl_device_id device) {
 

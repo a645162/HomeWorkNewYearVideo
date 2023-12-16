@@ -3,11 +3,11 @@ file(GLOB PROGRAM_IO "../../Utils/*.cpp")
 file(GLOB OPENCL_INCLUDE "../Include/*.cpp")
 file(GLOB OPENCL_DEVICE "../Devices/*.cpp")
 
-file(GLOB OPENCL_IMAGE_OPERATION "../Image/*.cpp")
-file(GLOB OPENCL_IMAGE_DRAW "../Image/Draw/*.cpp")
-file(GLOB OPENCL_IMAGE_GENERATE "../Image/Generate/*.cpp")
+file(GLOB_RECURSE OPENCL_IMAGE_OPERATION "../Image/*.cpp")
 
-file(GLOB DEMO_IMAGE_CONVOLUTION "ImageConvolution/*.cpp")
+file(GLOB_RECURSE DEMO_IMAGE "Image/*.cpp")
+file(GLOB_RECURSE DEMO_IMAGE_DRAW "Draw/*.cpp")
+file(GLOB_RECURSE DEMO_IMAGE_GENERATE "Generate/*.cpp")
 
 add_executable(
         Demo
@@ -28,8 +28,10 @@ add_executable(
         ${OPENCL_IMAGE_DRAW}
         ${OPENCL_IMAGE_GENERATE}
 
-        # Image Convolution
-        ${DEMO_IMAGE_CONVOLUTION}
+        # Image Demo
+        ${DEMO_IMAGE}
+        ${DEMO_IMAGE_DRAW}
+        ${DEMO_IMAGE_GENERATE}
 )
 
 # OpenCL

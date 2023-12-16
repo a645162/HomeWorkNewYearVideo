@@ -4,8 +4,8 @@
 
 #include "ImageGaussianBlurDemo.h"
 
-#include "../../Image/ImageConvolution.h"
-#include "../../Image/GaussianKernel.h"
+#include "../../../Image/ImageConvolution.h"
+#include "../../../Image/GaussianKernel.h"
 
 void blur_conv_demo(cl_context context, cl_device_id device) {
 

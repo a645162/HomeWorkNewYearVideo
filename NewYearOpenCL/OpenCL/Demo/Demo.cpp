@@ -5,8 +5,8 @@
 #include "../Devices/OpenCLDevices.h"
 #include "../Include/OpenCLInclude.h"
 
-#include "ImageConvolution/ImageConvolutionDemo.h"
-#include "ImageConvolution/ImageGaussianBlurDemo.h"
+#include "Image/Convolution/ImageConvolutionDemo.h"
+#include "Image/Convolution/ImageGaussianBlurDemo.h"
 
 int main(){
 

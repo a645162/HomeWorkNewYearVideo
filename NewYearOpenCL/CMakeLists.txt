@@ -99,9 +99,7 @@ file(GLOB PROGRAM_IO "Utils/*.cpp")
 file(GLOB OPENCL_INCLUDE "OpenCL/Include/*.cpp")
 file(GLOB OPENCL_DEVICE "OpenCL/Devices/*.cpp")
 
-file(GLOB OPENCL_IMAGE_OPERATION "OpenCL/Image/*.cpp")
-file(GLOB OPENCL_IMAGE_DRAW "OpenCL/Image/Draw/*.cpp")
-file(GLOB OPENCL_IMAGE_GENERATE "OpenCL/Image/Generate/*.cpp")
+file(GLOB_RECURSE OPENCL_IMAGE_OPERATION "OpenCL/Image/*.cpp")
 
 add_executable(
         ${PROJECT_NAME}
@@ -124,13 +122,9 @@ add_executable(
         ${OPENCL_DEVICE}
 
         # OpenCL Image Process
+        # + OpenCL Image Generate
+        # + OpenCL Image Draw
         ${OPENCL_IMAGE_OPERATION}
-
-        # OpenCL Image Generate
-        ${OPENCL_IMAGE_GENERATE}
-
-        # OpenCL Image Draw
-        ${OPENCL_IMAGE_DRAW}
 )
 
 # OpenCL
