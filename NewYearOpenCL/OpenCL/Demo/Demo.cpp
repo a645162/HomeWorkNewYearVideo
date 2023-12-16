@@ -16,6 +16,9 @@ int main(){
 
     // All features demo
 
+    // Generate Gradient Color Image
+//    gradient_image_demo(context, device);
+
     // Draw Rect
     draw_rect_demo(context, device);
 

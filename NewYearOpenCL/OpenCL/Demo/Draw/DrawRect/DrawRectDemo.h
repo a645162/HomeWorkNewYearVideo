@@ -5,8 +5,6 @@
 #ifndef NEW_YEAR_OPENCL_DEMO_DRAW_RECT_H
 #define NEW_YEAR_OPENCL_DEMO_DRAW_RECT_H
 
-#include "../../../../OpenCV/Include/OpenCVInclude.h"
-
 #include "../../../Include/OpenCLInclude.h"
 #include "../../../Include/OpenCLError.h"
 #include "../../../Include/OpenCLFlow.h"
