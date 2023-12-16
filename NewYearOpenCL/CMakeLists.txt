@@ -134,10 +134,10 @@ add_executable(
         OpenCL/Image/GenerateGradientImage.cpp
         OpenCL/Image/GenerateGradientImage.h
 
-
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h
 
+        # Test
         OpenCL/Test/gaussian_eigen3.cpp
         #        OpenCL/Test/TestOpenCLMatrixAddFloat.cpp
         #        OpenCL/Test/TestOpenCLMatrixAddInt.cpp
