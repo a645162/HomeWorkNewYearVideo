@@ -1,3 +1,7 @@
+// OpenCL Kernel Function of Image Rotate
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 #define PI 3.14159265
 
 __kernel void rotateImage(__global const uchar *input, __global uchar *output,

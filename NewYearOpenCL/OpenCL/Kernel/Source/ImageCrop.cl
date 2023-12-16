@@ -1,3 +1,7 @@
+// OpenCL Kernel Function of Image Crop
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void cropImage(__global const uchar *input, __global uchar *output,
                         int inputWidth, int inputHeight, int outputWidth,
                         int outputHeight, int x1, int y1, int x2, int y2,

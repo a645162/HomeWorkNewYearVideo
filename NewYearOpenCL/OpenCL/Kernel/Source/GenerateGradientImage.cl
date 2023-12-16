@@ -1,3 +1,7 @@
+// OpenCL Kernel Function of Generate Gradient Image
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void generateGradientImage(__global uchar *gradientImage,
                                     __global const uchar *gradientColor,
                                     const int colorCount, const int width,

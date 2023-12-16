@@ -1,3 +1,7 @@
+// OpenCL Kernel Function of Image Gray from RGB
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 #define CONVERT_TO_GRAY_AVG(r, g, b) (uchar)((r + g + b) / 3)
 
 #define WEIGHTED_GRAY_WEIGHT_R 0.299

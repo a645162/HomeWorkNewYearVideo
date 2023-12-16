@@ -1,3 +1,7 @@
+// OpenCL Kernel Function of Image Channel Convert
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void ImageChannelConvert(__global const uchar *inputImage,
                                   __global uchar *outputImage, int width,
                                   int height, int src_channels,

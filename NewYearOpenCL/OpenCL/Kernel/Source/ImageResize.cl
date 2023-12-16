@@ -1,5 +1,9 @@
 // ImageResize.cl
 
+// OpenCL Kernel Function of Image Resize
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void resizeImage(__global const uchar *src, __global uchar *dst,
                           int srcWidth, int srcHeight, int dstWidth,
                           int dstHeight, int channels) {

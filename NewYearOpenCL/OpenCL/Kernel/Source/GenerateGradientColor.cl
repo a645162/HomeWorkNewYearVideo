@@ -1,4 +1,9 @@
 // GradientColorGenerate.cl
+
+// OpenCL Kernel Function of Generate Gradient Color
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void generateGradientColor(__global uchar *gradientColor,
                                     const int colorCount, const uchar startR,
                                     const uchar startG, const uchar startB,

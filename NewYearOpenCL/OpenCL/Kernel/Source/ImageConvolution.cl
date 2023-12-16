@@ -1,4 +1,9 @@
 // Convolution.cl
+
+// OpenCL Kernel Function of 2-Dim Convolution
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 // Define OpenCL kernel for 2-Dim convolution
 __kernel void convolution2Dim(__global uchar *input, __global uchar *output,
                               int height, int width, int channels,

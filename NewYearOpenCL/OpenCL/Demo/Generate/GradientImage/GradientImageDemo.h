@@ -1,0 +1,8 @@
+//
+// Created by konghaomin on 23-12-16.
+//
+
+#ifndef NEW_YEAR_OPENCL_GRADIENT_IMAGE_DEMO_H
+#define NEW_YEAR_OPENCL_GRADIENT_IMAGE_DEMO_H
+
+#endif //NEW_YEAR_OPENCL_GRADIENT_IMAGE_DEMO_H

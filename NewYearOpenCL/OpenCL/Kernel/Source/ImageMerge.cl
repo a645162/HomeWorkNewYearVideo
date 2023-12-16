@@ -1,3 +1,7 @@
+// OpenCL Kernel Function of Image Merge
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void mergeImages(__global const uchar *image1,
                           __global const uchar *image2, __global uchar *output,
                           const int image1_width, const int image1_height,

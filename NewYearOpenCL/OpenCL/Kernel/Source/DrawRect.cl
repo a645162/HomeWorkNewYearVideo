@@ -1,3 +1,7 @@
+// OpenCL Kernel Function of Draw Rectangle
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void drawRectangle(__global uchar *d_image, const int width,
                             const int height, const int x_1, const int y_1,
                             const int x_2, const int y_2, const int thickness,

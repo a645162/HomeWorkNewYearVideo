@@ -1,4 +1,9 @@
 // MaskImageCircle.cl
+
+// OpenCL Kernel Function of Mask Image with Circle and Focus Light Effect
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void
 MaskImageCircle(const __global uchar *input, __global uchar *output,
                 const int width, const int height, const int channels,
