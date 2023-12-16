@@ -183,7 +183,8 @@ add_executable(NewYearCUDA
 
 #        main.cu
 #        gaussian_blur_video.cu
-        channel.cu
+#        channel.cu
+        rect.cu
 #        gray.cu
         #        matrix_add.cu
 

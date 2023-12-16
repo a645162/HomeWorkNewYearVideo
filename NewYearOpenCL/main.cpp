@@ -21,8 +21,12 @@
 #include "OpenCL/Image/ImageRotate.h"
 #include "OpenCL/Image/ImageMask.h"
 #include "OpenCL/Image/Generate/GenerateGradientImage.h"
+#include "OpenCL/Image/Draw/DrawRect.h"
 
 void demo(cl_context context, cl_device_id device) {
+
+    // Draw Rect
+    draw_rect_demo(context, device);
 
     // Generate Gradient Color Image
     gradient_image_demo(context, device);

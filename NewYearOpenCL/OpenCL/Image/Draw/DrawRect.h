@@ -10,4 +10,6 @@
 #include "../../Include/OpenCLFlow.h"
 #include "../../Include/OpenCLProgram.h"
 
+void draw_rect_demo(cl_context context, cl_device_id device);
+
 #endif //NEWYEAROPENCL_DRAWRECT_H

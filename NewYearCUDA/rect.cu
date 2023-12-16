@@ -118,12 +118,25 @@ int main() {
     int height = 600;
     int channels = 3;
 
+    cv::Mat image1 = cv::imread("../Resources/input.png", cv::IMREAD_UNCHANGED);
+    cv::cvtColor(image1, image1, cv::COLOR_BGRA2BGR);
+    cv::resize(image1, image1, cv::Size(image1.cols / 4, image1.rows / 4));
+    width = image1.cols;
+    height = image1.rows;
+    channels = image1.channels();
+
     // Allocate image memory on the host
 //    uchar *h_image = new uchar[width * height * channels];
 
     // Allocate image memory on the CUDA device
     uchar *d_image;
     cudaMalloc((void **) &d_image, sizeof(uchar) * width * height * channels);
+
+    cudaMemcpy(
+            d_image, image1.data,
+            sizeof(uchar) * width * height * channels,
+            cudaMemcpyHostToDevice
+    );
 
     // Set the frequency of the sine waves
     float frequency = 0.02;
@@ -147,7 +160,7 @@ int main() {
             frequency
     );
 
-    cv::Mat image(height, width, CV_8UC3);
+    cv::Mat image(height, width, CV_8UC(channels));
 
     // Transfer image data back to the host
     cudaMemcpy(image.data, d_image, sizeof(uchar) * width * height * channels, cudaMemcpyDeviceToHost);

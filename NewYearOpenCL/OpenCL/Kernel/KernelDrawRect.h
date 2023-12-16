@@ -9,8 +9,10 @@ const char *cl_kernel_draw_rect = R"(
 __kernel void drawRectangle(__global uchar *d_image, const int width,
                             const int height, const int x_1, const int y_1,
                             const int x_2, const int y_2, const int thickness,
-                            uchar3 board_color, uchar3 fill_color,
-                            const unsigned int channels, const int fill,
+                            uchar board_color_r, uchar board_color_g,
+                            uchar board_color_b, uchar fill_color_r,
+                            uchar fill_color_g, uchar fill_color_b,
+                            const int channels, const int fill,
                             const int sine_waves_board, const float frequency) {
     const int x = get_global_id(0);
     const int y = get_global_id(1);
@@ -29,9 +31,9 @@ __kernel void drawRectangle(__global uchar *d_image, const int width,
         // Fill the rectangle
         if (thickness <= 0) {
             if (fill != 0) {
-                d_image[index + 0] = fill_color.x;
-                d_image[index + 1] = fill_color.y;
-                d_image[index + 2] = fill_color.z;
+                d_image[index + 0] = fill_color_b;
+                d_image[index + 1] = fill_color_g;
+                d_image[index + 2] = fill_color_r;
             }
             return;
         }
@@ -45,13 +47,15 @@ __kernel void drawRectangle(__global uchar *d_image, const int width,
         if ((fill_x1 <= x && x <= fill_x2) && (fill_y1 <= y && y <= fill_y2)) {
             // Fill Area
             if (fill != 0) {
-                d_image[index + 0] = fill_color.x;
-                d_image[index + 1] = fill_color.y;
-                d_image[index + 2] = fill_color.z;
+                d_image[index + 0] = fill_color_b;
+                d_image[index + 1] = fill_color_g;
+                d_image[index + 2] = fill_color_r;
             }
         } else {
             // Bord Area
-            uchar3 current_board_color = board_color;
+            uchar current_board_color_r = board_color_r;
+            uchar current_board_color_g = board_color_g;
+            uchar current_board_color_b = board_color_b;
 
             if (sine_waves_board != 0) {
                 // Draw sine waves along the four edges of the rectangle
@@ -74,18 +78,20 @@ __kernel void drawRectangle(__global uchar *d_image, const int width,
                 sineValue /= 2.0;
 
                 const int color_x =
-                    (int)(sineValue * (float)current_board_color.x);
+                    (int)(sineValue * (float)current_board_color_b);
                 const int color_y =
-                    (int)(sineValue * (float)current_board_color.y);
+                    (int)(sineValue * (float)current_board_color_g);
                 const int color_z =
-                    (int)(sineValue * (float)current_board_color.z);
+                    (int)(sineValue * (float)current_board_color_r);
 
-                current_board_color = (uchar3)(color_x, color_y, color_z);
+                current_board_color_b = (uchar)(color_x);
+                current_board_color_g = (uchar)(color_y);
+                current_board_color_r = (uchar)(color_z);
             }
 
-            d_image[index + 0] = current_board_color.x;
-            d_image[index + 1] = current_board_color.y;
-            d_image[index + 2] = current_board_color.z;
+            d_image[index + 0] = current_board_color_b;
+            d_image[index + 1] = current_board_color_g;
+            d_image[index + 2] = current_board_color_r;
         }
     }
 }
