@@ -1,6 +1,6 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// Image Convolution on GPU
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #include "ImageConvolution.h"
 

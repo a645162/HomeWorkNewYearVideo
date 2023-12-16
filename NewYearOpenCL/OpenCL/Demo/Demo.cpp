@@ -1,12 +1,13 @@
-//
-// Created by konghaomin on 23-12-16.
-//
+// Image Operation on GPU Demo
+// Created by Haomin Kong on 23-12-16.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #include "../Devices/OpenCLDevices.h"
 #include "../Include/OpenCLInclude.h"
 
 #include "Image/Convolution/ImageConvolutionDemo.h"
 #include "Image/Convolution/ImageGaussianBlurDemo.h"
+#include "Draw/DrawRect/DrawRectDemo.h"
 
 int main(){
 
@@ -15,7 +16,10 @@ int main(){
 
     // All features demo
 
-    blur_conv_demo(context, device);
+    // Draw Rect
+    draw_rect_demo(context, device);
+
+//    blur_conv_demo(context, device);
 
 //    conv_demo(context, device);
 

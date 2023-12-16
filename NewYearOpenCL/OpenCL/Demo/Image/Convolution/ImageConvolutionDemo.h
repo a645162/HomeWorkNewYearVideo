@@ -1,6 +1,6 @@
-//
-// Created by konghaomin on 23-12-16.
-//
+// Image Convolution Demo
+// Created by Haomin Kong on 23-12-16.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #ifndef NEW_YEAR_OPENCL_IMAGE_CONVOLUTION_DEMO_H
 #define NEW_YEAR_OPENCL_IMAGE_CONVOLUTION_DEMO_H

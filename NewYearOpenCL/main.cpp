@@ -25,9 +25,6 @@
 
 void demo(cl_context context, cl_device_id device) {
 
-    // Draw Rect
-    draw_rect_demo(context, device);
-
     // Generate Gradient Color Image
     gradient_image_demo(context, device);
 

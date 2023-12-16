@@ -10,7 +10,7 @@ file(GLOB_RECURSE DEMO_IMAGE_DRAW "Draw/*.cpp")
 file(GLOB_RECURSE DEMO_IMAGE_GENERATE "Generate/*.cpp")
 
 add_executable(
-        Demo
+        OpenCL_Image_Demo
 
         Demo.cpp
 
@@ -37,12 +37,12 @@ add_executable(
 # OpenCL
 # Set OpenCL Version to 1.2
 # Because AMD GPU and Apple Mac Series Devices is not support OpenCL 2.0 or higher.
-target_compile_definitions(Demo PRIVATE CL_TARGET_OPENCL_VERSION=120)
-target_compile_definitions(Demo PRIVATE CL_MINIMUM_OPENCL_VERSION=120)
-target_compile_definitions(Demo PRIVATE CL_HPP_TARGET_OPENCL_VERSION=120)
-target_compile_definitions(Demo PRIVATE CL_HPP_MINIMUM_OPENCL_VERSION=120)
+target_compile_definitions(OpenCL_Image_Demo PRIVATE CL_TARGET_OPENCL_VERSION=120)
+target_compile_definitions(OpenCL_Image_Demo PRIVATE CL_MINIMUM_OPENCL_VERSION=120)
+target_compile_definitions(OpenCL_Image_Demo PRIVATE CL_HPP_TARGET_OPENCL_VERSION=120)
+target_compile_definitions(OpenCL_Image_Demo PRIVATE CL_HPP_MINIMUM_OPENCL_VERSION=120)
 
-target_link_libraries(Demo PRIVATE ${OpenCL_LIBRARIES})
+target_link_libraries(OpenCL_Image_Demo PRIVATE ${OpenCL_LIBRARIES})
 
 # OpenCV
-target_link_libraries(Demo PRIVATE ${OpenCV_LIBS})
+target_link_libraries(OpenCL_Image_Demo PRIVATE ${OpenCV_LIBS})

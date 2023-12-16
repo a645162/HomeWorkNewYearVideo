@@ -11,7 +11,7 @@ message(STATUS "@CMake version: ${CMAKE_VERSION}")
 #    endif()
 #endif ()
 
-project(NewYearOpenCL C CXX)
+project(NewYear_OpenCL C CXX)
 message(STATUS "@Project name: ${PROJECT_NAME}")
 
 set(CMAKE_CXX_STANDARD 23)
@@ -29,7 +29,6 @@ endif ()
 if (WIN32)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         message(STATUS "@Using MSVC compiler on Windows.")
-
         # https://blog.csdn.net/liangshui999/article/details/128332182
         message(STATUS "Set MSVC compiler to use UTF-8 as the character set.")
         add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>")
@@ -83,9 +82,6 @@ endif ()
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 message(STATUS "@OpenCV Version: ${OpenCV_VERSION}")
-
-#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kernel_template.h
-#        ${CMAKE_CURRENT_BINARY_DIR}/kernel_template.hpp @ONLY)
 
 find_package(OpenCL REQUIRED)
 include_directories(${OpenCL_INCLUDE_DIRS})

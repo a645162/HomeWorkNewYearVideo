@@ -1,9 +1,9 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// Image Convolution on GPU
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEWYEAROPENCL_IMAGECONVOLUTION_H
-#define NEWYEAROPENCL_IMAGECONVOLUTION_H
+#ifndef NEW_YEAR_OPENCL_IMAGE_CONVOLUTION_H
+#define NEW_YEAR_OPENCL_IMAGE_CONVOLUTION_H
 
 #include "../Include/OpenCLInclude.h"
 #include "../Include/OpenCLError.h"
@@ -24,4 +24,4 @@ void KernelSetArg_Image_Conv(
         int padSize
 );
 
-#endif //NEWYEAROPENCL_IMAGECONVOLUTION_H
+#endif //NEW_YEAR_OPENCL_IMAGE_CONVOLUTION_H
