@@ -2,21 +2,21 @@
 // Created by konghaomin on 23-12-13.
 //
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
-#define NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_COLOR_H
+#define NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_COLOR_H
 
 const char *cl_kernel_generate_gradient_color = R"(
 // GradientColorGenerate.cl
 __kernel void generateGradientColor(__global uchar *gradientColor,
-                                    const int length, const int startR,
-                                    const int startG, const int startB,
-                                    const int endR, const int endG,
-                                    const int endB, const unsigned int channels,
+                                    const int colorCount, const uchar startR,
+                                    const uchar startG, const uchar startB,
+                                    const uchar endR, const uchar endG,
+                                    const uchar endB, const uchar channels,
                                     const uchar alpha) {
     int idx = get_global_id(0);
 
-    if (idx < length) {
-        float t = (float)idx / (float)(length - 1);
+    if (idx < colorCount) {
+        float t = (float)idx / (float)(colorCount - 1);
 
         int color_index = channels * idx;
 
@@ -39,4 +39,4 @@ __kernel void generateGradientColor(__global uchar *gradientColor,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+#endif //NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_COLOR_H

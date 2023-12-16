@@ -3,8 +3,7 @@ __kernel void generateGradientImage(__global uchar *gradientImage,
                                     const int colorCount, const int width,
                                     const int height, const int center_x,
                                     const int center_y, const float maxR,
-                                    const unsigned int channels,
-                                    const uchar alpha) {
+                                    const uchar channels, const uchar alpha) {
     int x = get_global_id(0);
     int y = get_global_id(1);
 

@@ -46,7 +46,7 @@ message(STATUS "@OpenCV Version: ${OpenCV_VERSION}")
 #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kernel_template.h
 #        ${CMAKE_CURRENT_BINARY_DIR}/kernel_template.hpp @ONLY)
 
-find_package(OpenCL REQUIRED)
+                            find_package(OpenCL REQUIRED)
 include_directories(${OpenCL_INCLUDE_DIRS})
 message(STATUS "OpenCL Include Dirs: ${OpenCL_INCLUDE_DIRS}")
 
@@ -60,7 +60,7 @@ message(STATUS "Eigen3 Include Dirs: ${EIGEN3_INCLUDE_DIR}")
 add_executable(
         ${PROJECT_NAME}
 
-        #        main.cpp
+        main.cpp
 
         # Author Information
         Author/Author.cpp
@@ -138,7 +138,7 @@ add_executable(
         #        OpenCL/Image/ImageGaussianBlur.h
 
         # Test
-        OpenCL/Test/progress_test.cpp
+        #        OpenCL/Test/progress_test.cpp
         #        OpenCL/Test/gaussian_eigen3.cpp
         #        OpenCL/Test/TestOpenCLMatrixAddFloat.cpp
         #        OpenCL/Test/TestOpenCLMatrixAddInt.cpp

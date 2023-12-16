@@ -1,14 +1,14 @@
 // GradientColorGenerate.cl
 __kernel void generateGradientColor(__global uchar *gradientColor,
-                                    const int length, const int startR,
-                                    const int startG, const int startB,
-                                    const int endR, const int endG,
-                                    const int endB, const unsigned int channels,
+                                    const int colorCount, const uchar startR,
+                                    const uchar startG, const uchar startB,
+                                    const uchar endR, const uchar endG,
+                                    const uchar endB, const uchar channels,
                                     const uchar alpha) {
     int idx = get_global_id(0);
 
-    if (idx < length) {
-        float t = (float)idx / (float)(length - 1);
+    if (idx < colorCount) {
+        float t = (float)idx / (float)(colorCount - 1);
 
         int color_index = channels * idx;
 

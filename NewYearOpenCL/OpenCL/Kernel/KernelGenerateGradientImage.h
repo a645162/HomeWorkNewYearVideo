@@ -2,8 +2,8 @@
 // Created by konghaomin on 23-12-13.
 //
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
-#define NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_IMAGE_H
+#define NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_IMAGE_H
 
 const char *cl_kernel_generate_gradient_image = R"(
 __kernel void generateGradientImage(__global uchar *gradientImage,
@@ -11,7 +11,7 @@ __kernel void generateGradientImage(__global uchar *gradientImage,
                                     const int colorCount, const int width,
                                     const int height, const int center_x,
                                     const int center_y, const float maxR,
-                                    const unsigned int channels,
+                                    const uchar channels,
                                     const uchar alpha) {
     int x = get_global_id(0);
     int y = get_global_id(1);
@@ -36,4 +36,4 @@ __kernel void generateGradientImage(__global uchar *gradientImage,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+#endif //NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_IMAGE_H
