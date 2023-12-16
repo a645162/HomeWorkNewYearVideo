@@ -60,7 +60,7 @@ message(STATUS "Eigen3 Include Dirs: ${EIGEN3_INCLUDE_DIR}")
 add_executable(
         ${PROJECT_NAME}
 
-#        main.cpp
+        #        main.cpp
 
         # Author Information
         Author/Author.cpp
@@ -138,8 +138,9 @@ add_executable(
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h
 
-        OpenCL/Test/TestOpenCLMatrixAddFloat.cpp
-#        OpenCL/Test/TestOpenCLMatrixAddInt.cpp
+        OpenCL/Test/gaussian_eigen3.cpp
+        #        OpenCL/Test/TestOpenCLMatrixAddFloat.cpp
+        #        OpenCL/Test/TestOpenCLMatrixAddInt.cpp
         #        OpenCL/Test/TestOpenCLRect.cpp
 )
 
@@ -158,3 +159,14 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 
 # Eigen3
 target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen)
+
+if (MSVC)
+    # Enable AVX2 for MSVC
+    target_compile_options(${PROJECT_NAME} PRIVATE "/arch:AVX2")
+elseif (CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -mavx2 -mfma")
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
+    # Alternatively, use -mavx2 directly
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx2")
+endif ()
