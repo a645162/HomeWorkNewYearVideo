@@ -9,8 +9,7 @@ __kernel void convolution2Dim(__global uchar *input, __global uchar *output,
     const unsigned int y = get_global_id(1);
     const unsigned int c = get_global_id(2);
 
-    if (x < width - kernelSize + 1 && y < height - kernelSize + 1 &&
-        c < channels) {
+    if (x < width && y < height && c < channels) {
 
         if (c == 3) {
             output[(y * width + x) * channels + c] =

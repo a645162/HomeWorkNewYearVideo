@@ -6,6 +6,7 @@
 #include "../Include/OpenCLInclude.h"
 
 #include "ImageConvolution/ImageConvolutionDemo.h"
+#include "ImageConvolution/ImageGaussianBlurDemo.h"
 
 int main(){
 
@@ -13,7 +14,10 @@ int main(){
     cl_context context = CLCreateContext(device);
 
     // All features demo
-    conv_demo(context, device);
+
+    blur_conv_demo(context, device);
+
+//    conv_demo(context, device);
 
     clReleaseContext(context);
     clReleaseDevice(device);

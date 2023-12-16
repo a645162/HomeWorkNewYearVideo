@@ -55,7 +55,7 @@ Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
 - NVIDIA GeForce GTX 1660 Super 6 GB
 - NVIDIA P102-100 10 GB
 
-## Already done
+## Feature
 
 - Image Resize
 - Image Mask(focus light effect)
@@ -68,8 +68,4 @@ Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
 - Gradient Color Generate
 - Gradient Image Generate
 - Image Rectangle
-
-## Now work forward
-
 - Image Gaussian Blur
-- Image Gaussian Filter

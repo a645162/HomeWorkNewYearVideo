@@ -2,7 +2,7 @@
 // Created by konghaomin on 23-12-13.
 //
 
-#include "ImageGaussianBlur.h"
+#include "GaussianKernel.h"
 
 #include <iostream>
 #include <opencv2/opencv.hpp>

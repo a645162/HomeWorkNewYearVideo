@@ -2,8 +2,8 @@
 // Created by konghaomin on 23-12-13.
 //
 
-#ifndef NEWYEAROPENCL_IMAGEGAUSSIANBLUR_H
-#define NEWYEAROPENCL_IMAGEGAUSSIANBLUR_H
+#ifndef NEWYEAROPENCL_GAUSSIANKERNEL_H
+#define NEWYEAROPENCL_GAUSSIANKERNEL_H
 
 typedef struct {
     int size;
@@ -18,4 +18,4 @@ GaussianKernelParameters getGaussianKernelParameters(int size, float strength);
 
 GaussianKernelParameters calcGaussianKernelParameters(float blur_intensity);
 
-#endif //NEWYEAROPENCL_IMAGEGAUSSIANBLUR_H
+#endif //NEWYEAROPENCL_GAUSSIANKERNEL_H
