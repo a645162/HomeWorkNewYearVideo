@@ -20,7 +20,7 @@
 #include "OpenCL/Image/ImageCrop.h"
 #include "OpenCL/Image/ImageRotate.h"
 #include "OpenCL/Image/ImageMask.h"
-#include "OpenCL/Image/GenerateGradientImage.h"
+#include "OpenCL/Image/Generate/GenerateGradientImage.h"
 
 void demo(cl_context context, cl_device_id device) {
 

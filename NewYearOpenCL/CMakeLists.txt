@@ -131,8 +131,13 @@ add_executable(
         OpenCL/Image/ImageMirror.cpp
         OpenCL/Image/ImageMirror.h
 
-        OpenCL/Image/GenerateGradientImage.cpp
-        OpenCL/Image/GenerateGradientImage.h
+        # OpenCL Image Generate
+        OpenCL/Image/Generate/GenerateGradientImage.cpp
+        OpenCL/Image/Generate/GenerateGradientImage.h
+
+        # OpenCL Image Draw
+        OpenCL/Image/Draw/DrawRect.cpp
+        OpenCL/Image/Draw/DrawRect.h
 
         #        OpenCL/Image/ImageGaussianBlur.cpp
         #        OpenCL/Image/ImageGaussianBlur.h

@@ -4,14 +4,14 @@
 
 #include "GenerateGradientImage.h"
 
-#include "../Kernel/KernelGenerateGradientColor.h"
-#include "../Kernel/KernelGenerateGradientImage.h"
+#include "../../Kernel/KernelGenerateGradientColor.h"
+#include "../../Kernel/KernelGenerateGradientImage.h"
 
 #include <iostream>
 
-#include "../../Author/Author.h"
+#include "../../../Author/Author.h"
 
-#include "../Devices/OpenCLDevices.h"
+#include "../../Devices/OpenCLDevices.h"
 
 #include <opencv2/opencv.hpp>
 
