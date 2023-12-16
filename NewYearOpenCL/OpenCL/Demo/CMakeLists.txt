@@ -1,44 +1,35 @@
+file(GLOB PROGRAM_IO "../../Utils/*.cpp")
+
+file(GLOB OPENCL_INCLUDE "../Include/*.cpp")
+file(GLOB OPENCL_DEVICE "../Devices/*.cpp")
+
+file(GLOB OPENCL_IMAGE_OPERATION "../Image/*.cpp")
+file(GLOB OPENCL_IMAGE_DRAW "../Image/Draw/*.cpp")
+file(GLOB OPENCL_IMAGE_GENERATE "../Image/Generate/*.cpp")
+
+file(GLOB DEMO_IMAGE_CONVOLUTION "ImageConvolution/*.cpp")
+
 add_executable(
         Demo
 
         Demo.cpp
 
         # Some IO Operate
-        ../../Utils/ProgramIO.cpp
-        ../../Utils/ProgramIO.h
+        ${PROGRAM_IO}
 
         # OpenCL Function
-        ../Include/OpenCLInclude.cpp
-        ../Include/OpenCLInclude.h
-
-        ../Include/OpenCLError.cpp
-        ../Include/OpenCLError.h
-
-        ../Include/OpenCLFlow.cpp
-        ../Include/OpenCLFlow.h
-
-        ../Include/OpenCLProgram.cpp
-        ../Include/OpenCLProgram.h
-
-        ../Include/OpenCLMem.cpp
-        ../Include/OpenCLMem.h
+        ${OPENCL_INCLUDE}
 
         # OpenCL Device
-        ../Devices/OpenCLDevices.cpp
-        ../Devices/OpenCLDevices.h
+        ${OPENCL_DEVICE}
 
-        ../Devices/OpenCLDevicesList.cpp
-        ../Devices/OpenCLDevicesList.h
+        # OpenCL Image
+        ${OPENCL_IMAGE_OPERATION}
+        ${OPENCL_IMAGE_DRAW}
+        ${OPENCL_IMAGE_GENERATE}
 
         # Image Convolution
-
-        ../Image/ImageConvolution.cpp
-
-        ImageConvolution/ImageConvolutionDemo.cpp
-        ImageConvolution/ImageConvolutionDemo.h
-
-        ImageConvolution/ImageGaussianBlurDemo.cpp
-        ImageConvolution/ImageGaussianBlurDemo.h
+        ${DEMO_IMAGE_CONVOLUTION}
 )
 
 # OpenCL

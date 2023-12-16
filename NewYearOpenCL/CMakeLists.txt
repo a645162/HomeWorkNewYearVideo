@@ -25,6 +25,7 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Release")
     #    target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG_MODE)
 endif ()
 
+# Compiler Options
 if (WIN32)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         message(STATUS "@Using MSVC compiler on Windows.")
@@ -38,133 +39,6 @@ if (WIN32)
         message(STATUS "!!!Program may not compatible with MinGW or Other compilers on Windows.")
     endif ()
 endif ()
-
-find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS})
-message(STATUS "@OpenCV Version: ${OpenCV_VERSION}")
-
-#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kernel_template.h
-#        ${CMAKE_CURRENT_BINARY_DIR}/kernel_template.hpp @ONLY)
-
-find_package(OpenCL REQUIRED)
-include_directories(${OpenCL_INCLUDE_DIRS})
-message(STATUS "OpenCL Include Dirs: ${OpenCL_INCLUDE_DIRS}")
-
-# Use to generate C Header include OpenCL Kernel.
-add_subdirectory(OpenCL)
-
-#find_package(Eigen3 REQUIRED)
-#INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
-#message(STATUS "Eigen3 Include Dirs: ${EIGEN3_INCLUDE_DIR}")
-
-add_executable(
-        ${PROJECT_NAME}
-
-        main.cpp
-
-        # Author Information
-        Author/Author.cpp
-        Author/Author.h
-
-        # Program Config
-        Config/Config.h
-        Config/Path.h
-        Config/DebugVar.h
-
-        # Some IO Operate
-        Utils/ProgramIO.cpp
-        Utils/ProgramIO.h
-
-        # OpenCV Function
-        OpenCV/Include/OpenCVInclude.h
-        OpenCV/Video/OpenCVVideo.cpp
-        OpenCV/Video/OpenCVVideo.h
-
-        # OpenCL Function
-        OpenCL/Include/OpenCLInclude.cpp
-        OpenCL/Include/OpenCLInclude.h
-
-        OpenCL/Include/OpenCLError.cpp
-        OpenCL/Include/OpenCLError.h
-
-        OpenCL/Include/OpenCLFlow.cpp
-        OpenCL/Include/OpenCLFlow.h
-
-        OpenCL/Include/OpenCLProgram.cpp
-        OpenCL/Include/OpenCLProgram.h
-
-        OpenCL/Include/OpenCLMem.cpp
-        OpenCL/Include/OpenCLMem.h
-
-        # OpenCL Device
-        OpenCL/Devices/OpenCLDevices.cpp
-        OpenCL/Devices/OpenCLDevices.h
-
-        OpenCL/Devices/OpenCLDevicesList.cpp
-        OpenCL/Devices/OpenCLDevicesList.h
-
-        # Image Process
-        OpenCL/Image/ImageMask.cpp
-        OpenCL/Image/ImageMask.h
-
-        OpenCL/Image/ImageResize.cpp
-        OpenCL/Image/ImageResize.h
-
-        OpenCL/Image/ImageConvolution.cpp
-        OpenCL/Image/ImageConvolution.h
-
-        OpenCL/Image/ImageCrop.cpp
-        OpenCL/Image/ImageCrop.h
-
-        OpenCL/Image/ImageRotate.cpp
-        OpenCL/Image/ImageRotate.h
-
-        OpenCL/Image/ImageMerge.cpp
-        OpenCL/Image/ImageMerge.h
-
-        OpenCL/Image/ImageChannelConvert.cpp
-        OpenCL/Image/ImageChannelConvert.h
-
-        OpenCL/Image/ImageGrayRGB.cpp
-        OpenCL/Image/ImageGrayRGB.h
-
-        OpenCL/Image/ImageMirror.cpp
-        OpenCL/Image/ImageMirror.h
-
-        OpenCL/Image/ImageGaussianBlur.cpp
-        OpenCL/Image/ImageGaussianBlur.h
-
-        # OpenCL Image Generate
-        OpenCL/Image/Generate/GenerateGradientImage.cpp
-        OpenCL/Image/Generate/GenerateGradientImage.h
-
-        # OpenCL Image Draw
-        OpenCL/Image/Draw/DrawRect.cpp
-        OpenCL/Image/Draw/DrawRect.h
-
-        # Test
-        #        OpenCL/Test/progress_test.cpp
-        #        OpenCL/Test/gaussian_eigen3.cpp
-        #        OpenCL/Test/TestOpenCLMatrixAddFloat.cpp
-        #        OpenCL/Test/TestOpenCLMatrixAddInt.cpp
-        #        OpenCL/Test/TestOpenCLRect.cpp
-)
-
-# OpenCL
-# Set OpenCL Version to 1.2
-# Because AMD GPU and Apple Mac Series Devices is not support OpenCL 2.0 or higher.
-target_compile_definitions(${PROJECT_NAME} PRIVATE CL_TARGET_OPENCL_VERSION=120)
-target_compile_definitions(${PROJECT_NAME} PRIVATE CL_MINIMUM_OPENCL_VERSION=120)
-target_compile_definitions(${PROJECT_NAME} PRIVATE CL_HPP_TARGET_OPENCL_VERSION=120)
-target_compile_definitions(${PROJECT_NAME} PRIVATE CL_HPP_MINIMUM_OPENCL_VERSION=120)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCL_LIBRARIES})
-
-# OpenCV
-target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
-
-# Eigen3
-#target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen)
 
 # AVX2 SIMD Optimization
 if (WIN32)
@@ -205,6 +79,72 @@ else ()
         #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
     endif ()
 endif ()
+
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+message(STATUS "@OpenCV Version: ${OpenCV_VERSION}")
+
+#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kernel_template.h
+#        ${CMAKE_CURRENT_BINARY_DIR}/kernel_template.hpp @ONLY)
+
+find_package(OpenCL REQUIRED)
+include_directories(${OpenCL_INCLUDE_DIRS})
+message(STATUS "OpenCL Include Dirs: ${OpenCL_INCLUDE_DIRS}")
+
+# Use to generate C Header include OpenCL Kernel.
+add_subdirectory(OpenCL)
+
+file(GLOB PROGRAM_IO "Utils/*.cpp")
+
+file(GLOB OPENCL_INCLUDE "OpenCL/Include/*.cpp")
+file(GLOB OPENCL_DEVICE "OpenCL/Devices/*.cpp")
+
+file(GLOB OPENCL_IMAGE_OPERATION "OpenCL/Image/*.cpp")
+file(GLOB OPENCL_IMAGE_DRAW "OpenCL/Image/Draw/*.cpp")
+file(GLOB OPENCL_IMAGE_GENERATE "OpenCL/Image/Generate/*.cpp")
+
+add_executable(
+        ${PROJECT_NAME}
+
+        main.cpp
+
+        # Author Information
+        Author/Author.cpp
+
+        # Some IO Operate
+        ${PROGRAM_IO}
+
+        # OpenCV Function
+        OpenCV/Video/OpenCVVideo.cpp
+
+        # OpenCL Function
+        ${OPENCL_INCLUDE}
+
+        # OpenCL Device
+        ${OPENCL_DEVICE}
+
+        # OpenCL Image Process
+        ${OPENCL_IMAGE_OPERATION}
+
+        # OpenCL Image Generate
+        ${OPENCL_IMAGE_GENERATE}
+
+        # OpenCL Image Draw
+        ${OPENCL_IMAGE_DRAW}
+)
+
+# OpenCL
+# Set OpenCL Version to 1.2
+# Because AMD GPU and Apple Mac Series Devices is not support OpenCL 2.0 or higher.
+target_compile_definitions(${PROJECT_NAME} PRIVATE CL_TARGET_OPENCL_VERSION=120)
+target_compile_definitions(${PROJECT_NAME} PRIVATE CL_MINIMUM_OPENCL_VERSION=120)
+target_compile_definitions(${PROJECT_NAME} PRIVATE CL_HPP_TARGET_OPENCL_VERSION=120)
+target_compile_definitions(${PROJECT_NAME} PRIVATE CL_HPP_MINIMUM_OPENCL_VERSION=120)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCL_LIBRARIES})
+
+# OpenCV
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 
 # Demo
 add_subdirectory(OpenCL/Demo)
