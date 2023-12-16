@@ -98,9 +98,3 @@ convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageConvolution.cl"
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageConvolution.hpp"
 )
-
-# Image Gaussian Convolution Kernel
-convert_cl_to_c_header(
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/GaussianConvKernel.cl"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelGaussianConvKernel.hpp"
-)

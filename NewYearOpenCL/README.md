@@ -41,15 +41,19 @@ Because Xe series is released in 2020.
 ### CPU
 
 CPU:pthread
+
 pthread-Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz
+
+Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
 
 ### GPU
 
-AMD Radeon Pro 560X 4 GB
-AMD Radeon Vega 64 8 GB
-NVIDIA Tesla P40 24 GB
-NVIDIA GeForce GTX 1660 Super 6 GB
-NVIDIA P102-100 10 GB
+- Intel UHD Graphics 630 1536 MB
+- AMD Radeon Pro 560X 4 GB
+- AMD Radeon Vega 64 8 GB
+- NVIDIA Tesla P40 24 GB
+- NVIDIA GeForce GTX 1660 Super 6 GB
+- NVIDIA P102-100 10 GB
 
 ## Already done
 
@@ -63,17 +67,9 @@ NVIDIA P102-100 10 GB
 - Image Mirror
 - Gradient Color Generate
 - Gradient Image Generate
+- Image Rectangle
 
 ## Now work forward
 
-- Image Rectangle
-
-## Plan to port from CUDA
-
-- Image Rectangle
 - Image Gaussian Blur
 - Image Gaussian Filter
-
-## Plan to port kernel function from OpenCV
-
-- Image Rectangle

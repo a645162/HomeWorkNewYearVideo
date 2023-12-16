@@ -46,16 +46,16 @@ message(STATUS "@OpenCV Version: ${OpenCV_VERSION}")
 #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kernel_template.h
 #        ${CMAKE_CURRENT_BINARY_DIR}/kernel_template.hpp @ONLY)
 
-                            find_package(OpenCL REQUIRED)
+find_package(OpenCL REQUIRED)
 include_directories(${OpenCL_INCLUDE_DIRS})
 message(STATUS "OpenCL Include Dirs: ${OpenCL_INCLUDE_DIRS}")
 
 # Use to generate C Header include OpenCL Kernel.
 add_subdirectory(OpenCL)
 
-find_package(Eigen3 REQUIRED)
-INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
-message(STATUS "Eigen3 Include Dirs: ${EIGEN3_INCLUDE_DIR}")
+#find_package(Eigen3 REQUIRED)
+#INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
+#message(STATUS "Eigen3 Include Dirs: ${EIGEN3_INCLUDE_DIR}")
 
 add_executable(
         ${PROJECT_NAME}
@@ -131,6 +131,9 @@ add_executable(
         OpenCL/Image/ImageMirror.cpp
         OpenCL/Image/ImageMirror.h
 
+        OpenCL/Image/ImageGaussianBlur.cpp
+        OpenCL/Image/ImageGaussianBlur.h
+
         # OpenCL Image Generate
         OpenCL/Image/Generate/GenerateGradientImage.cpp
         OpenCL/Image/Generate/GenerateGradientImage.h
@@ -138,9 +141,6 @@ add_executable(
         # OpenCL Image Draw
         OpenCL/Image/Draw/DrawRect.cpp
         OpenCL/Image/Draw/DrawRect.h
-
-        #        OpenCL/Image/ImageGaussianBlur.cpp
-        #        OpenCL/Image/ImageGaussianBlur.h
 
         # Test
         #        OpenCL/Test/progress_test.cpp
@@ -164,7 +164,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCL_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 
 # Eigen3
-target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen)
+#target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen)
 
 # AVX2 SIMD Optimization
 if (WIN32)
@@ -205,3 +205,6 @@ else ()
         #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
     endif ()
 endif ()
+
+# Demo
+add_subdirectory(OpenCL/Demo)
