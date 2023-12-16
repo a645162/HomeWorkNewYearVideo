@@ -1,12 +1,17 @@
-//
-// Created by konghaomin on 23-12-12.
-//
+// OpenCL Kernel Function of Image Mask
+// Created by Haomin Kong on 23-12-12.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #ifndef NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H
 #define NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H
 
 const char *cl_kernel_mask_image_circle = R"(
 // MaskImageCircle.cl
+
+// OpenCL Kernel Function of Mask Image with Circle and Focus Light Effect
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void
 MaskImageCircle(const __global uchar *input, __global uchar *output,
                 const int width, const int height, const int channels,

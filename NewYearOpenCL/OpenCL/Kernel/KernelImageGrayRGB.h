@@ -1,11 +1,15 @@
-//
-// Created by 孔昊旻 on 2023/12/15.
-//
+// OpenCL Kernel Function of Image Gray
+// Created by Haomin Kong on 2023/12/15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_GRAY_H
-#define NEW_YEAR_OPENCL_KERNEL_GRAY_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_GRAY_H
+#define NEW_YEAR_OPENCL_KERNEL_IMAGE_GRAY_H
 
 const char *cl_kernel_gray = R"(
+// OpenCL Kernel Function of Image Gray from RGB
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 #define CONVERT_TO_GRAY_AVG(r, g, b) (uchar)((r + g + b) / 3)
 
 #define WEIGHTED_GRAY_WEIGHT_R 0.299
@@ -58,4 +62,4 @@ __kernel void convertToGrayRGB(__global const uchar *inputImage,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_GRAY_H
+#endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_GRAY_H

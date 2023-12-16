@@ -1,11 +1,15 @@
-//
-// Created by 孔昊旻 on 2023/12/15.
-//
+// OpenCL Kernel Function of Image Channel
+// Created by Haomin Kong on 2023/12/15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_CHANNEL_H
-#define NEW_YEAR_OPENCL_KERNEL_CHANNEL_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_CHANNEL_H
+#define NEW_YEAR_OPENCL_KERNEL_IMAGE_CHANNEL_H
 
 const char *cl_kernel_channel = R"(
+// OpenCL Kernel Function of Image Channel Convert
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void ImageChannelConvert(__global const uchar *inputImage,
                                   __global uchar *outputImage, int width,
                                   int height, int src_channels,
@@ -43,4 +47,4 @@ __kernel void ImageChannelConvert(__global const uchar *inputImage,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_CHANNEL_H
+#endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_CHANNEL_H

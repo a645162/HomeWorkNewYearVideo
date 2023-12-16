@@ -1,12 +1,17 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// OpenCL Kernel Function of Image Convolution
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
-#define NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_CONVOLUTION_H
+#define NEW_YEAR_OPENCL_KERNEL_IMAGE_CONVOLUTION_H
 
 const char *cl_kernel_convolution = R"(
 // Convolution.cl
+
+// OpenCL Kernel Function of 2-Dim Convolution
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 // Define OpenCL kernel for 2-Dim convolution
 __kernel void convolution2Dim(__global uchar *input, __global uchar *output,
                               int height, int width, int channels,
@@ -49,4 +54,4 @@ __kernel void convolution2Dim(__global uchar *input, __global uchar *output,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_CONVOLUTION_H
+#endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_CONVOLUTION_H

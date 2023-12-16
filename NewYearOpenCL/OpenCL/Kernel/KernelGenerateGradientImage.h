@@ -1,11 +1,15 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// OpenCL Kernel Function of Generate Gradient Image
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #ifndef NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_IMAGE_H
 #define NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_IMAGE_H
 
 const char *cl_kernel_generate_gradient_image = R"(
+// OpenCL Kernel Function of Generate Gradient Image
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void generateGradientImage(__global uchar *gradientImage,
                                     __global const uchar *gradientColor,
                                     const int colorCount, const int width,

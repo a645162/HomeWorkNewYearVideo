@@ -1,11 +1,15 @@
-//
-// Created by 孔昊旻 on 2023/12/15.
-//
+// OpenCL Kernel Function of Image Rotate
+// Created by Haomin Kong on 2023/12/15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_ROTATE_H
-#define NEW_YEAR_OPENCL_KERNEL_ROTATE_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_ROTATE_H
+#define NEW_YEAR_OPENCL_KERNEL_IMAGE_ROTATE_H
 
 const char *cl_kernel_rotate = R"(
+// OpenCL Kernel Function of Image Rotate
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 #define PI 3.14159265
 
 __kernel void rotateImage(__global const uchar *input, __global uchar *output,
@@ -38,4 +42,4 @@ __kernel void rotateImage(__global const uchar *input, __global uchar *output,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_ROTATE_H
+#endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_ROTATE_H

@@ -1,11 +1,15 @@
-//
-// Created by 孔昊旻 on 2023/12/15.
-//
+// OpenCL Kernel Function of Image Mirror
+// Created by Haomin Kong on 2023/12/15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_MIRROR_H
-#define NEW_YEAR_OPENCL_KERNEL_MIRROR_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_MIRROR_H
+#define NEW_YEAR_OPENCL_KERNEL_IMAGE_MIRROR_H
 
 const char *cl_kernel_mirror = R"(
+// OpenCL Kernel Function of Image Mirror
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void ImageMirror(__global const uchar *inputImage,
                           __global uchar *outputImage, int width, int height,
                           int channels, int type) {
@@ -33,4 +37,4 @@ __kernel void ImageMirror(__global const uchar *inputImage,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_MIRROR_H
+#endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_MIRROR_H

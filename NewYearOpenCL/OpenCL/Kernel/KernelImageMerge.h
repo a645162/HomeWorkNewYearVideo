@@ -1,11 +1,15 @@
-//
-// Created by 孔昊旻 on 2023/12/15.
-//
+// OpenCL Kernel Function of Image Merge
+// Created by Haomin Kong on 2023/12/15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_MERGE_H
-#define NEW_YEAR_OPENCL_KERNEL_MERGE_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_MERGE_H
+#define NEW_YEAR_OPENCL_KERNEL_IMAGE_MERGE_H
 
 const char *cl_kernel_merge = R"(
+// OpenCL Kernel Function of Image Merge
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void mergeImages(__global const uchar *image1,
                           __global const uchar *image2, __global uchar *output,
                           const int image1_width, const int image1_height,
@@ -66,4 +70,4 @@ __kernel void mergeImages(__global const uchar *image1,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_MERGE_H
+#endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_MERGE_H

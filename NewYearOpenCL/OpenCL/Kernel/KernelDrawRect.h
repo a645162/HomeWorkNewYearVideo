@@ -1,11 +1,15 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// OpenCL Kernel Function of Draw Rect
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEW_YEAR_OPENCL_KERNEL_DRAW_RECT_H
-#define NEW_YEAR_OPENCL_KERNEL_DRAW_RECT_H
+#ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_DRAW_RECT_H
+#define NEW_YEAR_OPENCL_KERNEL_IMAGE_DRAW_RECT_H
 
 const char *cl_kernel_draw_rect = R"(
+// OpenCL Kernel Function of Draw Rectangle
+// Author: Haomin Kong.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
 __kernel void drawRectangle(__global uchar *d_image, const int width,
                             const int height, const int x_1, const int y_1,
                             const int x_2, const int y_2, const int thickness,
@@ -98,4 +102,4 @@ __kernel void drawRectangle(__global uchar *d_image, const int width,
 
 )";
 
-#endif //NEW_YEAR_OPENCL_KERNEL_DRAW_RECT_H
+#endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_DRAW_RECT_H
