@@ -3,7 +3,13 @@
 #include <iostream>
 #include <cmath>
 #include <cstdio>
+
+#ifdef __APPLE__
+#include "Eigen/Dense"
+#else
 #include <eigen3/Eigen/Dense>
+#endif
+
 #include <chrono>
 
 #include <cmath>
@@ -65,7 +71,7 @@ int main() {
 
     auto time4 = std::chrono::high_resolution_clock::now();
     auto duration2 = std::chrono::duration_cast<std::chrono::microseconds>(time4 - time3).count();
-    std::cout << "(OpenMP)Time taken to create the Gaussian kernel: " << duration2 << " microseconds" << std::endl;
+    std::cout << "(For)Time taken to create the Gaussian kernel: " << duration2 << " microseconds" << std::endl;
 
 
     std::cout << "Sum: " << sum << std::endl;
