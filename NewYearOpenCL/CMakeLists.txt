@@ -138,7 +138,8 @@ add_executable(
         #        OpenCL/Image/ImageGaussianBlur.h
 
         # Test
-        OpenCL/Test/gaussian_eigen3.cpp
+        OpenCL/Test/progress_test.cpp
+        #        OpenCL/Test/gaussian_eigen3.cpp
         #        OpenCL/Test/TestOpenCLMatrixAddFloat.cpp
         #        OpenCL/Test/TestOpenCLMatrixAddInt.cpp
         #        OpenCL/Test/TestOpenCLRect.cpp
@@ -164,36 +165,37 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen)
 if (WIN32)
     if (MSVC)
         # Enable AVX2 for MSVC
-        message(STATUS "Try to open AVX2 for MSVC")
+        message(STATUS "Try to open AVX2 for MSVC on Windows")
+        # Useful for MSVC On Windows
         target_compile_options(${PROJECT_NAME} PRIVATE "/arch:AVX2")
     elseif (CMAKE_COMPILER_IS_GNUCXX)
-        message(STATUS "Try to open AVX2 for GCC")
+        message(STATUS "Try to open AVX2 for GCC on Windows")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -mavx2 -mfma")
     elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        message(STATUS "Try to open AVX2 for Clang")
+        message(STATUS "Try to open AVX2 for Clang on Windows")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx2")
         #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
     endif ()
-elseif(APPLE)
+elseif (APPLE)
     if ("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "arm64")
         message(STATUS "Target architecture is Apple Silicon (arm64)")
     else ()
         message(STATUS "Target architecture is Intel x86_64")
         if (CMAKE_COMPILER_IS_GNUCXX)
-            message(STATUS "Try to open AVX2 for GCC On Intel Chip")
+            message(STATUS "Try to open AVX2 for GCC On Intel Chip macOS")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -mavx2 -mfma")
         elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-            message(STATUS "Try to open AVX2 for Clang On Intel Chip")
+            message(STATUS "Try to open AVX2 for Clang On Intel Chip macOS")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx2")
             #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
         endif ()
     endif ()
 else ()
     if (CMAKE_COMPILER_IS_GNUCXX)
-        message(STATUS "Try to open AVX2 for GCC")
+        message(STATUS "Try to open AVX2 for GCC on Linux")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -mavx2 -mfma")
     elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        message(STATUS "Try to open AVX2 for Clang")
+        message(STATUS "Try to open AVX2 for Clang on Linux")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx2")
         #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
     endif ()
