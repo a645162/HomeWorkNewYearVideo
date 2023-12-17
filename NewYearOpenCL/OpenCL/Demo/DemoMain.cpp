@@ -15,8 +15,12 @@
 #include "Image/Crop/ImageCropDemo.h"
 #include "Image/Resize/ImageResizeDemo.h"
 #include "Image/Channel/ImageChannelDemo.h"
+#include "Image/Channel/ImageGrayRGBDemo.h"
 
 void demo(cl_context context, cl_device_id device) {
+
+    // Convert Channel demo
+    convert_channel_demo(context, device);
 
     // Resize demo
     resize_demo(context, device);
@@ -49,8 +53,8 @@ int main() {
     // All features demo
 //    demo(context, device);
 
-    // Convert Channel demo
-    convert_channel_demo(context, device);
+    // Convert to Gray
+    convert_gray_demo(context, device);
 
     clReleaseContext(context);
     clReleaseDevice(device);
