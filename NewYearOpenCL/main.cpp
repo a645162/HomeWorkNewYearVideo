@@ -25,9 +25,6 @@
 
 void demo(cl_context context, cl_device_id device) {
 
-    // Image Mirror Horizontal
-    mirror_demo(context, device);
-
     // Mask demo
     mask_video_demo(context, device);
 

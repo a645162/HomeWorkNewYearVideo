@@ -10,6 +10,14 @@
 #include "../Include/OpenCLFlow.h"
 #include "../Include/OpenCLProgram.h"
 
-void mirror_demo(cl_context context, cl_device_id device);
+OpenCLProgram CLCreateProgram_Image_Mirror(cl_context context, cl_device_id device);
+
+void KernelSetArg_Image_Mirror(
+        cl_kernel kernel,
+        cl_mem device_image_input,
+        cl_mem device_image_output,
+        int image_width, int image_height, int channels,
+        int type = 1
+);
 
 #endif //NEW_YEAR_OPENCL_IMAGE_MIRROR_H

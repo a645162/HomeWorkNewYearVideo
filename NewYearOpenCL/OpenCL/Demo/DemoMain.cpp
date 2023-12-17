@@ -17,8 +17,12 @@
 #include "Image/Channel/ImageChannelDemo.h"
 #include "Image/Channel/ImageGrayRGBDemo.h"
 #include "Image/Merge/ImageMergeDemo.h"
+#include "Image/Mirror/ImageMirrorDemo.h"
 
 void demo(cl_context context, cl_device_id device) {
+
+    // Merge two images demo
+    merge_demo(context, device);
 
     // Convert to Gray
     convert_gray_demo(context, device);
@@ -57,8 +61,8 @@ int main() {
     // All features demo
 //    demo(context, device);
 
-    // Merge two images demo
-    merge_demo(context, device);
+    // Image Mirror Horizontal
+    mirror_demo(context, device);
 
     clReleaseContext(context);
     clReleaseDevice(device);
