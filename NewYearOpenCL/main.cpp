@@ -6,22 +6,9 @@
 #include "Author/Author.h"
 #endif
 
-#include <iostream>
-
 #include "OpenCL/Devices/OpenCLDevices.h"
 
-// Image Processing
-#include "OpenCL/Image/ImageChannelConvert.h"
-#include "OpenCL/Image/ImageMerge.h"
-#include "OpenCL/Image/ImageGrayRGB.h"
-#include "OpenCL/Image/ImageMirror.h"
-#include "OpenCL/Image/ImageResize.h"
-#include "OpenCL/Image/ImageConvolution.h"
-#include "OpenCL/Image/ImageCrop.h"
-#include "OpenCL/Image/ImageRotate.h"
-#include "OpenCL/Image/ImageMask.h"
-#include "OpenCL/Image/Generate/GenerateGradientImage.h"
-#include "OpenCL/Image/Draw/DrawRect.h"
+#include "Chapter/NewYearCardVideo.h"
 
 int main() {
 
@@ -33,6 +20,7 @@ int main() {
     cl_context context = CLCreateContext(device);
 
     // Main Program
+    video_main(device, context);
 
     clReleaseContext(context);
     clReleaseDevice(device);
