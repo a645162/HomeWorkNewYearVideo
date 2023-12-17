@@ -1,9 +1,9 @@
-//
-// Created by konghaomin on 23-12-15.
-//
+// Image Gray
+// Created by Haomin Kong on 23-12-15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEWYEAROPENCL_IMAGEGRAYRGB_H
-#define NEWYEAROPENCL_IMAGEGRAYRGB_H
+#ifndef NEW_YEAR_OPENCL_IMAGE_GRAY_RGB_H
+#define NEW_YEAR_OPENCL_IMAGE_GRAY_RGB_H
 
 #include "../Include/OpenCLInclude.h"
 #include "../Include/OpenCLError.h"
@@ -12,4 +12,4 @@
 
 void convert_gray_demo(cl_context context, cl_device_id device);
 
-#endif //NEWYEAROPENCL_IMAGEGRAYRGB_H
+#endif //NEW_YEAR_OPENCL_IMAGE_GRAY_RGB_H

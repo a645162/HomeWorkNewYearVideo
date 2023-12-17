@@ -1,6 +1,6 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// Generate Gaussian Convolution Kernel
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #include "GaussianKernel.h"
 

@@ -12,7 +12,7 @@ file(GLOB_RECURSE DEMO_IMAGE_GENERATE "Generate/*.cpp")
 add_executable(
         OpenCL_Image_Demo
 
-        Demo.cpp
+        DemoMain.cpp
 
         # Some IO Operate
         ${PROGRAM_IO}

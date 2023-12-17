@@ -1,9 +1,9 @@
-//
-// Created by 孔昊旻 on 2023/12/15.
-//
+// Image Channel Convert
+// Created by Haomin Kong on 2023/12/15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEWYEAROPENCL_IMAGECHANNELCONVERT_H
-#define NEWYEAROPENCL_IMAGECHANNELCONVERT_H
+#ifndef NEW_YEAR_OPENCL_IMAGE_CHANNEL_CONVERT_H
+#define NEW_YEAR_OPENCL_IMAGE_CHANNEL_CONVERT_H
 
 #include "../Include/OpenCLInclude.h"
 #include "../Include/OpenCLError.h"
@@ -12,4 +12,4 @@
 
 void convert_channel_demo(cl_context context, cl_device_id device);
 
-#endif //NEWYEAROPENCL_IMAGECHANNELCONVERT_H
+#endif //NEW_YEAR_OPENCL_IMAGE_CHANNEL_CONVERT_H

@@ -25,9 +25,6 @@
 
 void demo(cl_context context, cl_device_id device) {
 
-    // Rotate
-    rotate_demo(context, device);
-
     // Crop
     crop_demo(context, device);
 

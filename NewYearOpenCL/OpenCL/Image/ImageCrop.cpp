@@ -1,6 +1,6 @@
-//
-// Created by 孔昊旻 on 2023/12/15.
-//
+// Image Crop
+// Created by Haomin Kong on 2023/12/15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #include "ImageCrop.h"
 

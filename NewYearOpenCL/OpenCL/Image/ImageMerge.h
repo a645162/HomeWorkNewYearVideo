@@ -1,9 +1,9 @@
-//
-// Created by 孔昊旻 on 2023/12/15.
-//
+// Image Merge
+// Created by Haomin Kong on 2023/12/15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEWYEAROPENCL_IMAGEMERGE_H
-#define NEWYEAROPENCL_IMAGEMERGE_H
+#ifndef NEW_YEAR_OPENCL_IMAGE_MERGE_H
+#define NEW_YEAR_OPENCL_IMAGE_MERGE_H
 
 #include "../Include/OpenCLInclude.h"
 #include "../Include/OpenCLError.h"
@@ -25,4 +25,4 @@ void KernelSetArgImageMerge(
 
 void merge_demo(cl_context context, cl_device_id device);
 
-#endif //NEWYEAROPENCL_IMAGEMERGE_H
+#endif //NEW_YEAR_OPENCL_IMAGE_MERGE_H

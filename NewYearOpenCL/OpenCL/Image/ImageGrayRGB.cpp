@@ -1,6 +1,6 @@
-//
-// Created by konghaomin on 23-12-15.
-//
+// Image Gray
+// Created by Haomin Kong on 23-12-15.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #include "ImageGrayRGB.h"
 

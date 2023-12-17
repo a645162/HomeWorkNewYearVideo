@@ -1,6 +1,6 @@
-//
-// Created by konghaomin on 23-12-12.
-//
+// Image Resize
+// Created by Haomin Kong on 23-12-12.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #include "ImageResize.h"
 

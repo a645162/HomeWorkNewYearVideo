@@ -1,9 +1,9 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// Generate Gaussian Convolution Kernel
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
-#ifndef NEWYEAROPENCL_GAUSSIANKERNEL_H
-#define NEWYEAROPENCL_GAUSSIANKERNEL_H
+#ifndef NEW_YEAR_OPENCL_GAUSSIAN_KERNEL_H
+#define NEW_YEAR_OPENCL_GAUSSIAN_KERNEL_H
 
 typedef struct {
     int size;
@@ -18,4 +18,4 @@ GaussianKernelParameters getGaussianKernelParameters(int size, float strength);
 
 GaussianKernelParameters calcGaussianKernelParameters(float blur_intensity);
 
-#endif //NEWYEAROPENCL_GAUSSIANKERNEL_H
+#endif //NEW_YEAR_OPENCL_GAUSSIAN_KERNEL_H
