@@ -14,8 +14,12 @@
 #include "Image/Rotate/ImageRotateDemo.h"
 #include "Image/Crop/ImageCropDemo.h"
 #include "Image/Resize/ImageResizeDemo.h"
+#include "Image/Channel/ImageChannelDemo.h"
 
 void demo(cl_context context, cl_device_id device) {
+
+    // Resize demo
+    resize_demo(context, device);
 
     // Crop
     crop_demo(context, device);
@@ -45,8 +49,8 @@ int main() {
     // All features demo
 //    demo(context, device);
 
-    // Resize demo
-    resize_demo(context, device);
+    // Convert Channel demo
+    convert_channel_demo(context, device);
 
     clReleaseContext(context);
     clReleaseDevice(device);
