@@ -11,8 +11,9 @@
 #include "../../OpenCL/Image/ImageCrop.h"
 
 #define CHAPTER_1_SECTION_1_DISABLE
-#define CHAPTER_1_SECTION_2_DISABLE
-//#define CHAPTER_1_SECTION_3_DISABLE
+//#define CHAPTER_1_SECTION_2_DISABLE
+#define CHAPTER_1_SECTION_3_DISABLE
+#define CHAPTER_1_SECTION_4_DISABLE
 
 extern float RatioVideoScale;
 extern float RatioVideoFrame;
@@ -27,6 +28,8 @@ void chapter_1(
         cl_context context, cl_device_id device,
         int max_frame, cv::VideoWriter video_writer
 ) {
+
+    max_frame = static_cast<int>(static_cast<float>(max_frame) * RatioVideoFrame);
 
     std::cout << "Chapter 1" << std::endl;
     const int frame_pre_section = max_frame / 7;
@@ -333,7 +336,11 @@ void chapter_1(
                 (0.8 - (static_cast<float>(i) / static_cast<float>(section_2_frame)) * 0.3)
         );
 
-        auto light_source_x = (img_school_door_width / 2);
+        auto light_source_x = static_cast<int>(
+                CANVAS_WIDTH -
+                static_cast<float>(img_school_door_width / 2) * static_cast<float>(i) /
+                static_cast<float>(section_2_frame)
+        );
         auto light_source_y = static_cast<int>(-100 * RatioVideoScale);
 
         KernelSetArg_Image_Mask_Simple(
@@ -390,13 +397,13 @@ void chapter_1(
 
         auto radius = 150 * RatioVideoScale;
 
-        auto start_x = -radius + static_cast<int>(
-                static_cast<float>(i) / static_cast<float>(section_2_frame) * (CANVAS_WIDTH + radius)
-        );
-
         cl_kernel kernel_mask = program_mask.CreateKernel();
 
-        auto center_x = (CANVAS_WIDTH + radius) - (CANVAS_WIDTH / 2 + radius);
+        auto center_x = static_cast<int>(static_cast<float>(CANVAS_WIDTH) + radius)
+                        - static_cast<int>(
+                                (static_cast<float>(CANVAS_WIDTH / 2) + radius)
+                                * static_cast<float>(i) / static_cast<float>(section_3_frame)
+                        );
         auto center_y = static_cast<int>(
                 CANVAS_HEIGHT
                 *
@@ -453,6 +460,9 @@ void chapter_1(
 #endif
 
     const auto section_4_frame = frame_pre_section * 2;
+#ifndef CHAPTER_1_SECTION_4_DISABLE
+
+#endif
 
     clReleaseMemObject(device_img_school_door_4channel);
     clReleaseMemObject(device_img_school_door_mask_output);
