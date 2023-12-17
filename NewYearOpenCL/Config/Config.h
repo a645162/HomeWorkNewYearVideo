@@ -1,6 +1,6 @@
-//
-// Created by konghaomin on 23-12-12.
-//
+// Some Config
+// Created by Haomin Kong on 23-12-12.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #ifndef NEW_YEAR_OPENCL_CONFIG_H
 #define NEW_YEAR_OPENCL_CONFIG_H
@@ -8,18 +8,10 @@
 #define ORIGIN_CANVAS_WIDTH 1920
 #define ORIGIN_CANVAS_HEIGHT 1080
 
-#define ORIGIN_FRAME_RATE 60
+#define DEFAULT_FRAME_RATE 60
 
-#define SCALE 1.0f
-#define FRAME_RATE_SCALE 1.0f
-
-#define CANVAS_WIDTH (ORIGIN_CANVAS_WIDTH * SCALE)
-#define CANVAS_HEIGHT (ORIGIN_CANVAS_HEIGHT * SCALE)
-
-#define CANVAS_CENTER_X (CANVAS_WIDTH / 2)
-#define CANVAS_CENTER_Y (CANVAS_HEIGHT / 2)
-
-#define FRAME_RATE (ORIGIN_FRAME_RATE * FRAME_RATE_SCALE)
+#define DEFAULT_RESOLUTION_SCALE_RATIO 1.0f
+#define DEFAULT_FRAME_RATE_SCALE_RATIO 1.0f
 
 // Program IO
 

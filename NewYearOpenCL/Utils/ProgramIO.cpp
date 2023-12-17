@@ -5,6 +5,7 @@
 #include "ProgramIO.h"
 
 #include <iostream>
+#include <sstream>
 
 
 void print_multi_char(const char chr, unsigned int length) {
@@ -18,3 +19,31 @@ void WaitForEnterPress() {
     std::cout << "Press 'Enter' to continue..." << std::endl;
     std::cin.get();
 }
+
+template <typename T>
+T UserInputWithDefault(const char *prompt, T defaultValue) {
+    std::string userInput;
+    T value;
+
+    std::cout << prompt << "(Default value: " << defaultValue << ")" << std::endl;
+    std::getline(std::cin, userInput);
+
+    if (userInput.empty()) {
+        // User Input Empty, try to use default value
+        value = defaultValue;
+    } else {
+        std::istringstream iss(userInput);
+        if (iss >> value) {
+            // User Input Corrects
+        } else {
+            // User Input Invalid
+            value = defaultValue;
+        }
+    }
+
+    return value;
+}
+
+template int UserInputWithDefault<int>(const char *prompt, int defaultValue);
+template float UserInputWithDefault<float>(const char *prompt, float defaultValue);
+template double UserInputWithDefault<double>(const char *prompt, double defaultValue);

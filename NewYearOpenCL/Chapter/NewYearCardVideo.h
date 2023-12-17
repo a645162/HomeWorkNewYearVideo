@@ -1,6 +1,6 @@
-//
-// Created by konghaomin on 23-12-17.
-//
+// Project: New Year Card Video
+// Created by Haomin Kong on 23-12-17.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #ifndef NEW_YEAR_OPENCL_NEW_YEAR_CARD_VIDEO_H
 #define NEW_YEAR_OPENCL_NEW_YEAR_CARD_VIDEO_H

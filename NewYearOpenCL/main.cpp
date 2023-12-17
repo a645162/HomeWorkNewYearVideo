@@ -9,6 +9,7 @@
 #include "OpenCL/Devices/OpenCLDevices.h"
 
 #include "Chapter/NewYearCardVideo.h"
+#include "Utils/ProgramIO.h"
 
 int main() {
 
@@ -24,6 +25,10 @@ int main() {
 
     clReleaseContext(context);
     clReleaseDevice(device);
+
+#ifndef DEBUG_MODE
+    WaitForEnterPress();
+#endif
 
     return 0;
 }

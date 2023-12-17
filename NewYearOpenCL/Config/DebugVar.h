@@ -1,6 +1,6 @@
-//
-// Created by 孔昊旻 on 2023/12/13.
-//
+// Some Debug Variable
+// Created by Haomin Kong on 2023/12/13.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #ifndef NEW_YEAR_OPENCL_DEBUG_VAR_H
 #define NEW_YEAR_OPENCL_DEBUG_VAR_H
