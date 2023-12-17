@@ -11,10 +11,19 @@ __kernel void ImageChannelConvert(__global const uchar *inputImage,
 
     if (x < width && y < height) {
 
+        float alpha_rate = 1.0f;
+
+        if (src_channels == 4 && dst_channels < 4) {
+            alpha_rate =
+                ((float)inputImage[(y * width + x) * src_channels + 3]) /
+                255.0f;
+        }
+
         for (int c = 0; c < dst_channels; c++) {
             int dst_index = (y * width + x) * dst_channels + c;
             int src_index = (y * width + x) * src_channels + c;
-            outputImage[dst_index] = inputImage[src_index];
+            outputImage[dst_index] =
+                (uchar)((float)(inputImage[src_index]) * alpha_rate);
         }
 
         // big to small

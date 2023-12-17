@@ -8,14 +8,16 @@
 #include "../Config/Config.h"
 
 #include <iostream>
+#include <iomanip>
 #include <cstdio>
 #include <ctime>
+#include <chrono>
 
 float RatioVideoScale = DEFAULT_RESOLUTION_SCALE_RATIO;
 float RatioVideoFrame = DEFAULT_FRAME_RATE_SCALE_RATIO;
 
 int CANVAS_WIDTH = ORIGIN_CANVAS_WIDTH, CANVAS_HEIGHT = ORIGIN_CANVAS_HEIGHT;
-int CANVAS_CENTER_X, CANVAS_CENTER_Y;
+int CANVAS_CENTER_X = ORIGIN_CANVAS_WIDTH / 2, CANVAS_CENTER_Y = ORIGIN_CANVAS_HEIGHT / 2;
 int FRAME_RATE = DEFAULT_FRAME_RATE;
 
 void start_generate(cl_device_id device, cl_context context) {
@@ -76,7 +78,15 @@ void video_main(cl_device_id device, cl_context context) {
     WaitForEnterPress();
 #endif
 
+    auto startTime = std::chrono::high_resolution_clock::now();
+
     start_generate(device, context);
+
+    auto endTime = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+    double seconds = duration.count() / 1000.0;
+    std::cout << std::fixed << std::setprecision(3);
+    std::cout << "Run Time: " << seconds << " S" << std::endl;
 
     std::cout << "New Year Card Video End" << std::endl;
 }

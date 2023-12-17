@@ -23,11 +23,11 @@ void chapter_1(
 ) {
 
     std::cout << "Chapter 1" << std::endl;
-    const int frame_pre_section = max_frame / 3;
+    const int frame_pre_section = max_frame / 7;
 
     // Section 1
 
-    auto logo_start_size = static_cast<int>(std::max(CANVAS_WIDTH, CANVAS_HEIGHT) * 1.5);
+    auto logo_start_size = static_cast<int>(std::max(CANVAS_WIDTH, CANVAS_HEIGHT) * 1.2);
     auto logo_min_size = static_cast<int>(400 * RatioVideoScale);
 
     // Read input image
@@ -77,13 +77,14 @@ void chapter_1(
 
     cv::Mat result(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC(3));
 
-    for (int i = 0; i < static_cast<int>(frame_pre_section * 0.8); ++i) {
-        output_frame_log(chapter_index, 1, i, frame_pre_section);
+    const auto section_1_frame = frame_pre_section * 2;
+    for (int i = 0; i < static_cast<int>(section_1_frame * 0.8); ++i) {
+        output_frame_log(chapter_index, 1, i, section_1_frame);
         auto current_size =
                 logo_start_size -
                 static_cast<int>(
                         (
-                                static_cast<float>(i) / static_cast<float>(frame_pre_section * 0.8 - 0)
+                                static_cast<float>(i) / static_cast<float>(section_1_frame * 0.8 - 0)
                         )
                         *
                         (logo_start_size - logo_min_size)
@@ -157,7 +158,6 @@ void chapter_1(
         clFinish(queue);
         clReleaseKernel(kernel_channel);
 
-
         OpenCLMemcpyFromDevice(
                 queue,
                 result.data,
@@ -168,8 +168,8 @@ void chapter_1(
         video_writer.write(result);
     }
 
-    for (int i = static_cast<int>(frame_pre_section * 0.8); i < frame_pre_section; ++i) {
-        output_frame_log(chapter_index, 1, i, frame_pre_section);
+    for (int i = static_cast<int>(section_1_frame * 0.8); i < section_1_frame; ++i) {
+        output_frame_log(chapter_index, 1, i, section_1_frame);
         video_writer.write(result);
     }
 
@@ -177,6 +177,12 @@ void chapter_1(
     clReleaseMemObject(device_logo_ori);
     clReleaseMemObject(device_merge_target);
     clReleaseMemObject(device_output_3channel);
+
+    const auto section_2_frame = frame_pre_section * 2;
+    cv::Mat img_school_door = cv::imread("../Resources/Image/IMG_3493.jpg", cv::IMREAD_UNCHANGED);
+
+    const auto section_3_frame = frame_pre_section * 1;
+    const auto section_4_frame = frame_pre_section * 2;
 
 
     clReleaseCommandQueue(queue);
