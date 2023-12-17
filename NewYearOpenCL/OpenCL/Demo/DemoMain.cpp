@@ -13,8 +13,12 @@
 #include "Image/Convolution/ImageGaussianBlurDemo.h"
 #include "Image/Rotate/ImageRotateDemo.h"
 #include "Image/Crop/ImageCropDemo.h"
+#include "Image/Resize/ImageResizeDemo.h"
 
 void demo(cl_context context, cl_device_id device) {
+
+    // Crop
+    crop_demo(context, device);
 
     // Rotate
     rotate_demo(context, device);
@@ -41,8 +45,8 @@ int main() {
     // All features demo
 //    demo(context, device);
 
-    // Crop
-    crop_demo(context, device);
+    // Resize demo
+    resize_demo(context, device);
 
     clReleaseContext(context);
     clReleaseDevice(device);

@@ -25,9 +25,6 @@
 
 void demo(cl_context context, cl_device_id device) {
 
-    // Resize demo
-    resize_demo(context, device);
-
     // Convert Channel demo
     convert_channel_demo(context, device);
 

@@ -6,8 +6,6 @@
 
 #include "../Kernel/KernelImageRotate.h"
 
-#include <opencv2/opencv.hpp>
-
 OpenCLProgram CLCreateProgram_Image_Rotate(cl_context context, cl_device_id device) {
     return {
             context,
