@@ -18,38 +18,63 @@
 #include "Image/Channel/ImageGrayRGBDemo.h"
 #include "Image/Merge/ImageMergeDemo.h"
 #include "Image/Mirror/ImageMirrorDemo.h"
+#include "Image/Mask/ImageMaskDemo.h"
 
-void demo(cl_context context, cl_device_id device) {
+void demo(cl_context context, cl_device_id device, int index) {
 
-    // Merge two images demo
-    merge_demo(context, device);
-
-    // Convert to Gray
-    convert_gray_demo(context, device);
-
-    // Convert Channel demo
-    convert_channel_demo(context, device);
-
-    // Resize demo
-    resize_demo(context, device);
-
-    // Crop
-    crop_demo(context, device);
-
-    // Rotate
-    rotate_demo(context, device);
-
-    // Generate Gradient Color Image
-    gradient_image_demo(context, device);
-
-    // Draw Rect
-    draw_rect_demo(context, device);
-
-    // Convolution
-    conv_demo(context, device);
-
-    // Gaussian Blur Convolution
-    blur_conv_demo(context, device);
+    switch (index) {
+        case 1:
+            // Image Mirror Horizontal
+            mirror_demo(context, device);
+            break;
+        case 2:
+            // Merge two images demo
+            merge_demo(context, device);
+            break;
+        case 3:
+            // Convert Channel demo
+            convert_channel_demo(context, device);
+            break;
+        case 4:
+            // Convert to Gray
+            convert_gray_demo(context, device);
+            break;
+        case 5:
+            // Resize demo
+            resize_demo(context, device);
+            break;
+        case 6:
+            // Crop
+            crop_demo(context, device);
+            break;
+        case 7:
+            // Rotate
+            rotate_demo(context, device);
+            break;
+        case 8:
+            // Generate Gradient Color Image
+            gradient_image_demo(context, device);
+            break;
+        case 9:
+            // Draw Rect
+            draw_rect_demo(context, device);
+            break;
+        case 10:
+            // Convolution
+            conv_demo(context, device);
+            break;
+        case 11:
+            // Gaussian Blur Convolution
+            blur_conv_demo(context, device);
+            break;
+        case 12:
+            // Mask demo
+            mask_video_demo(context, device);
+            break;
+        default:
+            std::cout << "Index Invaild!" << std::endl;
+            break;
+    }
 
 }
 
@@ -59,10 +84,31 @@ int main() {
     cl_context context = CLCreateContext(device);
 
     // All features demo
-//    demo(context, device);
+    int index = 0;
 
-    // Image Mirror Horizontal
-    mirror_demo(context, device);
+    std::cout << "Please input the index of demo: " << std::endl;
+    std::cout << "1. Image Mirror Horizontal" << std::endl;
+    std::cout << "2. Merge two images demo" << std::endl;
+    std::cout << "3. Convert Channel demo" << std::endl;
+    std::cout << "4. Convert to Gray" << std::endl;
+    std::cout << "5. Resize demo" << std::endl;
+    std::cout << "6. Crop" << std::endl;
+    std::cout << "7. Rotate" << std::endl;
+    std::cout << "8. Generate Gradient Color Image" << std::endl;
+    std::cout << "9. Draw Rect" << std::endl;
+    std::cout << "10. Convolution" << std::endl;
+    std::cout << "11. Gaussian Blur Convolution" << std::endl;
+    std::cout << "12. Mask demo" << std::endl;
+
+    std::cin >> index;
+
+    if (index == 0) {
+        for (int i = 1; i < 12 + 1; ++i) {
+            demo(context, device, i);
+        }
+    }
+    
+    demo(context, device, index);
 
     clReleaseContext(context);
     clReleaseDevice(device);

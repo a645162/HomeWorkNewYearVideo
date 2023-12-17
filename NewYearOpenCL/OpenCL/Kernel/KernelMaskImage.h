@@ -18,8 +18,8 @@ MaskImageCircle(const __global uchar *input, __global uchar *output,
                 const int centerX, const int centerY, const float radius,
                 int clean_up_alpha, int focus_lamp, const int light_source_x,
                 const int light_source_y, const float m_1, const float m_2,
-                const float max_distance, uchar focus_color_x,
-                uchar focus_color_y, uchar focus_color_z, uchar color_alpha) {
+                const float max_distance, uchar focus_color_b,
+                uchar focus_color_g, uchar focus_color_r, uchar color_alpha) {
     const int x = get_global_id(0);
     const int y = get_global_id(1);
 
@@ -70,15 +70,15 @@ MaskImageCircle(const __global uchar *input, __global uchar *output,
                     output[index + 0] = convert_uchar_sat_rte(
                         convert_float(input[index + 0]) *
                             (1 - color_alpha_rate) +
-                        convert_float(focus_color_x) * color_alpha_rate);
+                        convert_float(focus_color_b) * color_alpha_rate);
                     output[index + 1] = convert_uchar_sat_rte(
                         convert_float(input[index + 1]) *
                             (1 - color_alpha_rate) +
-                        convert_float(focus_color_y) * color_alpha_rate);
+                        convert_float(focus_color_g) * color_alpha_rate);
                     output[index + 2] = convert_uchar_sat_rte(
                         convert_float(input[index + 2]) *
                             (1 - color_alpha_rate) +
-                        convert_float(focus_color_z) * color_alpha_rate);
+                        convert_float(focus_color_r) * color_alpha_rate);
                     if (channels == 4) {
                         output[index + 3] = color_alpha;
                     }

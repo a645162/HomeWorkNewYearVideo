@@ -23,13 +23,6 @@
 #include "OpenCL/Image/Generate/GenerateGradientImage.h"
 #include "OpenCL/Image/Draw/DrawRect.h"
 
-void demo(cl_context context, cl_device_id device) {
-
-    // Mask demo
-    mask_video_demo(context, device);
-
-}
-
 int main() {
 
 #ifndef DEBUG_MODE
@@ -39,8 +32,7 @@ int main() {
     cl_device_id device = UserSelectDevice();
     cl_context context = CLCreateContext(device);
 
-    // All features demo
-    demo(context, device);
+    // Main Program
 
     clReleaseContext(context);
     clReleaseDevice(device);
