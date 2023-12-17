@@ -25,9 +25,6 @@
 
 void demo(cl_context context, cl_device_id device) {
 
-    // Merge two images demo
-    merge_demo(context, device);
-
     // Image Mirror Horizontal
     mirror_demo(context, device);
 

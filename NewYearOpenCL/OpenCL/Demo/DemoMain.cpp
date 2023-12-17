@@ -16,8 +16,12 @@
 #include "Image/Resize/ImageResizeDemo.h"
 #include "Image/Channel/ImageChannelDemo.h"
 #include "Image/Channel/ImageGrayRGBDemo.h"
+#include "Image/Merge/ImageMergeDemo.h"
 
 void demo(cl_context context, cl_device_id device) {
+
+    // Convert to Gray
+    convert_gray_demo(context, device);
 
     // Convert Channel demo
     convert_channel_demo(context, device);
@@ -53,8 +57,8 @@ int main() {
     // All features demo
 //    demo(context, device);
 
-    // Convert to Gray
-    convert_gray_demo(context, device);
+    // Merge two images demo
+    merge_demo(context, device);
 
     clReleaseContext(context);
     clReleaseDevice(device);

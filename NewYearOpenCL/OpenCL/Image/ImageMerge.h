@@ -10,9 +10,9 @@
 #include "../Include/OpenCLFlow.h"
 #include "../Include/OpenCLProgram.h"
 
-OpenCLProgram CLCreateProgramImageMerge(cl_context context, cl_device_id device);
+OpenCLProgram CLCreateProgram_Image_Merge(cl_context context, cl_device_id device);
 
-void KernelSetArgImageMerge(
+void KernelSetArg_Image_Merge(
         cl_kernel kernel,
         cl_mem image1,
         cl_mem image2,
@@ -22,7 +22,5 @@ void KernelSetArgImageMerge(
         int image2_width, int image2_height, int image2_channels,
         int image2_alpha
 );
-
-void merge_demo(cl_context context, cl_device_id device);
 
 #endif //NEW_YEAR_OPENCL_IMAGE_MERGE_H
