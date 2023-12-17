@@ -7,6 +7,7 @@
 #include "../../OpenCL/Image/ImageChannelConvert.h"
 #include "../../OpenCL/Image/ImageMerge.h"
 #include "../../Utils/ProgramLog.h"
+#include "../../OpenCL/Image/ImageMask.h"
 
 extern float RatioVideoScale;
 extern float RatioVideoFrame;
@@ -180,7 +181,166 @@ void chapter_1(
     clReleaseMemObject(device_output_3channel);
 
     const auto section_2_frame = frame_pre_section * 2;
-    cv::Mat img_school_door = cv::imread("../Resources/Image/IMG_3493.jpg", cv::IMREAD_UNCHANGED);
+    cv::Mat img_school_door = cv::imread("../Resources/Image/IMG_3493.jpg");
+    const auto img_school_door_width_ori = img_school_door.cols;
+    const auto img_school_door_height_ori = img_school_door.rows;
+    const auto img_school_door_channels = img_school_door.channels();
+
+    const auto img_school_door_height = CANVAS_HEIGHT;
+    const auto img_school_door_width = calculateNewWidthByNewHeight(
+            img_school_door_width_ori, img_school_door_height_ori,
+            img_school_door_height
+    );
+
+    cl_mem device_img_school_door_ori = OpenCLMalloc(
+            context,
+            img_school_door_width_ori * img_school_door_height_ori * img_school_door_channels * sizeof(uchar),
+            CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+            img_school_door.data
+    );
+    // Resize Ori Image
+    cl_mem device_img_school_door_resized_ori_channel = OpenCLMalloc(
+            context,
+            img_school_door_width * img_school_door_height * img_school_door_channels * sizeof(uchar),
+            CL_MEM_READ_WRITE,
+            nullptr
+    );
+    auto kernel_resize = program_resize.CreateKernel();
+    KernelSetArg_Image_Resize(
+            kernel_resize,
+            device_img_school_door_ori, device_img_school_door_resized_ori_channel,
+            img_school_door_width_ori, img_school_door_height_ori,
+            img_school_door_width, img_school_door_height,
+            img_school_door_channels
+    );
+    size_t global_work_size[2] = {
+            static_cast<size_t>(img_school_door_width),
+            static_cast<size_t>(img_school_door_height)
+    };
+    CLKernelEnqueue(
+            queue, kernel_resize,
+            2, global_work_size
+    );
+    clFinish(queue);
+    clReleaseKernel(kernel_resize);
+    clReleaseMemObject(device_img_school_door_ori);
+
+    // Convert to 4 Channel
+    cl_mem device_img_school_door_4channel = OpenCLMalloc(
+            context,
+            img_school_door_width * img_school_door_height * 4 * sizeof(uchar),
+            CL_MEM_READ_WRITE,
+            nullptr
+    );
+
+    cl_kernel kernel_channel = program_channel.CreateKernel();
+    KernelSetArg_Image_Channel(
+            kernel_channel,
+            device_img_school_door_resized_ori_channel,
+            device_img_school_door_4channel,
+            img_school_door_width, img_school_door_height,
+            img_school_door_channels, 4
+    );
+
+    CLKernelEnqueue(
+            queue, kernel_channel,
+            2, global_work_size
+    );
+    clFinish(queue);
+    clReleaseKernel(kernel_channel);
+    clReleaseMemObject(device_img_school_door_resized_ori_channel);
+
+//    cv::Mat result_4channel(img_school_door_height, img_school_door_width, CV_8UC(4));
+//    OpenCLMemcpyFromDevice(
+//            queue,
+//            result_4channel.data,
+//            device_img_school_door_4channel,
+//            img_school_door_width * img_school_door_height * 4 * sizeof(uchar)
+//    );
+//    std::cout << result_4channel.cols << "x" << result_4channel.rows << "x" << result_4channel.channels() << std::endl;
+//    cv::imshow("result_4channel", result_4channel);
+//    cv::waitKey(0);
+
+    // Mask
+    cl_mem device_img_school_door_mask_output = OpenCLMalloc(
+            context,
+            img_school_door_width * img_school_door_height * 4 * sizeof(uchar),
+            CL_MEM_READ_WRITE,
+            nullptr
+    );
+    cl_mem device_img_school_door_frame_output = OpenCLMalloc(
+            context,
+            img_school_door_width * img_school_door_height * 3 * sizeof(uchar),
+            CL_MEM_WRITE_ONLY,
+            nullptr
+    );
+
+    OpenCLProgram program_mask = CLCreateProgram_Image_Mask(context, device);
+
+    for (int i = 0; i < section_2_frame; ++i) {
+
+        output_frame_log(chapter_index, 2, i, section_2_frame);
+
+        auto radius = 200 * RatioVideoScale;
+
+        auto start_x = -radius + static_cast<int>(
+                static_cast<float>(i) / static_cast<float>(section_2_frame) * (CANVAS_WIDTH + radius)
+        );
+        auto start_y = static_cast<int>(
+                CANVAS_HEIGHT * 0.6
+        );
+
+        cl_kernel kernel_mask = program_mask.CreateKernel();
+
+        auto center_x = start_x + radius;
+        auto center_y = start_y + radius;
+
+        KernelSetArg_Image_Mask_Simple(
+                kernel_mask,
+                device_img_school_door_4channel, device_img_school_door_mask_output,
+                img_school_door_width, img_school_door_height, 4,
+                center_x, center_y, radius,
+                0, 1,
+                center_x, center_y,
+                255, 255, 255, 255
+        );
+        CLKernelEnqueue(
+                queue, kernel_mask,
+                2, global_work_size
+        );
+        clFinish(queue);
+        clReleaseKernel(kernel_mask);
+
+        // Channel Convert
+        auto kernel_channel_1 = program_channel.CreateKernel();
+        KernelSetArg_Image_Channel(
+                kernel_channel_1,
+                device_img_school_door_mask_output,
+                device_img_school_door_frame_output,
+                img_school_door_width, img_school_door_height,
+                4, 3
+        );
+        CLKernelEnqueue(
+                queue, kernel_channel_1,
+                2, global_work_size
+        );
+        clFinish(queue);
+        clReleaseKernel(kernel_channel_1);
+
+        OpenCLMemcpyFromDevice(
+                queue,
+                result.data,
+                device_img_school_door_frame_output,
+                img_school_door_width * img_school_door_height * 3 * sizeof(uchar)
+        );
+
+        video_writer.write(result);
+    }
+
+    clReleaseMemObject(device_img_school_door_4channel);
+    clReleaseMemObject(device_img_school_door_mask_output);
+    clReleaseMemObject(device_img_school_door_frame_output);
+
 
     const auto section_3_frame = frame_pre_section * 1;
     const auto section_4_frame = frame_pre_section * 2;
