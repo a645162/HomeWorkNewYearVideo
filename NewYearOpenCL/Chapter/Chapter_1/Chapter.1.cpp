@@ -78,13 +78,14 @@ void chapter_1(
     cv::Mat result(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC(3));
 
     const auto section_1_frame = frame_pre_section * 2;
-    for (int i = 0; i < static_cast<int>(section_1_frame * 0.8); ++i) {
+    const auto section_1_frame_effect = static_cast<int>(section_1_frame * 0.8);
+    for (int i = 0; i < section_1_frame_effect; ++i) {
         output_frame_log(chapter_index, 1, i, section_1_frame);
         auto current_size =
                 logo_start_size -
                 static_cast<int>(
                         (
-                                static_cast<float>(i) / static_cast<float>(section_1_frame * 0.8 - 0)
+                                static_cast<float>(i) / static_cast<float>(section_1_frame_effect - 0)
                         )
                         *
                         (logo_start_size - logo_min_size)
@@ -168,7 +169,7 @@ void chapter_1(
         video_writer.write(result);
     }
 
-    for (int i = static_cast<int>(section_1_frame * 0.8); i < section_1_frame; ++i) {
+    for (int i = section_1_frame_effect; i < section_1_frame; ++i) {
         output_frame_log(chapter_index, 1, i, section_1_frame);
         video_writer.write(result);
     }
