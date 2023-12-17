@@ -25,9 +25,6 @@
 
 void demo(cl_context context, cl_device_id device) {
 
-    // Crop
-    crop_demo(context, device);
-
     // Resize demo
     resize_demo(context, device);
 

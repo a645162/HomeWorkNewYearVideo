@@ -12,8 +12,12 @@
 #include "Image/Convolution/ImageConvolutionDemo.h"
 #include "Image/Convolution/ImageGaussianBlurDemo.h"
 #include "Image/Rotate/ImageRotateDemo.h"
+#include "Image/Crop/ImageCropDemo.h"
 
 void demo(cl_context context, cl_device_id device) {
+
+    // Rotate
+    rotate_demo(context, device);
 
     // Generate Gradient Color Image
     gradient_image_demo(context, device);
@@ -26,6 +30,7 @@ void demo(cl_context context, cl_device_id device) {
 
     // Gaussian Blur Convolution
     blur_conv_demo(context, device);
+
 }
 
 int main() {
@@ -36,8 +41,8 @@ int main() {
     // All features demo
 //    demo(context, device);
 
-    // Rotate
-    rotate_demo(context, device);
+    // Crop
+    crop_demo(context, device);
 
     clReleaseContext(context);
     clReleaseDevice(device);
