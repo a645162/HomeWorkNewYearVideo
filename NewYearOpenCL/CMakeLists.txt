@@ -26,6 +26,7 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Release")
 endif ()
 
 # Compiler Options
+# Add character set option for MSVC on Windows to support Chinese.
 if (WIN32)
     if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         message(STATUS "@Using MSVC compiler on Windows.")
@@ -90,12 +91,14 @@ message(STATUS "OpenCL Include Dirs: ${OpenCL_INCLUDE_DIRS}")
 # Use to generate C Header include OpenCL Kernel.
 add_subdirectory(OpenCL)
 
-file(GLOB PROGRAM_IO "Utils/*.cpp")
+file(GLOB PROGRAM_UTILS "Utils/*.cpp")
 
 file(GLOB OPENCL_INCLUDE "OpenCL/Include/*.cpp")
 file(GLOB OPENCL_DEVICE "OpenCL/Devices/*.cpp")
 
 file(GLOB_RECURSE OPENCL_IMAGE_OPERATION "OpenCL/Image/*.cpp")
+
+file(GLOB_RECURSE OPENCL_VIDEO_CHAPTER "Chapter/*.cpp")
 
 add_executable(
         ${PROJECT_NAME}
@@ -105,8 +108,8 @@ add_executable(
         # Author Information
         Author/Author.cpp
 
-        # Some IO Operate
-        ${PROGRAM_IO}
+        # Some Program Utils
+        ${PROGRAM_UTILS}
 
         # OpenCV Function
         OpenCV/Video/OpenCVVideo.cpp
@@ -121,6 +124,9 @@ add_executable(
         # + OpenCL Image Generate
         # + OpenCL Image Draw
         ${OPENCL_IMAGE_OPERATION}
+
+        # My Video Chapter
+        ${OPENCL_VIDEO_CHAPTER}
 )
 
 # OpenCL

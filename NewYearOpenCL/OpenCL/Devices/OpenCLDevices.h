@@ -1,6 +1,6 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// OpenCL Devices Selector
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #ifndef NEW_YEAR_OPENCL_OPENCL_DEVICES_H
 #define NEW_YEAR_OPENCL_OPENCL_DEVICES_H

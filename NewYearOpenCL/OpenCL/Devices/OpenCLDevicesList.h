@@ -1,6 +1,6 @@
-// OpenCL Devices
+// OpenCL Devices List
 // Created by Haomin Kong on 2023/12/5.
-// https://github.com/a645162
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #ifndef OPENCL_DEVICES_LIST_H
 #define OPENCL_DEVICES_LIST_H

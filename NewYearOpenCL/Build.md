@@ -20,7 +20,7 @@ cd vcpkg
 
 https://software.intel.com/content/www/us/en/develop/articles/opencl-drivers.html
 
-### AMD CPU Platform Addition Steps
+### AMD GPU Platform Addition Steps
 
 https://github.com/GPUOpen-LibrariesAndSDKs/OCL-SDK/releases
 
@@ -37,3 +37,7 @@ OpenCL is integrated in Xcode,so you just need to install OpenCV.
 ```zsh
 brew install opencv
 ```
+
+Notice:You should install Homebrew first.
+You can get it from
+https://brew.sh/

@@ -1,6 +1,6 @@
-//
-// Created by konghaomin on 2023/12/5.
-//
+// OpenCL Devices List
+// Created by Haomin Kong on 2023/12/5.
+// https://github.com/a645162/HomeWorkNewYearVideo
 
 #include "OpenCLDevicesList.h"
 

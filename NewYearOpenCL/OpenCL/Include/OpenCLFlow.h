@@ -1,6 +1,7 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// OpenCL Work Flow
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
+// OpenCL Flow Simplified and add error checking.
 
 #ifndef NEWYEAROPENCL_OPENCLFLOW_H
 #define NEWYEAROPENCL_OPENCLFLOW_H

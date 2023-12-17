@@ -1,6 +1,7 @@
-//
-// Created by konghaomin on 23-12-13.
-//
+// OpenCL Auto Build Kernel Source and Release Memory
+// Created by Haomin Kong on 23-12-13.
+// https://github.com/a645162/HomeWorkNewYearVideo
+// RAII (Resource Acquisition Is Initialization)
 
 #ifndef NEWYEAROPENCL_OPENCLPROGRAM_H
 #define NEWYEAROPENCL_OPENCLPROGRAM_H
