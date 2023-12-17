@@ -10,9 +10,9 @@
 #include "../../OpenCL/Image/ImageMask.h"
 #include "../../OpenCL/Image/ImageCrop.h"
 
-#define CHAPTER_1_SECTION_1_DISABLE
+//#define CHAPTER_1_SECTION_1_DISABLE
 //#define CHAPTER_1_SECTION_2_DISABLE
-#define CHAPTER_1_SECTION_3_DISABLE
+//#define CHAPTER_1_SECTION_3_DISABLE
 #define CHAPTER_1_SECTION_4_DISABLE
 
 extern float RatioVideoScale;
@@ -90,8 +90,9 @@ void chapter_1(
 
     const auto section_1_frame = frame_pre_section * 2;
     const auto section_1_frame_effect = static_cast<int>(section_1_frame * 0.8);
+    std::cout << "Chapter 1 Section 1" << std::endl;
     for (int i = 0; i < section_1_frame_effect; ++i) {
-        output_frame_log(chapter_index, 1, i, section_1_frame);
+//        output_frame_log(chapter_index, 1, i, section_1_frame);
         auto current_size =
                 logo_start_size -
                 static_cast<int>(
@@ -181,7 +182,7 @@ void chapter_1(
     }
 
     for (int i = section_1_frame_effect; i < section_1_frame; ++i) {
-        output_frame_log(chapter_index, 1, i, section_1_frame);
+//        output_frame_log(chapter_index, 1, i, section_1_frame);
         video_writer.write(result);
     }
 
@@ -317,9 +318,9 @@ void chapter_1(
 
     OpenCLProgram program_mask = CLCreateProgram_Image_Mask(context, device);
 #ifndef CHAPTER_1_SECTION_2_DISABLE
+    std::cout << "Chapter 1 Section 2" << std::endl;
     for (int i = 0; i < section_2_frame; ++i) {
-
-        output_frame_log(chapter_index, 2, i, section_2_frame);
+//        output_frame_log(chapter_index, 2, i, section_2_frame);
 
         auto radius = 150 * RatioVideoScale;
 
@@ -382,8 +383,8 @@ void chapter_1(
                 img_school_door_width * img_school_door_height * 3 * sizeof(uchar)
         );
 
-        cv::imshow("result", result);
-        cv::waitKey(10);
+//        cv::imshow("result", result);
+//        cv::waitKey(10);
 
         video_writer.write(result);
     }
@@ -391,9 +392,9 @@ void chapter_1(
 
     const auto section_3_frame = frame_pre_section * 1;
 #ifndef CHAPTER_1_SECTION_3_DISABLE
+    std::cout << "Chapter 1 Section 3" << std::endl;
     for (int i = 0; i < section_3_frame; ++i) {
-
-        output_frame_log(chapter_index, 3, i, section_3_frame);
+//        output_frame_log(chapter_index, 3, i, section_3_frame);
 
         auto radius = 150 * RatioVideoScale;
 
@@ -452,8 +453,8 @@ void chapter_1(
                 img_school_door_width * img_school_door_height * 3 * sizeof(uchar)
         );
 
-        cv::imshow("result", result);
-        cv::waitKey(10);
+//        cv::imshow("result", result);
+//        cv::waitKey(10);
 
         video_writer.write(result);
     }
