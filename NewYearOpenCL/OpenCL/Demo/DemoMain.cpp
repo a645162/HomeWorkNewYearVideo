@@ -19,6 +19,7 @@
 #include "Image/Merge/ImageMergeDemo.h"
 #include "Image/Mirror/ImageMirrorDemo.h"
 #include "Image/Mask/ImageMaskDemo.h"
+#include "Image/Mask/MaskAndChannelDemo.h"
 
 void demo(cl_context context, cl_device_id device, int index) {
 
@@ -71,6 +72,10 @@ void demo(cl_context context, cl_device_id device, int index) {
             // Mask demo
             mask_video_demo(context, device);
             break;
+        case 13:
+            // Mask and Channel demo
+            mask_channel_demo(context, device);
+            break;
         default:
             std::cout << "Index Invaild!" << std::endl;
             break;
@@ -99,15 +104,16 @@ int main() {
     std::cout << "10. Convolution" << std::endl;
     std::cout << "11. Gaussian Blur Convolution" << std::endl;
     std::cout << "12. Mask demo" << std::endl;
+    std::cout << "13. Mask and Channel demo" << std::endl;
 
     std::cin >> index;
 
     if (index == 0) {
-        for (int i = 1; i < 12 + 1; ++i) {
+        for (int i = 1; i < 13 + 1; ++i) {
             demo(context, device, i);
         }
     }
-    
+
     demo(context, device, index);
 
     clReleaseContext(context);
