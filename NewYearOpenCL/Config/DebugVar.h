@@ -30,7 +30,9 @@
 
 #ifdef _WIN64
 // 64-bit Windows code
+#endif
 
+#ifdef _WINDOWS
 // AMD Vega 64
 #define DEBUG_CL_PLATFORM_INDEX 0
 // NVIDIA Tesla P40

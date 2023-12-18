@@ -337,7 +337,7 @@ void chapter_1(
 
         cl_kernel kernel_mask = program_mask.CreateKernel();
 
-        auto center_x = start_x + radius;
+        auto center_x = static_cast<int>(start_x + radius);
         auto center_y = static_cast<int>(
                 CANVAS_HEIGHT
                 *

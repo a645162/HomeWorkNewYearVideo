@@ -37,6 +37,8 @@ if (WIN32)
 
         # Disable Warning C4996
         add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
+        add_definitions(-DMSVC_COMPILER)
     else ()
         message(STATUS "Not using MSVC compiler on Windows.")
         message(STATUS "!!!Program may not compatible with MinGW or Other compilers on Windows.")
@@ -44,7 +46,8 @@ if (WIN32)
 endif ()
 
 if(WIN32)
-set(OpenCV_DIR "../../OpenCV-4.8.0-official")
+    set(OpenCV_DIR "../../OpenCV-4.8.0-official")
+#    set(OpenCV_DIR "../../OpenCV-MinGW-Build-OpenCV-4.5.5-x64")
 endif ()
 
 find_package(OpenCV REQUIRED)

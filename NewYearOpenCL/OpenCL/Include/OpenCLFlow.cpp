@@ -127,7 +127,7 @@ void CLKernelEnqueue(
     err = clEnqueueNDRangeKernel(
             queue,
             kernel,
-            work_dim,
+            static_cast<cl_uint>(work_dim),
             nullptr,
             global_work_size,
             nullptr,

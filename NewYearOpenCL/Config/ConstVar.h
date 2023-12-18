@@ -10,4 +10,10 @@
 #define M_PI 3.14159265358979323846264338327950288
 #endif
 
+#ifdef _WIN32
+
+#elif _WIN64
+
+#endif
+
 #endif //NEW_YEAR_OPENCL_CONST_VAR_H

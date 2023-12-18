@@ -34,7 +34,7 @@ void draw_rect_demo(cl_context context, cl_device_id device) {
 
     cl_kernel kernel = program_draw_rect.CreateKernel();
 
-    float frequency = 0.02;
+    float frequency = 0.02f;
 
     KernelSetArg_Draw_Rect(
             kernel,

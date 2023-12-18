@@ -20,6 +20,10 @@ int CANVAS_WIDTH = ORIGIN_CANVAS_WIDTH, CANVAS_HEIGHT = ORIGIN_CANVAS_HEIGHT;
 int CANVAS_CENTER_X = ORIGIN_CANVAS_WIDTH / 2, CANVAS_CENTER_Y = ORIGIN_CANVAS_HEIGHT / 2;
 int FRAME_RATE = DEFAULT_FRAME_RATE;
 
+int CalcFrame(int frame_length) {
+    return static_cast<int>(static_cast<float>(frame_length) * RatioVideoFrame);
+}
+
 void start_generate(cl_device_id device, cl_context context) {
     cv::VideoWriter outputVideo;
     cv::Size frameSize(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -51,7 +55,7 @@ void start_generate(cl_device_id device, cl_context context) {
     }
 
     // Chapter 1
-    chapter_1(context, device, 600 * RatioVideoFrame, outputVideo);
+    chapter_1(context, device, CalcFrame(600), outputVideo);
 
     outputVideo.release();
 
@@ -64,8 +68,22 @@ void video_main(cl_device_id device, cl_context context) {
     // Main Program
 #ifndef DEBUG_MODE
     RatioVideoScale = UserInputWithDefault("Video Scale Ratio", DEFAULT_RESOLUTION_SCALE_RATIO);
+    if (RatioVideoScale < 0.1) {
+        RatioVideoScale = 0.1f;
+        std::cout << "Video Scale Ratio is too small, set to 0.1" << std::endl;
+    }
+
     RatioVideoFrame = UserInputWithDefault("Video Frame Ratio", DEFAULT_FRAME_RATE_SCALE_RATIO);
+    if (RatioVideoFrame < 0.1) {
+        RatioVideoFrame = 0.1f;
+        std::cout << "Video Frame Ratio is too small, set to 0.1" << std::endl;
+    }
+
     FRAME_RATE = UserInputWithDefault("Video Frame Rate", DEFAULT_FRAME_RATE);
+    if (FRAME_RATE < 1) {
+        FRAME_RATE = 10;
+        std::cout << "Video Frame Rate is too small(small than 10), set to 10" << std::endl;
+    }
 #endif
 
     CANVAS_WIDTH = (int) (ORIGIN_CANVAS_WIDTH * RatioVideoScale);
@@ -87,7 +105,7 @@ void video_main(cl_device_id device, cl_context context) {
 
     auto endTime = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-    double seconds = duration.count() / 1000.0;
+    double seconds = static_cast<double>(duration.count()) / 1000.0;
     std::cout << std::fixed << std::setprecision(3);
     std::cout << "Run Time: " << seconds << " S" << std::endl;
 

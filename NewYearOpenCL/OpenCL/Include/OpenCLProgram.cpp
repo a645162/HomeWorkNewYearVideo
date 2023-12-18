@@ -11,10 +11,24 @@
 OpenCLProgram::OpenCLProgram(
         cl_context context, cl_device_id device, const char *kernel_name,
         const char *cl_kernel_source_code
-) :
-        program_kernel_name(strdup(kernel_name)) {
-//    std::cout << "Building " << kernel_name << "..." << std::endl;
-    program = CLCreateProgram(context, device, cl_kernel_source_code);
+) : program(CLCreateProgram(context, device, cl_kernel_source_code)) {
+#ifdef _WINDOWS
+    // Windows
+
+#ifdef MSVC_COMPILER
+    // MSVC
+    program_kernel_name = _strdup(kernel_name);
+#else
+    // MinGW or Other
+    program_kernel_name = strdup(kernel_name);
+#endif
+
+#else
+    // Other Platform
+    program_kernel_name = strdup(kernel_name);
+#endif
+
+    //    std::cout << "Building " << kernel_name << "..." << std::endl;
 }
 
 cl_kernel OpenCLProgram::CreateKernel() {
