@@ -133,7 +133,11 @@ cl_device_id getOpenCLDeviceByIndex(
 }
 
 cl_device_id getOpenCLDebugDevice() {
+#ifdef DEBUG_MODE
     return getOpenCLDeviceByIndex(DEBUG_CL_PLATFORM_INDEX, DEBUG_CL_DEVICE_INDEX);
+#else
+    return nullptr;
+#endif
 }
 
 cl_device_id UserSelectDevice() {

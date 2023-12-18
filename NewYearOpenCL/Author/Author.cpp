@@ -14,7 +14,7 @@ void KHM::sayHello() {
     std::cout << "    Shanghai Maritime University\n";
     std::cout << "    New Year Card\n";
     std::cout << "    Author: Haomin Kong\n";
-    std::cout << "    https://github.com/a645162\n";
+    std::cout << "    https://github.com/a645162/HomeWorkNewYearVideo\n";
     std::cout << "========================================================\n";
     WaitForEnterPress();
 }
