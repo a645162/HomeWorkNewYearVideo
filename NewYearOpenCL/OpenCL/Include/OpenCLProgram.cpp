@@ -12,8 +12,9 @@ OpenCLProgram::OpenCLProgram(
         cl_context context, cl_device_id device, const char *kernel_name,
         const char *cl_kernel_source_code
 ) :
-        program_kernel_name(strdup(kernel_name)),
-        program(CLCreateProgram(context, device, cl_kernel_source_code)) {
+        program_kernel_name(strdup(kernel_name)) {
+    std::cout << "Building " << kernel_name << "..." << std::endl;
+    program = CLCreateProgram(context, device, cl_kernel_source_code);
 }
 
 cl_kernel OpenCLProgram::CreateKernel() {
