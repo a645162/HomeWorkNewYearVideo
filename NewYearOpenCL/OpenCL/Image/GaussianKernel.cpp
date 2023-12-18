@@ -5,9 +5,8 @@
 #include "GaussianKernel.h"
 
 #include <iostream>
-#include <opencv2/opencv.hpp>
 
-#define M_PI 3.141592653
+#include "../../Config/ConstVar.h"
 
 float *createGaussianKernel(int size, float strength) {
 
