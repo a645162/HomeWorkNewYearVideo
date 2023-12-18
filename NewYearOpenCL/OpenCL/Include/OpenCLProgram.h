@@ -14,6 +14,7 @@ class OpenCLProgram {
 private:
     cl_program program;
     char *program_kernel_name;
+    bool isReleased = false;
 public:
     OpenCLProgram(
             cl_context context,
@@ -23,6 +24,8 @@ public:
     );
 
     cl_kernel CreateKernel();
+
+    void ReleaseProgram();
 
     ~OpenCLProgram();
 };

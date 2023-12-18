@@ -56,6 +56,7 @@ void chapter_1(
     OpenCLProgram program_merge = CLCreateProgram_Image_Merge(context, device);
     OpenCLProgram program_channel = CLCreateProgram_Image_Channel(context, device);
     OpenCLProgram program_crop = CLCreateProgram_Image_Crop(context, device);
+    OpenCLProgram program_mask = CLCreateProgram_Image_Mask(context, device);
 
     cv::Mat result(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC(3));
 
@@ -124,7 +125,6 @@ void chapter_1(
                 logo_src_channels
         );
 
-
         size_t logo_global_work_size[2] =
                 {static_cast<size_t>(current_size), static_cast<size_t>(current_size)};
 
@@ -190,6 +190,8 @@ void chapter_1(
     clReleaseMemObject(device_logo_ori);
     clReleaseMemObject(device_merge_target);
     clReleaseMemObject(device_output_3channel);
+
+    program_merge.ReleaseProgram();
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -201,9 +203,11 @@ void chapter_1(
     const auto img_school_door_channels = img_school_door.channels();
 
     auto img_school_door_height = CANVAS_HEIGHT;
-    auto img_school_door_width = calculateNewWidthByNewHeight(
-            img_school_door_width_ori, img_school_door_height_ori,
-            img_school_door_height
+    auto img_school_door_width = static_cast<int>(
+            calculateNewWidthByNewHeight(
+                    img_school_door_width_ori, img_school_door_height_ori,
+                    img_school_door_height
+            )
     );
 
     cl_mem device_img_school_door_ori = OpenCLMalloc(
@@ -238,6 +242,7 @@ void chapter_1(
     clFinish(queue);
     clReleaseKernel(kernel_resize);
     clReleaseMemObject(device_img_school_door_ori);
+    program_resize.ReleaseProgram();
 
     // Crop
     auto x_1 = img_school_door_width / 2 - CANVAS_WIDTH / 2;
@@ -274,6 +279,7 @@ void chapter_1(
     clFinish(queue);
     clReleaseKernel(kernel_crop);
     clReleaseMemObject(device_img_school_door_resized_ori_channel);
+    program_crop.ReleaseProgram();
 
     img_school_door_width = CANVAS_WIDTH;
     img_school_door_height = CANVAS_HEIGHT;
@@ -306,18 +312,18 @@ void chapter_1(
     // Mask
     cl_mem device_img_school_door_mask_output = OpenCLMalloc(
             context,
-            img_school_door_width * img_school_door_height * 4 * sizeof(uchar),
+            CANVAS_WIDTH * CANVAS_HEIGHT * 4 * sizeof(uchar),
             CL_MEM_READ_WRITE,
             nullptr
     );
     cl_mem device_img_school_door_frame_output = OpenCLMalloc(
             context,
-            img_school_door_width * img_school_door_height * 3 * sizeof(uchar),
-            CL_MEM_WRITE_ONLY,
+            CANVAS_WIDTH * CANVAS_HEIGHT * 3 * sizeof(uchar),
+            CL_MEM_READ_WRITE,
             nullptr
     );
-
-    OpenCLProgram program_mask = CLCreateProgram_Image_Mask(context, device);
+//    program_crop.ReleaseProgram();
+//    OpenCLProgram program_mask = CLCreateProgram_Image_Mask(context, device);
 #ifndef CHAPTER_1_SECTION_2_DISABLE
     std::cout << "Chapter 1 Section 2" << std::endl;
     for (int i = 0; i < section_2_frame; ++i) {
@@ -348,7 +354,7 @@ void chapter_1(
         KernelSetArg_Image_Mask_Simple(
                 kernel_mask,
                 device_img_school_door_4channel, device_img_school_door_mask_output,
-                img_school_door_width, img_school_door_height, 4,
+                CANVAS_WIDTH, CANVAS_HEIGHT, 4,
                 center_x, center_y, radius,
                 1, 1,
                 light_source_x, light_source_y,
@@ -367,7 +373,7 @@ void chapter_1(
                 kernel_channel_1,
                 device_img_school_door_mask_output,
                 device_img_school_door_frame_output,
-                img_school_door_width, img_school_door_height,
+                CANVAS_WIDTH, CANVAS_HEIGHT,
                 4, 3
         );
         CLKernelEnqueue(
@@ -377,17 +383,18 @@ void chapter_1(
         clFinish(queue);
         clReleaseKernel(kernel_channel_1);
 
+        cv::Mat result1(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC(3));
         OpenCLMemcpyFromDevice(
                 queue,
-                result.data,
+                result1.data,
                 device_img_school_door_frame_output,
-                img_school_door_width * img_school_door_height * 3 * sizeof(uchar)
+                CANVAS_WIDTH * CANVAS_HEIGHT * 3 * sizeof(uchar)
         );
 
 //        cv::imshow("result", result);
 //        cv::waitKey(10);
 
-        video_writer.write(result);
+        video_writer.write(result1);
     }
 #endif
 

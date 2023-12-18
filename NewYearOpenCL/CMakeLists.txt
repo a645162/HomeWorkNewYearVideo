@@ -34,10 +34,17 @@ if (WIN32)
         message(STATUS "Set MSVC compiler to use UTF-8 as the character set.")
         add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>")
         #add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/execution-charset:gbk>")
+
+        # Disable Warning C4996
+        add_definitions(-D_CRT_SECURE_NO_WARNINGS)
     else ()
         message(STATUS "Not using MSVC compiler on Windows.")
         message(STATUS "!!!Program may not compatible with MinGW or Other compilers on Windows.")
     endif ()
+endif ()
+
+if(WIN32)
+set(OpenCV_DIR "../../OpenCV-4.8.0-official")
 endif ()
 
 find_package(OpenCV REQUIRED)
@@ -101,6 +108,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCL_LIBRARIES})
 
 # OpenCV
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE opencv_core opencv_highgui opencv_videoio)
+
 
 # AVX2 SIMD Optimization
 if (WIN32)

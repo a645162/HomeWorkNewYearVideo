@@ -4,7 +4,7 @@
 
 #include "GaussianKernel.h"
 
-#include <iostream>
+#include <cmath>
 
 #include "../../Config/ConstVar.h"
 

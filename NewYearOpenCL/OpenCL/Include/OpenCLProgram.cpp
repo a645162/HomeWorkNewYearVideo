@@ -13,7 +13,7 @@ OpenCLProgram::OpenCLProgram(
         const char *cl_kernel_source_code
 ) :
         program_kernel_name(strdup(kernel_name)) {
-    std::cout << "Building " << kernel_name << "..." << std::endl;
+//    std::cout << "Building " << kernel_name << "..." << std::endl;
     program = CLCreateProgram(context, device, cl_kernel_source_code);
 }
 
@@ -29,7 +29,15 @@ cl_kernel OpenCLProgram::CreateKernel() {
     return kernel;
 }
 
+void OpenCLProgram::ReleaseProgram() {
+    if (!isReleased) {
+        isReleased = true;
+        clReleaseProgram(program);
+    }
+}
+
 OpenCLProgram::~OpenCLProgram() {
 //    std::cout << "Class OpenCLProgram " << program_kernel_name << " Destructor called" << std::endl;
-    clReleaseProgram(program);
+    ReleaseProgram();
+    free(program_kernel_name);
 }
