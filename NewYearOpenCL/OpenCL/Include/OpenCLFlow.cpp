@@ -6,6 +6,8 @@
 #include "OpenCLFlow.h"
 #include "OpenCLError.h"
 
+#include <vector>
+
 cl_context CLCreateContext(cl_device_id device) {
     // Create OpenCL context
     cl_int err;
@@ -38,33 +40,38 @@ cl_program CLCreateProgram(cl_context context, cl_device_id device, const char *
                     nullptr
             );
 
-
-    CHECK_CL_ERROR(
-            clBuildProgram(
-                    program, 1, &device, nullptr,
-                    nullptr, nullptr
-            ),
-            "Failed to build program."
+    auto err_build = clBuildProgram(
+            program, 1, &device, nullptr,
+            nullptr, nullptr
     );
 
-//    cl_int build_status;
-//    err = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_STATUS, sizeof(build_status), &build_status, nullptr);
-//    CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
-//
-//    if (build_status != CL_SUCCESS) {
-//        // 获取构建日志
-//        size_t log_size;
-//        err = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, 0, nullptr, &log_size);
-//        CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
-//
-//        std::vector<char> build_log(log_size);
-//        err = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, log_size, build_log.data(), nullptr);
-//        CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
-//
-//        // 打印或记录构建日志
-//        std::cerr << "Build log:\n" << build_log.data() << std::endl;
-//        exit(EXIT_FAILURE);
-//    }
+    if (err_build != CL_SUCCESS) {
+        size_t log_size;
+        int err;
+        err = clGetProgramBuildInfo(
+                program, device, CL_PROGRAM_BUILD_LOG,
+                0, nullptr, &log_size
+        );
+        CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
+
+        std::vector<char> build_log(log_size);
+        err = clGetProgramBuildInfo(
+                program, device, CL_PROGRAM_BUILD_LOG,
+                log_size, build_log.data(), nullptr
+        );
+        CHECK_CL_ERROR(err, "clGetProgramBuildInfo");
+
+        std::cerr << "Build Error!\n\tlog:\n" << build_log.data() << std::endl;
+        std::cerr << "Kernel Source Code:" << cl_kernel_source_code << std::endl;
+
+        std::cerr << "OpenCL error (" << err_build << "): " << clGetErrorString(err_build) << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+//    CHECK_CL_ERROR(
+//            err,
+//            "Failed to build program."
+//    );
 
     return program;
 }

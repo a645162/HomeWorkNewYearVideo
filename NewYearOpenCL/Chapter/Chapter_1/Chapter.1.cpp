@@ -193,6 +193,7 @@ void chapter_1(
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Section 2
     const auto section_2_frame = frame_pre_section * 2;
     cv::Mat img_school_door = cv::imread("../Resources/Image/IMG_3493.jpg");
     const auto img_school_door_width_ori = img_school_door.cols;
