@@ -32,9 +32,9 @@
 // 64-bit Windows code
 
 // AMD Vega 64
-#define DEBUG_CL_PLATFORM_INDEX 0
+//#define DEBUG_CL_PLATFORM_INDEX 0
 // NVIDIA Tesla P40
-//#define DEBUG_CL_PLATFORM_INDEX 1
+#define DEBUG_CL_PLATFORM_INDEX 1
 // E5 2690 V4
 //#define DEBUG_CL_PLATFORM_INDEX 2
 

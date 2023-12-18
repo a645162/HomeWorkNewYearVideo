@@ -31,8 +31,11 @@ void start_generate(cl_device_id device, cl_context context) {
     const char *format = "%Y_%m_%d_%H_%M_%S";
     std::strftime(timeBuffer, sizeof(timeBuffer), format, std::localtime(&currentTime));
     if (std::strftime(timeBuffer, sizeof(timeBuffer), format, std::localtime(&currentTime))) {
+        std::cout << "FileTime:" << timeBuffer << std::endl;
         sprintf(file_name, "NewYearCardVideo_%s.avi", timeBuffer);
     }
+
+    std::cout << "File Name: " << file_name << std::endl;
 
     outputVideo.open(
             file_name,

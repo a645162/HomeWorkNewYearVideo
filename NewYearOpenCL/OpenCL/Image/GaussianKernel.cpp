@@ -7,6 +7,8 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
+#define M_PI 3.141592653
+
 float *createGaussianKernel(int size, float strength) {
 
     float *kernel = (float *) malloc(size * size * sizeof(float));
