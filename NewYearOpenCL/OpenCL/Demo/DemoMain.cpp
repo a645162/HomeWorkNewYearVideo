@@ -22,7 +22,6 @@
 #include "Image/Mask/MaskAndChannelDemo.h"
 
 void demo(cl_context context, cl_device_id device, int index) {
-
     switch (index) {
         case 1:
             // Image Mirror Horizontal
@@ -80,11 +79,9 @@ void demo(cl_context context, cl_device_id device, int index) {
             std::cout << "Index Invaild!" << std::endl;
             break;
     }
-
 }
 
 int main() {
-
     cl_device_id device = UserSelectDevice();
     cl_context context = CLCreateContext(device);
 

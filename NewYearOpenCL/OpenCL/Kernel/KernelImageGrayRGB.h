@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_GRAY_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_GRAY_H
 
-const char *cl_kernel_gray = R"(
+const char* cl_kernel_gray = R"(
 // OpenCL Kernel Function of Image Gray from RGB
 // Author: Haomin Kong.
 // https://github.com/a645162/HomeWorkNewYearVideo

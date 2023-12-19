@@ -3,14 +3,15 @@
 // https://github.com/a645162/HomeWorkNewYearVideo
 // RAII (Resource Acquisition Is Initialization)
 
+#include "OpenCLProgram.h"
+
 #include <cstring>
 
-#include "OpenCLProgram.h"
-#include "OpenCLError.h"
+#include "../OpenCLError.h"
 
 OpenCLProgram::OpenCLProgram(
-        cl_context context, cl_device_id device, const char *kernel_name,
-        const char *cl_kernel_source_code
+    cl_context context, cl_device_id device, const char* kernel_name,
+    const char* cl_kernel_source_code
 ) : program(CLCreateProgram(context, device, cl_kernel_source_code)) {
 #ifdef _WINDOWS
     // Windows
@@ -35,9 +36,9 @@ cl_kernel OpenCLProgram::CreateKernel() {
     cl_int err;
     cl_kernel kernel =
             clCreateKernel(
-                    program,
-                    program_kernel_name,
-                    &err
+                program,
+                program_kernel_name,
+                &err
             );
     CHECK_CL_ERROR(err, "Failed to create kernel.");
     return kernel;
@@ -51,7 +52,7 @@ void OpenCLProgram::ReleaseProgram() {
 }
 
 OpenCLProgram::~OpenCLProgram() {
-//    std::cout << "Class OpenCLProgram " << program_kernel_name << " Destructor called" << std::endl;
+    //    std::cout << "Class OpenCLProgram " << program_kernel_name << " Destructor called" << std::endl;
     ReleaseProgram();
     free(program_kernel_name);
 }

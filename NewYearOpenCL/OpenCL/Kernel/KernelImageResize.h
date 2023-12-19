@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_RESIZE_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_RESIZE_H
 
-const char *cl_kernel_resize_image = R"(
+const char* cl_kernel_resize_image = R"(
 // ImageResize.cl
 
 // OpenCL Kernel Function of Image Resize

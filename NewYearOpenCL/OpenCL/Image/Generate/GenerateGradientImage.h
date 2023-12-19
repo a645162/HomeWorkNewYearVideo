@@ -8,7 +8,7 @@
 #include "../../Include/OpenCLInclude.h"
 #include "../../Include/OpenCLError.h"
 #include "../../Include/OpenCLFlow.h"
-#include "../../Include/OpenCLProgram.h"
+#include "../../Include/RAII/OpenCLProgram.h"
 
 #include "../../../OpenCV/Include/OpenCVInclude.h"
 
@@ -17,22 +17,22 @@ OpenCLProgram CLCreateProgram_Generate_GradientColor(cl_context context, cl_devi
 OpenCLProgram CLCreateProgram_Generate_GradientImage(cl_context context, cl_device_id device);
 
 void KernelSetArg_Generate_GradientColor(
-        cl_kernel kernel,
-        cl_mem device_gradient_color,
-        int color_count,
-        uchar start_r, uchar start_g, uchar start_b,
-        uchar end_r, uchar end_g, uchar end_b,
-        uchar channels, uchar alpha
+    cl_kernel kernel,
+    cl_mem device_gradient_color,
+    int color_count,
+    uchar start_r, uchar start_g, uchar start_b,
+    uchar end_r, uchar end_g, uchar end_b,
+    uchar channels, uchar alpha
 );
 
 void KernelSetArg_Generate_GradientImage(
-        cl_kernel kernel,
-        cl_mem device_gradient_image,
-        cl_mem device_gradient_color,
-        int color_count,
-        int image_width, int image_height,
-        int center_x, int center_y, float max_r,
-        uchar channels, uchar alpha
+    cl_kernel kernel,
+    cl_mem device_gradient_image,
+    cl_mem device_gradient_color,
+    int color_count,
+    int image_width, int image_height,
+    int center_x, int center_y, float max_r,
+    uchar channels, uchar alpha
 );
 
 #endif //NEW_YEAR_OPENCL_GENERATE_GRADIENT_IMAGE_H

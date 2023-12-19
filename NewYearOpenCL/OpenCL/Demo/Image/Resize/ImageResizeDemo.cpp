@@ -7,7 +7,6 @@
 #include "../../../Image/ImageResize.h"
 
 void resize_demo(cl_context context, cl_device_id device) {
-
     // Read input image
     cv::Mat image3 = cv::imread("../../../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
 
@@ -17,43 +16,43 @@ void resize_demo(cl_context context, cl_device_id device) {
 
     // Define the desired output size
     auto dstWidth = 400;
-//    dstWidth = 4000;
-//    int dstHeight = 400;
+    //    dstWidth = 4000;
+    //    int dstHeight = 400;
     auto dstHeight =
             calculateNewHeightByNewWidth(srcWidth, srcHeight, dstWidth);
 
     cl_command_queue queue = CLCreateCommandQueue(context, device);
 
 
-//    cl_program program = CLCreateProgramImageResize(context, device);
+    //    cl_program program = CLCreateProgramImageResize(context, device);
 
     OpenCLProgram resize_program = CLCreateProgram_Image_Resize(context, device);
 
     // Create OpenCL buffers for input and output data
 
     cl_mem devSrc = OpenCLMalloc(
-            context,
-            srcWidth * srcHeight * channels * sizeof(uchar),
-            CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            image3.data
+        context,
+        srcWidth * srcHeight * channels * sizeof(uchar),
+        CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        image3.data
     );
 
     cl_mem devDst = OpenCLMalloc(
-            context,
-            dstWidth * dstHeight * channels * sizeof(uchar),
-            CL_MEM_WRITE_ONLY,
-            nullptr
+        context,
+        dstWidth * dstHeight * channels * sizeof(uchar),
+        CL_MEM_WRITE_ONLY,
+        nullptr
     );
 
-//    cl_kernel kernel = CLCreateKernelImageResize(program);
+    //    cl_kernel kernel = CLCreateKernelImageResize(program);
     cl_kernel kernel = resize_program.CreateKernel();
 
     KernelSetArg_Image_Resize(
-            kernel,
-            devSrc, devDst,
-            srcWidth, srcHeight,
-            dstWidth, dstHeight,
-            channels
+        kernel,
+        devSrc, devDst,
+        srcWidth, srcHeight,
+        dstWidth, dstHeight,
+        channels
     );
 
     // Define global and local work sizes
@@ -61,8 +60,8 @@ void resize_demo(cl_context context, cl_device_id device) {
 
     // Execute the OpenCL kernel
     CLKernelEnqueue(
-            queue, kernel,
-            2, globalWorkSize
+        queue, kernel,
+        2, globalWorkSize
     );
 
     clFinish(queue);
@@ -71,10 +70,10 @@ void resize_demo(cl_context context, cl_device_id device) {
     cv::Mat result(dstHeight, dstWidth, CV_8UC(channels));
 
     OpenCLMemcpyFromDevice(
-            queue,
-            result.data,
-            devDst,
-            dstWidth * dstHeight * channels * sizeof(uchar)
+        queue,
+        result.data,
+        devDst,
+        dstWidth * dstHeight * channels * sizeof(uchar)
     );
 
     // Free OpenCL resources
@@ -83,7 +82,7 @@ void resize_demo(cl_context context, cl_device_id device) {
     clReleaseMemObject(devDst);
     clReleaseKernel(kernel);
 
-//    clReleaseProgram(resize_program);
+    //    clReleaseProgram(resize_program);
 
     clReleaseCommandQueue(queue);
 

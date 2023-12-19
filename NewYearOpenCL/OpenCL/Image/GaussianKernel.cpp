@@ -8,24 +8,23 @@
 
 #include "../../Config/ConstVar.h"
 
-float *createGaussianKernel(int size, float strength) {
-
-    auto *kernel = (float *) malloc(size * size * sizeof(float));
+float* createGaussianKernel(int size, float strength) {
+    auto* kernel = (float *) malloc(size * size * sizeof(float));
     float sum = 0;
 
     for (int x = 0; x < size; ++x) {
         for (int y = 0; y < size; ++y) {
             auto value =
                     static_cast<float>(
-                            static_cast<double>(1 / (2 * M_PI * std::pow(strength, 2))) *
-                            std::exp(
-                                    -(
-                                            std::pow(static_cast<float>(x) - static_cast<float>(size - 1) / 2.0f, 2) +
-                                            std::pow(static_cast<float>(y) - static_cast<float>(size - 1) / 2.0f, 2)
-                                    )
-                                    /
-                                    (2 * std::pow(strength, 2))
+                        static_cast<double>(1 / (2 * M_PI * std::pow(strength, 2))) *
+                        std::exp(
+                            -(
+                                std::pow(static_cast<float>(x) - static_cast<float>(size - 1) / 2.0f, 2) +
+                                std::pow(static_cast<float>(y) - static_cast<float>(size - 1) / 2.0f, 2)
                             )
+                            /
+                            (2 * std::pow(strength, 2))
+                        )
                     );
             kernel[x * size + y] = value;
             sum += value;
@@ -41,14 +40,14 @@ float *createGaussianKernel(int size, float strength) {
     return kernel;
 }
 
-float *createGaussianKernel(GaussianKernelParameters parameters) {
+float* createGaussianKernel(GaussianKernelParameters parameters) {
     return createGaussianKernel(parameters.size, parameters.strength);
 }
 
 GaussianKernelParameters getGaussianKernelParameters(int size, float strength) {
     return {
-            size,
-            strength
+        size,
+        strength
     };
 }
 

@@ -17,11 +17,11 @@ size_t CLGetInfoMaxWorkGroupSize(cl_device_id device) {
     // Query the maximum work group size
     size_t maxWorkGroupSize;
     clGetDeviceInfo(
-            device,
-            CL_DEVICE_MAX_WORK_GROUP_SIZE,
-            sizeof(maxWorkGroupSize),
-            &maxWorkGroupSize,
-            nullptr
+        device,
+        CL_DEVICE_MAX_WORK_GROUP_SIZE,
+        sizeof(maxWorkGroupSize),
+        &maxWorkGroupSize,
+        nullptr
     );
 
     std::cout << "Max work group size: " << maxWorkGroupSize << std::endl;
@@ -30,10 +30,9 @@ size_t CLGetInfoMaxWorkGroupSize(cl_device_id device) {
 }
 
 cl_device_id getOpenCLDeviceByIndex(
-        const unsigned int platformIndex,
-        const unsigned int deviceIndex
+    const unsigned int platformIndex,
+    const unsigned int deviceIndex
 ) {
-
     std::cout << "Use Platform " << platformIndex << " Device " << deviceIndex << std::endl;
 
     // Get available OpenCL platforms
@@ -55,13 +54,13 @@ cl_device_id getOpenCLDeviceByIndex(
     // Get available devices on the platform
     cl_uint numDevices;
     clGetDeviceIDs(
-            platform, CL_DEVICE_TYPE_ALL,
-            0, nullptr, &numDevices
+        platform, CL_DEVICE_TYPE_ALL,
+        0, nullptr, &numDevices
     );
     std::vector<cl_device_id> devices(numDevices);
     clGetDeviceIDs(
-            platform, CL_DEVICE_TYPE_ALL,
-            numDevices, devices.data(), nullptr
+        platform, CL_DEVICE_TYPE_ALL,
+        numDevices, devices.data(), nullptr
     );
 
     // Get count of devices
@@ -80,13 +79,13 @@ cl_device_id getOpenCLDeviceByIndex(
     // Output platform name
     size_t platformNameSize;
     clGetPlatformInfo(
-            platform, CL_PLATFORM_NAME, 0,
-            nullptr, &platformNameSize
+        platform, CL_PLATFORM_NAME, 0,
+        nullptr, &platformNameSize
     );
     std::vector<char> platformName(platformNameSize);
     clGetPlatformInfo(
-            platform, CL_PLATFORM_NAME, platformNameSize,
-            platformName.data(), nullptr
+        platform, CL_PLATFORM_NAME, platformNameSize,
+        platformName.data(), nullptr
     );
     std::cout << "\tPlatform Name: " << platformName.data() << std::endl;
 
@@ -95,39 +94,39 @@ cl_device_id getOpenCLDeviceByIndex(
     // Output device name
     size_t deviceNameSize;
     clGetDeviceInfo(
-            device, CL_DEVICE_NAME,
-            0, nullptr, &deviceNameSize
+        device, CL_DEVICE_NAME,
+        0, nullptr, &deviceNameSize
     );
     std::vector<char> deviceName(deviceNameSize);
     clGetDeviceInfo(
-            device, CL_DEVICE_NAME,
-            deviceNameSize, deviceName.data(), nullptr
+        device, CL_DEVICE_NAME,
+        deviceNameSize, deviceName.data(), nullptr
     );
     std::cout << "\tDevice Name: " << deviceName.data() << std::endl;
 
     // Output device vendor
     size_t deviceVendorSize;
     clGetDeviceInfo(
-            device, CL_DEVICE_VENDOR,
-            0, nullptr, &deviceVendorSize
+        device, CL_DEVICE_VENDOR,
+        0, nullptr, &deviceVendorSize
     );
     std::vector<char> deviceVendor(deviceVendorSize);
     clGetDeviceInfo(
-            device, CL_DEVICE_VENDOR,
-            deviceVendorSize, deviceVendor.data(), nullptr
+        device, CL_DEVICE_VENDOR,
+        deviceVendorSize, deviceVendor.data(), nullptr
     );
     std::cout << "\tDevice Vendor: " << deviceVendor.data() << std::endl;
 
     // Output device memory
     cl_ulong deviceMemory;
     clGetDeviceInfo(
-            device, CL_DEVICE_GLOBAL_MEM_SIZE,
-            sizeof(deviceMemory), &deviceMemory, nullptr
+        device, CL_DEVICE_GLOBAL_MEM_SIZE,
+        sizeof(deviceMemory), &deviceMemory, nullptr
     );
     std::cout << "\tDevice Memory: " << deviceMemory / 1024 / 1024 << " MB" << std::endl;
 
     print_multi_char('-', 56);
-//    CLGetInfoMaxWorkGroupSize(device);
+    //    CLGetInfoMaxWorkGroupSize(device);
 
     return device;
 }

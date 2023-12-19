@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_MERGE_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_MERGE_H
 
-const char *cl_kernel_merge = R"(
+const char* cl_kernel_merge = R"(
 // OpenCL Kernel Function of Image Merge
 // Author: Haomin Kong.
 // https://github.com/a645162/HomeWorkNewYearVideo

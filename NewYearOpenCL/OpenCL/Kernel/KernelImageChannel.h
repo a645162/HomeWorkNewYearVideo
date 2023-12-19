@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_CHANNEL_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_CHANNEL_H
 
-const char *cl_kernel_channel = R"(
+const char* cl_kernel_channel = R"(
 // OpenCL Kernel Function of Image Channel Convert
 // Author: Haomin Kong.
 // https://github.com/a645162/HomeWorkNewYearVideo

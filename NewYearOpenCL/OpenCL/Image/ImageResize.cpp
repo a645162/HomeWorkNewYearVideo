@@ -10,19 +10,19 @@
 
 OpenCLProgram CLCreateProgram_Image_Resize(cl_context context, cl_device_id device) {
     return {
-            context,
-            device,
-            "resizeImage",
-            cl_kernel_resize_image
+        context,
+        device,
+        "resizeImage",
+        cl_kernel_resize_image
     };
 }
 
 void KernelSetArg_Image_Resize(
-        cl_kernel kernel,
-        cl_mem devSrc, cl_mem devDst,
-        int srcWidth, int srcHeight,
-        int dstWidth, int dstHeight,
-        int channels
+    cl_kernel kernel,
+    cl_mem devSrc, cl_mem devDst,
+    int srcWidth, int srcHeight,
+    int dstWidth, int dstHeight,
+    int channels
 ) {
     cl_uint kernel_arg_index1 = 0;
 
@@ -39,29 +39,29 @@ void KernelSetArg_Image_Resize(
 }
 
 [[maybe_unused]] unsigned int calculateNewHeightByNewWidth(
-        unsigned int width,
-        unsigned int height,
-        unsigned int newWidth
+    unsigned int width,
+    unsigned int height,
+    unsigned int newWidth
 ) {
     return static_cast<int>(
-            roundf(
-                    static_cast<float>(height) * static_cast<float>(newWidth)
-                    /
-                    static_cast<float>(width)
-            )
+        roundf(
+            static_cast<float>(height) * static_cast<float>(newWidth)
+            /
+            static_cast<float>(width)
+        )
     );
 }
 
 [[maybe_unused]] unsigned int calculateNewWidthByNewHeight(
-        unsigned int width,
-        unsigned int height,
-        unsigned int newHeight
+    unsigned int width,
+    unsigned int height,
+    unsigned int newHeight
 ) {
     return static_cast<int>(
-            roundf(
-                    static_cast<float>(width) * static_cast<float>(newHeight)
-                    /
-                    static_cast<float>(height)
-            )
+        roundf(
+            static_cast<float>(width) * static_cast<float>(newHeight)
+            /
+            static_cast<float>(height)
+        )
     );
 }

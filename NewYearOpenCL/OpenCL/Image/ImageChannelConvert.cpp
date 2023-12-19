@@ -8,19 +8,19 @@
 
 OpenCLProgram CLCreateProgram_Image_Channel(cl_context context, cl_device_id device) {
     return {
-            context,
-            device,
-            "ImageChannelConvert",
-            cl_kernel_channel
+        context,
+        device,
+        "ImageChannelConvert",
+        cl_kernel_channel
     };
 }
 
 void KernelSetArg_Image_Channel(
-        cl_kernel kernel,
-        cl_mem device_image_input,
-        cl_mem device_image_output,
-        int image_width, int image_height,
-        int src_channels, int dst_channels
+    cl_kernel kernel,
+    cl_mem device_image_input,
+    cl_mem device_image_output,
+    int image_width, int image_height,
+    int src_channels, int dst_channels
 ) {
     cl_uint kernel_arg_index1 = 0;
 

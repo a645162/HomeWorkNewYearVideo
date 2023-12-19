@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_COLOR_H
 #define NEW_YEAR_OPENCL_KERNEL_GENERATE_GRADIENT_COLOR_H
 
-const char *cl_kernel_generate_gradient_color = R"(
+const char* cl_kernel_generate_gradient_color = R"(
 // GradientColorGenerate.cl
 
 // OpenCL Kernel Function of Generate Gradient Color

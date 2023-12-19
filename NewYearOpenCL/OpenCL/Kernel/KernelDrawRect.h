@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_DRAW_RECT_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_DRAW_RECT_H
 
-const char *cl_kernel_draw_rect = R"(
+const char* cl_kernel_draw_rect = R"(
 // OpenCL Kernel Function of Draw Rectangle
 // Author: Haomin Kong.
 // https://github.com/a645162/HomeWorkNewYearVideo

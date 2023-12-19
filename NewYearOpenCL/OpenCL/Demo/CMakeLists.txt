@@ -1,13 +1,20 @@
-file(GLOB PROGRAM_IO "../../Utils/*.cpp")
+file(GLOB_RECURSE PROGRAM_IO "../../Utils/*.cpp")
+file(GLOB_RECURSE PROGRAM_IO_HEADER "../../Utils/*.cpp")
 
-file(GLOB OPENCL_INCLUDE "../Include/*.cpp")
-file(GLOB OPENCL_DEVICE "../Devices/*.cpp")
+file(GLOB_RECURSE OPENCL_INCLUDE "../Include/*.cpp")
+file(GLOB_RECURSE OPENCL_INCLUDE_HEADER "../Include/*.cpp")
+file(GLOB_RECURSE OPENCL_DEVICE "../Devices/*.cpp")
+file(GLOB_RECURSE OPENCL_DEVICE_HEADER "../Devices/*.cpp")
 
 file(GLOB_RECURSE OPENCL_IMAGE_OPERATION "../Image/*.cpp")
+file(GLOB_RECURSE OPENCL_IMAGE_OPERATION_HEADER "../Image/*.cpp")
 
 file(GLOB_RECURSE DEMO_IMAGE "Image/*.cpp")
+file(GLOB_RECURSE DEMO_IMAGE_HEADER "Image/*.cpp")
 file(GLOB_RECURSE DEMO_IMAGE_DRAW "Draw/*.cpp")
+file(GLOB_RECURSE DEMO_IMAGE_DRAW_HEADER "Draw/*.cpp")
 file(GLOB_RECURSE DEMO_IMAGE_GENERATE "Generate/*.cpp")
+file(GLOB_RECURSE DEMO_IMAGE_GENERATE_HEADER "Generate/*.cpp")
 
 add_executable(
         OpenCL_Image_Demo
@@ -16,22 +23,27 @@ add_executable(
 
         # Some IO Operate
         ${PROGRAM_IO}
+        ${PROGRAM_IO_HEADER}
 
         # OpenCL Function
         ${OPENCL_INCLUDE}
+        ${OPENCL_INCLUDE_HEADER}
 
         # OpenCL Device
         ${OPENCL_DEVICE}
+        ${OPENCL_DEVICE_HEADER}
 
         # OpenCL Image
         ${OPENCL_IMAGE_OPERATION}
-        ${OPENCL_IMAGE_DRAW}
-        ${OPENCL_IMAGE_GENERATE}
+        ${OPENCL_IMAGE_OPERATION_HEADER}
 
         # Image Demo
         ${DEMO_IMAGE}
+        ${DEMO_IMAGE_HEADER}
         ${DEMO_IMAGE_DRAW}
+        ${DEMO_IMAGE_DRAW_HEADER}
         ${DEMO_IMAGE_GENERATE}
+        ${DEMO_IMAGE_GENERATE_HEADER}
 )
 
 # OpenCL

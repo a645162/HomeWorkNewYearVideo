@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_CROP_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_CROP_H
 
-const char *cl_kernel_crop = R"(
+const char* cl_kernel_crop = R"(
 // OpenCL Kernel Function of Image Crop
 // Author: Haomin Kong.
 // https://github.com/a645162/HomeWorkNewYearVideo

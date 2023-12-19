@@ -14,6 +14,6 @@
         exit(EXIT_FAILURE); \
     }}
 
-const char *clGetErrorString(cl_int error);
+const char* clGetErrorString(cl_int error);
 
 #endif //NEW_YEAR_OPENCL_OPENCL_ERROR_H

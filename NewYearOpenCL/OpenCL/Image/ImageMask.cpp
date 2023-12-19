@@ -8,22 +8,22 @@
 
 OpenCLProgram CLCreateProgram_Image_Mask(cl_context context, cl_device_id device) {
     return {
-            context,
-            device,
-            "MaskImageCircle",
-            cl_kernel_mask_image_circle
+        context,
+        device,
+        "MaskImageCircle",
+        cl_kernel_mask_image_circle
     };
 }
 
 void KernelSetArg_Image_Mask(
-        cl_kernel kernel,
-        cl_mem device_input, cl_mem device_output,
-        int width, int height, int channels,
-        int centerX, int centerY, float radius,
-        int clean_up_alpha, int focus_lamp,
-        int light_source_x, int light_source_y,
-        float m_1, float m_2, float max_distance,
-        uchar focus_color_b, uchar focus_color_g, uchar focus_color_r, uchar color_alpha
+    cl_kernel kernel,
+    cl_mem device_input, cl_mem device_output,
+    int width, int height, int channels,
+    int centerX, int centerY, float radius,
+    int clean_up_alpha, int focus_lamp,
+    int light_source_x, int light_source_y,
+    float m_1, float m_2, float max_distance,
+    uchar focus_color_b, uchar focus_color_g, uchar focus_color_r, uchar color_alpha
 ) {
     cl_uint kernel_arg_index1 = 0;
 
@@ -55,23 +55,23 @@ void KernelSetArg_Image_Mask(
 }
 
 void KernelSetArg_Image_Mask_Simple(
-        cl_kernel kernel,
-        cl_mem device_input, cl_mem device_output,
-        int width, int height, int channels,
-        int centerX, int centerY, float radius,
-        int clean_up_alpha, int focus_lamp,
-        int light_source_x, int light_source_y,
-        uchar focus_color_b, uchar focus_color_g, uchar focus_color_r, uchar color_alpha
+    cl_kernel kernel,
+    cl_mem device_input, cl_mem device_output,
+    int width, int height, int channels,
+    int centerX, int centerY, float radius,
+    int clean_up_alpha, int focus_lamp,
+    int light_source_x, int light_source_y,
+    uchar focus_color_b, uchar focus_color_g, uchar focus_color_r, uchar color_alpha
 ) {
     const auto k_center =
             (static_cast<float>(centerY - light_source_y)) / (static_cast<float>(centerX - light_source_x));
     const auto angle_center = atanf(k_center);
     const auto distance_center = sqrtf(
-            powf(static_cast<float>(light_source_x - centerX), 2) +
-            powf(static_cast<float>(light_source_y - centerY), 2)
+        powf(static_cast<float>(light_source_x - centerX), 2) +
+        powf(static_cast<float>(light_source_y - centerY), 2)
     );
     const auto max_distance = sqrtf(
-            powf(distance_center, 2) - powf(radius, 2)
+        powf(distance_center, 2) - powf(radius, 2)
     );
 
     const auto angle_between_center = asinf(radius / distance_center);
@@ -82,13 +82,13 @@ void KernelSetArg_Image_Mask_Simple(
     const auto m_2 = 1.0f / tanf(angle_2);
 
     KernelSetArg_Image_Mask(
-            kernel,
-            device_input, device_output,
-            width, height, channels,
-            centerX, centerY, radius,
-            clean_up_alpha, focus_lamp,
-            light_source_x, light_source_y,
-            m_1, m_2, max_distance,
-            focus_color_b, focus_color_g, focus_color_r, color_alpha
+        kernel,
+        device_input, device_output,
+        width, height, channels,
+        centerX, centerY, radius,
+        clean_up_alpha, focus_lamp,
+        light_source_x, light_source_y,
+        m_1, m_2, max_distance,
+        focus_color_b, focus_color_g, focus_color_r, color_alpha
     );
 }

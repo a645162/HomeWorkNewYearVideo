@@ -12,7 +12,6 @@
 #include "Utils/ProgramIO.h"
 
 int main() {
-
 #ifndef DEBUG_MODE
     KHM::sayHello();
 #endif

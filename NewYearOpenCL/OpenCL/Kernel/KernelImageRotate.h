@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_ROTATE_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_ROTATE_H
 
-const char *cl_kernel_rotate = R"(
+const char* cl_kernel_rotate = R"(
 // OpenCL Kernel Function of Image Rotate
 // Author: Haomin Kong.
 // https://github.com/a645162/HomeWorkNewYearVideo

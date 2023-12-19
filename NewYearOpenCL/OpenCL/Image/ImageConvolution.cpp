@@ -8,23 +8,23 @@
 
 OpenCLProgram CLCreateProgram_Image_Conv(cl_context context, cl_device_id device) {
     return {
-            context,
-            device,
-            "convolution2Dim",
-            cl_kernel_convolution
+        context,
+        device,
+        "convolution2Dim",
+        cl_kernel_convolution
     };
 }
 
 void KernelSetArg_Image_Conv(
-        cl_kernel kernel,
-        cl_mem device_src,
-        cl_mem device_dst,
-        int height,
-        int width,
-        int channels,
-        cl_mem conv_kernel,
-        int conv_kernel_size,
-        int padSize
+    cl_kernel kernel,
+    cl_mem device_src,
+    cl_mem device_dst,
+    int height,
+    int width,
+    int channels,
+    cl_mem conv_kernel,
+    int conv_kernel_size,
+    int padSize
 ) {
     cl_uint kernel_arg_index1 = 0;
 

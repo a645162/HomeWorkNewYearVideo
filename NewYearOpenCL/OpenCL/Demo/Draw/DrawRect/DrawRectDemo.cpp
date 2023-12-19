@@ -7,12 +7,11 @@
 #include "../../../Image/Draw/DrawRect.h"
 
 void draw_rect_demo(cl_context context, cl_device_id device) {
-
     cv::Mat image1 = cv::imread("../../../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
-//    cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
+    //    cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
 
-//    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
-//    cv::cvtColor(image1, image1, cv::COLOR_BGRA2GRAY);
+    //    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
+    //    cv::cvtColor(image1, image1, cv::COLOR_BGRA2GRAY);
     cv::cvtColor(image1, image1, cv::COLOR_BGRA2BGR);
 
     cv::resize(image1, image1, cv::Size(image1.cols / 4, image1.rows / 4));
@@ -26,10 +25,10 @@ void draw_rect_demo(cl_context context, cl_device_id device) {
     OpenCLProgram program_draw_rect = CLCreateProgram_Draw_Rect(context, device);
 
     cl_mem device_image1 = OpenCLMalloc(
-            context,
-            width * height * channels * sizeof(uchar),
-            CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
-            image1.data
+        context,
+        width * height * channels * sizeof(uchar),
+        CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
+        image1.data
     );
 
     cl_kernel kernel = program_draw_rect.CreateKernel();
@@ -37,28 +36,28 @@ void draw_rect_demo(cl_context context, cl_device_id device) {
     float frequency = 0.02f;
 
     KernelSetArg_Draw_Rect(
-            kernel,
-            device_image1,
-            width, height,
-            100, 100,
-            700, 500,
-            10,
-            255, 255, 255,
-            0, 0, 255,
-            channels,
-            true,
-            true,
-            frequency
+        kernel,
+        device_image1,
+        width, height,
+        100, 100,
+        700, 500,
+        10,
+        255, 255, 255,
+        0, 0, 255,
+        channels,
+        true,
+        true,
+        frequency
     );
 
     size_t globalWorkSize[2] = {
-            static_cast<size_t>(width),
-            static_cast<size_t>(height)
+        static_cast<size_t>(width),
+        static_cast<size_t>(height)
     };
 
     CLKernelEnqueue(
-            queue, kernel,
-            2, globalWorkSize
+        queue, kernel,
+        2, globalWorkSize
     );
 
     clFinish(queue);
@@ -67,10 +66,10 @@ void draw_rect_demo(cl_context context, cl_device_id device) {
     cv::Mat result(height, width, CV_8UC(channels));
 
     OpenCLMemcpyFromDevice(
-            queue,
-            result.data,
-            device_image1,
-            width * height * channels * sizeof(uchar)
+        queue,
+        result.data,
+        device_image1,
+        width * height * channels * sizeof(uchar)
     );
 
     // Free OpenCL resources
@@ -85,4 +84,3 @@ void draw_rect_demo(cl_context context, cl_device_id device) {
     cv::imshow("Output Image", result);
     cv::waitKey(0);
 }
-

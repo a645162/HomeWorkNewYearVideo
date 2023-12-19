@@ -10,9 +10,9 @@ typedef struct {
     float strength;
 } GaussianKernelParameters;
 
-float *createGaussianKernel(int size, float strength);
+float* createGaussianKernel(int size, float strength);
 
-float *createGaussianKernel(GaussianKernelParameters parameters);
+float* createGaussianKernel(GaussianKernelParameters parameters);
 
 GaussianKernelParameters getGaussianKernelParameters(int size, float strength);
 

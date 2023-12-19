@@ -8,14 +8,13 @@
 #include "../../../Image/ImageChannelConvert.h"
 
 void processImageMaskOpenCL1(
-        cl_device_id device,
-        cl_context context,
-        unsigned char *h_input, unsigned char *h_output,
-        int width, int height, int channels,
-        int centerX, int centerY,
-        float radius
+    cl_device_id device,
+    cl_context context,
+    unsigned char* h_input, unsigned char* h_output,
+    int width, int height, int channels,
+    int centerX, int centerY,
+    float radius
 ) {
-
     cl_command_queue queue = CLCreateCommandQueue(context, device);
 
     OpenCLProgram program_mask = CLCreateProgram_Image_Mask(context, device);
@@ -23,40 +22,40 @@ void processImageMaskOpenCL1(
     cl_kernel kernel = program_mask.CreateKernel();
 
     cl_mem d_input = OpenCLMalloc(
-            context,
-            width * height * channels * sizeof(unsigned char),
-            CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            h_input
+        context,
+        width * height * channels * sizeof(unsigned char),
+        CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        h_input
     );
 
     cl_mem d_output = OpenCLMalloc(
-            context,
-            width * height * channels * sizeof(unsigned char),
-            CL_MEM_WRITE_ONLY,
-            nullptr
+        context,
+        width * height * channels * sizeof(unsigned char),
+        CL_MEM_WRITE_ONLY,
+        nullptr
     );
 
-//    int centerX = 2 * width / 3, centerY = height / 2;
+    //    int centerX = 2 * width / 3, centerY = height / 2;
 
     const auto light_source_x = (width / 2);
     const auto light_source_y = -100;
 
     KernelSetArg_Image_Mask_Simple(
-            kernel,
-            d_input, d_output,
-            width, height, channels,
-            centerX, centerY, radius,
-            1, 1,
-            light_source_x, light_source_y,
-            0, 0, 0, 150
+        kernel,
+        d_input, d_output,
+        width, height, channels,
+        centerX, centerY, radius,
+        1, 1,
+        light_source_x, light_source_y,
+        0, 0, 0, 150
     );
 
 
     size_t global_size[2] = {static_cast<size_t>(width), static_cast<size_t>(height)};
 
     CLKernelEnqueue(
-            queue, kernel,
-            2, global_size
+        queue, kernel,
+        2, global_size
     );
 
     clFinish(queue);
@@ -64,32 +63,32 @@ void processImageMaskOpenCL1(
     auto program_channel = CLCreateProgram_Image_Channel(context, device);
 
     cl_mem d_output3 = OpenCLMalloc(
-            context,
-            width * height * 3 * sizeof(unsigned char),
-            CL_MEM_WRITE_ONLY,
-            nullptr
+        context,
+        width * height * 3 * sizeof(unsigned char),
+        CL_MEM_WRITE_ONLY,
+        nullptr
     );
     auto kernel_channel = program_channel.CreateKernel();
     KernelSetArg_Image_Channel(
-            kernel_channel,
-            d_output, d_output3,
-            width, height,
-            channels,
-            3
+        kernel_channel,
+        d_output, d_output3,
+        width, height,
+        channels,
+        3
     );
     CLKernelEnqueue(
-            queue, kernel_channel,
-            2, global_size
+        queue, kernel_channel,
+        2, global_size
     );
     clFinish(queue);
 
 
     // Copy from device to host
     OpenCLMemcpyFromDevice(
-            queue,
-            h_output,
-            d_output3,
-            width * height * 3 * sizeof(unsigned char)
+        queue,
+        h_output,
+        d_output3,
+        width * height * 3 * sizeof(unsigned char)
     );
 
     // Release
@@ -99,15 +98,13 @@ void processImageMaskOpenCL1(
     clReleaseKernel(kernel);
 
     clReleaseCommandQueue(queue);
-
 }
 
 void mask_channel_demo(cl_context context, cl_device_id device) {
-
     cv::Mat image = cv::imread("../../../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
     cv::resize(image, image, cv::Size(1080, 607));
-//    cv::imshow("Input", image);
-//    cv::waitKey(0);
+    //    cv::imshow("Input", image);
+    //    cv::waitKey(0);
 
     if (image.empty()) {
         std::cerr << "Error loading image!" << std::endl;
@@ -117,25 +114,25 @@ void mask_channel_demo(cl_context context, cl_device_id device) {
     int width = image.cols;
     int height = image.rows;
     int channels = image.channels();
-    const float radius = 150.5f;  // Set your desired radius
-//    int centerX = 2 * width / 3;
+    const float radius = 150.5f; // Set your desired radius
+    //    int centerX = 2 * width / 3;
     int centerY = height / 2;
 
-    uchar *h_input = image.data;
+    uchar* h_input = image.data;
 
     int totalFrames = 300;
 
-//    cv::VideoWriter writer(
-//            "focus_video.avi",
-//            cv::VideoWriter::fourcc('M', 'J', 'P', 'G'),
-//            60,
-//            cv::Size(width, height)
-//    );
+    //    cv::VideoWriter writer(
+    //            "focus_video.avi",
+    //            cv::VideoWriter::fourcc('M', 'J', 'P', 'G'),
+    //            60,
+    //            cv::Size(width, height)
+    //    );
     cv::VideoWriter writer(
-            "focus_video.mp4",
-            cv::VideoWriter::fourcc('m', 'p', '4', 'v'),
-            60,
-            cv::Size(width, height)
+        "focus_video.mp4",
+        cv::VideoWriter::fourcc('m', 'p', '4', 'v'),
+        60,
+        cv::Size(width, height)
     );
 
     if (!writer.isOpened()) {
@@ -144,35 +141,34 @@ void mask_channel_demo(cl_context context, cl_device_id device) {
     }
 
     // Save h_output as your result image
-//    cv::Mat result(height, width, CV_8UC4);
-//
-//    processImageOpenCL(
-//            h_input, result.data,
-//            width, height, channels,
-//            centerX, centerY,
-//            radius
-//    );
+    //    cv::Mat result(height, width, CV_8UC4);
+    //
+    //    processImageOpenCL(
+    //            h_input, result.data,
+    //            width, height, channels,
+    //            centerX, centerY,
+    //            radius
+    //    );
 
     for (int frameIdx = 0; frameIdx < totalFrames; ++frameIdx) {
-
         cv::Mat result(height, width, CV_8UC3);
 
         // 设置centerX从0到width的变化
-//        int centerX = frameIdx % width;
+        //        int centerX = frameIdx % width;
         int centerX = static_cast<int>(
-                static_cast<float>(width)
-                *
-                (static_cast<float>(frameIdx) / static_cast<float>(totalFrames))
+            static_cast<float>(width)
+            *
+            (static_cast<float>(frameIdx) / static_cast<float>(totalFrames))
         );
 
         processImageMaskOpenCL1(
-                device,
-                context,
-                h_input, result.data, width, height, channels, centerX, centerY, radius
+            device,
+            context,
+            h_input, result.data, width, height, channels, centerX, centerY, radius
         );
 
         // convert to 3 channel
-//        cv::cvtColor(result, result, cv::COLOR_BGRA2BGR);
+        //        cv::cvtColor(result, result, cv::COLOR_BGRA2BGR);
 
         writer.write(result);
 
@@ -180,7 +176,7 @@ void mask_channel_demo(cl_context context, cl_device_id device) {
         cv::waitKey(1);
     }
 
-//    cv::imshow("Input", image);
-//    cv::imshow("Output", result);
-//    cv::waitKey(0);
+    //    cv::imshow("Input", image);
+    //    cv::imshow("Output", result);
+    //    cv::waitKey(0);
 }

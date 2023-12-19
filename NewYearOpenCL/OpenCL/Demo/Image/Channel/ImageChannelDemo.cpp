@@ -7,12 +7,11 @@
 #include "../../../Image/ImageChannelConvert.h"
 
 void convert_channel_demo(cl_context context, cl_device_id device) {
-
     cv::Mat image1 = cv::imread("../../../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
-//    cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
+    //    cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
 
-//    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
-//    cv::cvtColor(image1, image1, cv::COLOR_BGRA2GRAY);
+    //    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
+    //    cv::cvtColor(image1, image1, cv::COLOR_BGRA2GRAY);
     cv::cvtColor(image1, image1, cv::COLOR_BGRA2BGR);
 
     cv::resize(image1, image1, cv::Size(image1.cols / 4, image1.rows / 4));
@@ -28,37 +27,37 @@ void convert_channel_demo(cl_context context, cl_device_id device) {
     OpenCLProgram program_channel = CLCreateProgram_Image_Channel(context, device);
 
     cl_mem device_image1 = OpenCLMalloc(
-            context,
-            image1_width * image1_height * image1_channels * sizeof(uchar),
-            CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            image1.data
+        context,
+        image1_width * image1_height * image1_channels * sizeof(uchar),
+        CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        image1.data
     );
 
     cl_mem device_output = OpenCLMalloc(
-            context,
-            image1_width * image1_height * output_channel * sizeof(uchar),
-            CL_MEM_WRITE_ONLY,
-            nullptr
+        context,
+        image1_width * image1_height * output_channel * sizeof(uchar),
+        CL_MEM_WRITE_ONLY,
+        nullptr
     );
 
     cl_kernel kernel = program_channel.CreateKernel();
 
     KernelSetArg_Image_Channel(
-            kernel,
-            device_image1, device_output,
-            image1_width, image1_height,
-            image1_channels,
-            output_channel
+        kernel,
+        device_image1, device_output,
+        image1_width, image1_height,
+        image1_channels,
+        output_channel
     );
 
     size_t globalWorkSize[2] = {
-            static_cast<size_t>(image1_width),
-            static_cast<size_t>(image1_height)
+        static_cast<size_t>(image1_width),
+        static_cast<size_t>(image1_height)
     };
 
     CLKernelEnqueue(
-            queue, kernel,
-            2, globalWorkSize
+        queue, kernel,
+        2, globalWorkSize
     );
 
     clFinish(queue);
@@ -67,10 +66,10 @@ void convert_channel_demo(cl_context context, cl_device_id device) {
     cv::Mat result(image1_height, image1_width, CV_8UC(output_channel));
 
     OpenCLMemcpyFromDevice(
-            queue,
-            result.data,
-            device_output,
-            image1_width * image1_height * output_channel * sizeof(uchar)
+        queue,
+        result.data,
+        device_output,
+        image1_width * image1_height * output_channel * sizeof(uchar)
     );
 
     // Free OpenCL resources
@@ -79,7 +78,7 @@ void convert_channel_demo(cl_context context, cl_device_id device) {
     clReleaseMemObject(device_output);
     clReleaseKernel(kernel);
 
-//    clReleaseProgram(resize_program);
+    //    clReleaseProgram(resize_program);
 
     clReleaseCommandQueue(queue);
 
@@ -88,4 +87,3 @@ void convert_channel_demo(cl_context context, cl_device_id device) {
     cv::imshow("Output Image", result);
     cv::waitKey(0);
 }
-

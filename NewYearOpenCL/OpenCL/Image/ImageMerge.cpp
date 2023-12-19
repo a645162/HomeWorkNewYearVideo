@@ -8,22 +8,22 @@
 
 OpenCLProgram CLCreateProgram_Image_Merge(cl_context context, cl_device_id device) {
     return {
-            context,
-            device,
-            "mergeImages",
-            cl_kernel_merge
+        context,
+        device,
+        "mergeImages",
+        cl_kernel_merge
     };
 }
 
 void KernelSetArg_Image_Merge(
-        cl_kernel kernel,
-        cl_mem image1,
-        cl_mem image2,
-        cl_mem device_output,
-        int image1_width, int image1_height, int image1_channels,
-        int image2_target_x, int image2_target_y,
-        int image2_width, int image2_height, int image2_channels,
-        int image2_alpha
+    cl_kernel kernel,
+    cl_mem image1,
+    cl_mem image2,
+    cl_mem device_output,
+    int image1_width, int image1_height, int image1_channels,
+    int image2_target_x, int image2_target_y,
+    int image2_width, int image2_height, int image2_channels,
+    int image2_alpha
 ) {
     cl_uint kernel_arg_index1 = 0;
 

@@ -10,7 +10,7 @@
 #include "../OpenCL/Include/OpenCLInclude.h"
 #include "../OpenCL/Include/OpenCLError.h"
 #include "../OpenCL/Include/OpenCLFlow.h"
-#include "../OpenCL/Include/OpenCLProgram.h"
+#include "../OpenCL/Include/RAII/OpenCLProgram.h"
 
 void video_main(cl_device_id device, cl_context context);
 

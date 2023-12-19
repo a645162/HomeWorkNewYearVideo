@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_CONVOLUTION_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_CONVOLUTION_H
 
-const char *cl_kernel_convolution = R"(
+const char* cl_kernel_convolution = R"(
 // Convolution.cl
 
 // OpenCL Kernel Function of 2-Dim Convolution

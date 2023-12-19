@@ -5,6 +5,6 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_GRAY_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_GRAY_H
 
-const char *cl_kernel_gray = R"(@input_content@)";
+const char* cl_kernel_gray = R"(@input_content@)";
 
 #endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_GRAY_H

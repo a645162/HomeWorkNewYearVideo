@@ -8,28 +8,28 @@
 #include "../Include/OpenCLInclude.h"
 #include "../Include/OpenCLError.h"
 #include "../Include/OpenCLFlow.h"
-#include "../Include/OpenCLProgram.h"
+#include "../Include/RAII/OpenCLProgram.h"
 
 OpenCLProgram CLCreateProgram_Image_Resize(cl_context context, cl_device_id device);
 
 void KernelSetArg_Image_Resize(
-        cl_kernel kernel,
-        cl_mem devSrc, cl_mem devDst,
-        int srcWidth, int srcHeight,
-        int dstWidth, int dstHeight,
-        int channels
+    cl_kernel kernel,
+    cl_mem devSrc, cl_mem devDst,
+    int srcWidth, int srcHeight,
+    int dstWidth, int dstHeight,
+    int channels
 );
 
 [[maybe_unused]] unsigned int calculateNewHeightByNewWidth(
-        unsigned int width,
-        unsigned int height,
-        unsigned int newWidth
+    unsigned int width,
+    unsigned int height,
+    unsigned int newWidth
 );
 
 [[maybe_unused]] unsigned int calculateNewWidthByNewHeight(
-        unsigned int width,
-        unsigned int height,
-        unsigned int newHeight
+    unsigned int width,
+    unsigned int height,
+    unsigned int newHeight
 );
 
 #endif //NEW_YEAR_OPENCL_RESIZE_IMAGE_H

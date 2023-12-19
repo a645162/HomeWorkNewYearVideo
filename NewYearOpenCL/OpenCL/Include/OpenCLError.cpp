@@ -4,7 +4,7 @@
 
 #include "OpenCLError.h"
 
-const char *clGetErrorString(cl_int error) {
+const char* clGetErrorString(cl_int error) {
     switch (error) {
         case CL_SUCCESS:
             return "Success!";

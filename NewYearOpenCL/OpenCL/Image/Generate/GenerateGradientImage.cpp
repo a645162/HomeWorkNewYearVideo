@@ -9,30 +9,30 @@
 
 OpenCLProgram CLCreateProgram_Generate_GradientColor(cl_context context, cl_device_id device) {
     return {
-            context,
-            device,
-            "generateGradientColor",
-            cl_kernel_generate_gradient_color
+        context,
+        device,
+        "generateGradientColor",
+        cl_kernel_generate_gradient_color
     };
 }
 
 OpenCLProgram CLCreateProgram_Generate_GradientImage(cl_context context, cl_device_id device) {
     return {
-            context,
-            device,
-            "generateGradientImage",
-            cl_kernel_generate_gradient_image
+        context,
+        device,
+        "generateGradientImage",
+        cl_kernel_generate_gradient_image
     };
 }
 
 
 void KernelSetArg_Generate_GradientColor(
-        cl_kernel kernel,
-        cl_mem device_gradient_color,
-        int color_count,
-        uchar start_r, uchar start_g, uchar start_b,
-        uchar end_r, uchar end_g, uchar end_b,
-        uchar channels, uchar alpha
+    cl_kernel kernel,
+    cl_mem device_gradient_color,
+    int color_count,
+    uchar start_r, uchar start_g, uchar start_b,
+    uchar end_r, uchar end_g, uchar end_b,
+    uchar channels, uchar alpha
 ) {
     cl_uint kernel_arg_index1 = 0;
 
@@ -53,13 +53,13 @@ void KernelSetArg_Generate_GradientColor(
 }
 
 void KernelSetArg_Generate_GradientImage(
-        cl_kernel kernel,
-        cl_mem device_gradient_image,
-        cl_mem device_gradient_color,
-        int color_count,
-        int image_width, int image_height,
-        int center_x, int center_y, float max_r,
-        uchar channels, uchar alpha
+    cl_kernel kernel,
+    cl_mem device_gradient_image,
+    cl_mem device_gradient_color,
+    int color_count,
+    int image_width, int image_height,
+    int center_x, int center_y, float max_r,
+    uchar channels, uchar alpha
 ) {
     cl_uint kernel_arg_index1 = 0;
 

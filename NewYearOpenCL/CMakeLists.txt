@@ -61,14 +61,21 @@ message(STATUS "OpenCL Include Dirs: ${OpenCL_INCLUDE_DIRS}")
 # Use to generate C Header include OpenCL Kernel.
 add_subdirectory(OpenCL)
 
-file(GLOB PROGRAM_UTILS "Utils/*.cpp")
+file(GLOB_RECURSE PROGRAM_UTILS "Utils/*.cpp")
 
-file(GLOB OPENCL_INCLUDE "OpenCL/Include/*.cpp")
-file(GLOB OPENCL_DEVICE "OpenCL/Devices/*.cpp")
+file(GLOB_RECURSE OPENCL_INCLUDE "OpenCL/Include/*.cpp")
+file(GLOB_RECURSE OPENCL_INCLUDE_HEADER "OpenCL/Include/*.h")
+file(GLOB_RECURSE OPENCL_DEVICE "OpenCL/Devices/*.cpp")
+file(GLOB_RECURSE OPENCL_DEVICE_HEADER "OpenCL/Devices/*.h")
 
 file(GLOB_RECURSE OPENCL_IMAGE_OPERATION "OpenCL/Image/*.cpp")
+file(GLOB_RECURSE OPENCL_IMAGE_OPERATION_HEADER "OpenCL/Image/*.h")
 
 file(GLOB_RECURSE OPENCL_VIDEO_CHAPTER "Chapter/*.cpp")
+file(GLOB_RECURSE OPENCL_VIDEO_CHAPTER_HEADER "Chapter/*.h")
+
+file(GLOB_RECURSE ThirdParty "ThirdParty/*.cpp")
+file(GLOB_RECURSE ThirdParty_HEADER "ThirdParty/*.h")
 
 add_executable(
         ${PROJECT_NAME}
@@ -86,17 +93,25 @@ add_executable(
 
         # OpenCL Function
         ${OPENCL_INCLUDE}
+        ${OPENCL_INCLUDE_HEADER}
 
         # OpenCL Device
         ${OPENCL_DEVICE}
+        ${OPENCL_DEVICE_HEADER}
 
         # OpenCL Image Process
         # + OpenCL Image Generate
         # + OpenCL Image Draw
         ${OPENCL_IMAGE_OPERATION}
+        ${OPENCL_IMAGE_OPERATION_HEADER}
 
         # My Video Chapter
         ${OPENCL_VIDEO_CHAPTER}
+        ${OPENCL_VIDEO_CHAPTER_HEADER}
+
+        # Third Party
+        ${ThirdParty}
+        ${ThirdParty_HEADER}
 )
 
 # OpenCL

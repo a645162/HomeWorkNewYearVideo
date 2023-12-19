@@ -7,12 +7,11 @@
 #include "../../../Image/ImageMirror.h"
 
 void mirror_demo(cl_context context, cl_device_id device) {
-
     cv::Mat image1 = cv::imread("../../../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
-//    cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
+    //    cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
 
-//    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
-//    cv::cvtColor(image1, image1, cv::COLOR_BGRA2GRAY);
+    //    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
+    //    cv::cvtColor(image1, image1, cv::COLOR_BGRA2GRAY);
     cv::cvtColor(image1, image1, cv::COLOR_BGRA2BGR);
 
     cv::resize(image1, image1, cv::Size(image1.cols / 4, image1.rows / 4));
@@ -26,44 +25,44 @@ void mirror_demo(cl_context context, cl_device_id device) {
     OpenCLProgram program_mirror = CLCreateProgram_Image_Mirror(context, device);
 
     cl_mem device_image1 = OpenCLMalloc(
-            context,
-            image1_width * image1_height * image1_channels * sizeof(uchar),
-            CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            image1.data
+        context,
+        image1_width * image1_height * image1_channels * sizeof(uchar),
+        CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        image1.data
     );
 
     cl_mem device_output = OpenCLMalloc(
-            context,
-            image1_width * image1_height * image1_channels * sizeof(uchar),
-            CL_MEM_WRITE_ONLY,
-            nullptr
+        context,
+        image1_width * image1_height * image1_channels * sizeof(uchar),
+        CL_MEM_WRITE_ONLY,
+        nullptr
     );
 
     cl_kernel kernel = program_mirror.CreateKernel();
 
     KernelSetArg_Image_Mirror(
-            kernel,
-            device_image1, device_output,
-            image1_width, image1_height,
-            image1_channels
+        kernel,
+        device_image1, device_output,
+        image1_width, image1_height,
+        image1_channels
     );
 
     KernelSetArg_Image_Mirror(
-            kernel,
-            device_image1, device_output,
-            image1_width, image1_height,
-            image1_channels,
-            0
+        kernel,
+        device_image1, device_output,
+        image1_width, image1_height,
+        image1_channels,
+        0
     );
 
     size_t globalWorkSize[2] = {
-            static_cast<size_t>(image1_width),
-            static_cast<size_t>(image1_height)
+        static_cast<size_t>(image1_width),
+        static_cast<size_t>(image1_height)
     };
 
     CLKernelEnqueue(
-            queue, kernel,
-            2, globalWorkSize
+        queue, kernel,
+        2, globalWorkSize
     );
 
     clFinish(queue);
@@ -72,10 +71,10 @@ void mirror_demo(cl_context context, cl_device_id device) {
     cv::Mat result(image1_height, image1_width, CV_8UC(image1_channels));
 
     OpenCLMemcpyFromDevice(
-            queue,
-            result.data,
-            device_output,
-            image1_width * image1_height * image1_channels * sizeof(uchar)
+        queue,
+        result.data,
+        device_output,
+        image1_width * image1_height * image1_channels * sizeof(uchar)
     );
 
     // Free OpenCL resources
@@ -84,7 +83,7 @@ void mirror_demo(cl_context context, cl_device_id device) {
     clReleaseMemObject(device_output);
     clReleaseKernel(kernel);
 
-//    clReleaseProgram(resize_program);
+    //    clReleaseProgram(resize_program);
 
     clReleaseCommandQueue(queue);
 
@@ -93,4 +92,3 @@ void mirror_demo(cl_context context, cl_device_id device) {
     cv::imshow("Output Image", result);
     cv::waitKey(0);
 }
-

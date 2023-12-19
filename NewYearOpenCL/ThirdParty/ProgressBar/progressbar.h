@@ -44,24 +44,23 @@
 #include <stdexcept>
 
 class progressbar {
-
 public:
     // default destructor
     ~progressbar() = default;
 
     // delete everything else
-    progressbar(progressbar const &) = delete;
+    progressbar(progressbar const&) = delete;
 
-    progressbar &operator=(progressbar const &) = delete;
+    progressbar& operator=(progressbar const&) = delete;
 
-    progressbar(progressbar &&) = delete;
+    progressbar(progressbar&&) = delete;
 
-    progressbar &operator=(progressbar &&) = delete;
+    progressbar& operator=(progressbar&&) = delete;
 
     // default constructor, must call set_niter later
     inline progressbar();
 
-    inline progressbar(int n, bool showbar = true, std::ostream &out = std::cerr);
+    inline progressbar(int n, bool showbar = true, std::ostream& out = std::cerr);
 
     // reset bar to use it again
     inline void reset();
@@ -70,19 +69,19 @@ public:
     inline void set_niter(int iter);
 
     // chose your style
-    inline void set_done_char(const std::string &sym) { done_char = sym; }
+    inline void set_done_char(const std::string& sym) { done_char = sym; }
 
-    inline void set_todo_char(const std::string &sym) { todo_char = sym; }
+    inline void set_todo_char(const std::string& sym) { todo_char = sym; }
 
-    inline void set_opening_bracket_char(const std::string &sym) { opening_bracket_char = sym; }
+    inline void set_opening_bracket_char(const std::string& sym) { opening_bracket_char = sym; }
 
-    inline void set_closing_bracket_char(const std::string &sym) { closing_bracket_char = sym; }
+    inline void set_closing_bracket_char(const std::string& sym) { closing_bracket_char = sym; }
 
     // to show only the percentage
     inline void show_bar(bool flag = true) { do_show_bar = flag; }
 
     // set the output stream
-    inline void set_output_stream(const std::ostream &stream) { output.rdbuf(stream.rdbuf()); }
+    inline void set_output_stream(const std::ostream& stream) { output.rdbuf(stream.rdbuf()); }
 
     // main function
     inline void update();
@@ -99,32 +98,32 @@ private:
     std::string opening_bracket_char;
     std::string closing_bracket_char;
 
-    std::ostream &output;
+    std::ostream& output;
 };
 
-inline progressbar::progressbar() :
-        progress(0),
-        n_cycles(0),
-        last_perc(0),
-        do_show_bar(true),
-        update_is_called(false),
-        done_char("#"),
-        todo_char(" "),
-        opening_bracket_char("["),
-        closing_bracket_char("]"),
-        output(std::cerr) {}
+inline progressbar::progressbar() : progress(0),
+                                    n_cycles(0),
+                                    last_perc(0),
+                                    do_show_bar(true),
+                                    update_is_called(false),
+                                    done_char("#"),
+                                    todo_char(" "),
+                                    opening_bracket_char("["),
+                                    closing_bracket_char("]"),
+                                    output(std::cerr) {
+}
 
-inline progressbar::progressbar(int n, bool showbar, std::ostream &out) :
-        progress(0),
-        n_cycles(n),
-        last_perc(0),
-        do_show_bar(showbar),
-        update_is_called(false),
-        done_char("#"),
-        todo_char(" "),
-        opening_bracket_char("["),
-        closing_bracket_char("]"),
-        output(out) {}
+inline progressbar::progressbar(int n, bool showbar, std::ostream& out) : progress(0),
+                                                                          n_cycles(n),
+                                                                          last_perc(0),
+                                                                          do_show_bar(showbar),
+                                                                          update_is_called(false),
+                                                                          done_char("#"),
+                                                                          todo_char(" "),
+                                                                          opening_bracket_char("["),
+                                                                          closing_bracket_char("]"),
+                                                                          output(out) {
+}
 
 inline void progressbar::reset() {
     progress = 0,
@@ -135,15 +134,14 @@ inline void progressbar::reset() {
 inline void progressbar::set_niter(int niter) {
     if (niter <= 0)
         throw std::invalid_argument(
-                "progressbar::set_niter: number of iterations null or negative");
+            "progressbar::set_niter: number of iterations null or negative");
     n_cycles = niter;
 }
 
 inline void progressbar::update() {
-
     if (n_cycles == 0)
         throw std::runtime_error(
-                "progressbar::update: number of cycles not set");
+            "progressbar::update: number of cycles not set");
 
     if (!update_is_called) {
         if (do_show_bar) {

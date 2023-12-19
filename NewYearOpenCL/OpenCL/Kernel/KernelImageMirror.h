@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_MIRROR_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_MIRROR_H
 
-const char *cl_kernel_mirror = R"(
+const char* cl_kernel_mirror = R"(
 // OpenCL Kernel Function of Image Mirror
 // Author: Haomin Kong.
 // https://github.com/a645162/HomeWorkNewYearVideo

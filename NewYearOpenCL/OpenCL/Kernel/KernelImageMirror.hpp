@@ -5,6 +5,6 @@
 #ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_MIRROR_H
 #define NEW_YEAR_OPENCL_KERNEL_IMAGE_MIRROR_H
 
-const char *cl_kernel_mirror = R"(@input_content@)";
+const char* cl_kernel_mirror = R"(@input_content@)";
 
 #endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_MIRROR_H

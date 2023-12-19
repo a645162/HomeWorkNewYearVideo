@@ -8,18 +8,18 @@
 #include "../Include/OpenCLInclude.h"
 #include "../Include/OpenCLError.h"
 #include "../Include/OpenCLFlow.h"
-#include "../Include/OpenCLProgram.h"
+#include "../Include/RAII/OpenCLProgram.h"
 
 OpenCLProgram CLCreateProgram_Image_Rotate(cl_context context, cl_device_id device);
 
 void KernelSetArg_Image_Rotate(
-        cl_kernel kernel,
-        cl_mem devSrc,
-        cl_mem devDst,
-        int input_width,
-        int input_height,
-        int channels,
-        float angle
+    cl_kernel kernel,
+    cl_mem devSrc,
+    cl_mem devDst,
+    int input_width,
+    int input_height,
+    int channels,
+    float angle
 );
 
 #endif //NEW_YEAR_OPENCL_IMAGE_ROTATE_H

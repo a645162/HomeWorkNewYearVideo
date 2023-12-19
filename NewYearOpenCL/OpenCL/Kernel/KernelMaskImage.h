@@ -5,7 +5,7 @@
 #ifndef NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H
 #define NEW_YEAR_OPENCL_MASK_IMAGE_KERNEL_H
 
-const char *cl_kernel_mask_image_circle = R"(
+const char* cl_kernel_mask_image_circle = R"(
 // MaskImageCircle.cl
 
 // OpenCL Kernel Function of Mask Image with Circle and Focus Light Effect

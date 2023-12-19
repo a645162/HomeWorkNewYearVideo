@@ -8,21 +8,21 @@
 
 OpenCLProgram CLCreateProgram_Image_Rotate(cl_context context, cl_device_id device) {
     return {
-            context,
-            device,
-            "rotateImage",
-            cl_kernel_rotate
+        context,
+        device,
+        "rotateImage",
+        cl_kernel_rotate
     };
 }
 
 void KernelSetArg_Image_Rotate(
-        cl_kernel kernel,
-        cl_mem devSrc,
-        cl_mem devDst,
-        int input_width,
-        int input_height,
-        int channels,
-        float angle
+    cl_kernel kernel,
+    cl_mem devSrc,
+    cl_mem devDst,
+    int input_width,
+    int input_height,
+    int channels,
+    float angle
 ) {
     cl_uint kernel_arg_index1 = 0;
 
@@ -36,4 +36,3 @@ void KernelSetArg_Image_Rotate(
 
     OpenCLSetKernelArg(kernel, &kernel_arg_index1, sizeof(float), &angle);
 }
-
