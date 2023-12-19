@@ -25,22 +25,22 @@ int FRAME_RATE = DEFAULT_FRAME_RATE;
 #define ENABLE_CHAPTER_1
 #define ENABLE_CHAPTER_2
 
-int CalcFrame(int frame_length) {
+int CalcFrame(const int frame_length) {
     return static_cast<int>(static_cast<float>(frame_length) * RatioVideoFrame);
 }
 
 void start_generate(cl_device_id device, cl_context context) {
     cv::VideoWriter outputVideo;
-    cv::Size frameSize(CANVAS_WIDTH, CANVAS_HEIGHT);
+    const cv::Size frame_size(CANVAS_WIDTH, CANVAS_HEIGHT);
 
     char file_name[1024] = "output.avi";
 
-    std::time_t currentTime = std::time(nullptr);
+    const std::time_t currentTime = std::time(nullptr);
     char timeBuffer[80];
-    const char* format = "%Y_%m_%d_%H_%M_%S";
+    const auto format = "%Y_%m_%d_%H_%M_%S";
     std::strftime(timeBuffer, sizeof(timeBuffer), format, std::localtime(&currentTime));
     if (std::strftime(timeBuffer, sizeof(timeBuffer), format, std::localtime(&currentTime))) {
-        std::cout << "FileTime:" << timeBuffer << std::endl;
+        std::cout << "File Time:" << timeBuffer << std::endl;
         snprintf(file_name, sizeof(file_name), "NewYearCardVideo_%s.avi", timeBuffer);
     }
 
@@ -49,7 +49,7 @@ void start_generate(cl_device_id device, cl_context context) {
     outputVideo.open(
         file_name,
         cv::VideoWriter::fourcc('X', 'V', 'I', 'D'),
-        FRAME_RATE, frameSize
+        FRAME_RATE, frame_size
     );
 
     if (outputVideo.isOpened()) {
