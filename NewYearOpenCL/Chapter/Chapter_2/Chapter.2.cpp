@@ -26,8 +26,8 @@
 
 cv::Mat chapter_2(
     cl_context context, cl_device_id device,
-    int max_frame, cv::VideoWriter *video_writer,
-    cv::Mat *last_frame
+    int max_frame, cv::VideoWriter* video_writer,
+    cv::Mat* last_frame
 ) {
     cv::Mat result;
 
@@ -35,7 +35,6 @@ cv::Mat chapter_2(
 #ifdef ENABLE_CHAPTER_2_SECTION_1
 
 #endif
-
 
 
     return result;
