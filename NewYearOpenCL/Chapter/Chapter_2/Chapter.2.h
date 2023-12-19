@@ -14,8 +14,8 @@
 
 cv::Mat chapter_2(
     cl_context context, cl_device_id device,
-    int max_frame, cv::VideoWriter *video_writer,
-    cv::Mat *last_frame
+    int max_frame, cv::VideoWriter* video_writer,
+    cv::Mat* last_frame
 );
 
 #endif //NEW_YEAR_OPENCL_VIDEO_CHAPTER_2_H
