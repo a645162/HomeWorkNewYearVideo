@@ -4,8 +4,10 @@
 
 #include "NewYearCardVideo.h"
 #include "../Utils/ProgramIO.h"
-#include "Chapter_1/Chapter.1.h"
 #include "../Config/Config.h"
+
+#include "Chapter_1/Chapter.1.h"
+#include "Chapter_2/Chapter.2.h"
 
 #include <iostream>
 #include <iomanip>
@@ -20,6 +22,9 @@ int CANVAS_WIDTH = ORIGIN_CANVAS_WIDTH, CANVAS_HEIGHT = ORIGIN_CANVAS_HEIGHT;
 int CANVAS_CENTER_X = ORIGIN_CANVAS_WIDTH / 2, CANVAS_CENTER_Y = ORIGIN_CANVAS_HEIGHT / 2;
 int FRAME_RATE = DEFAULT_FRAME_RATE;
 
+#define ENABLE_CHAPTER_1
+#define ENABLE_CHAPTER_2
+
 int CalcFrame(int frame_length) {
     return static_cast<int>(static_cast<float>(frame_length) * RatioVideoFrame);
 }
@@ -32,7 +37,7 @@ void start_generate(cl_device_id device, cl_context context) {
 
     std::time_t currentTime = std::time(nullptr);
     char timeBuffer[80];
-    const char *format = "%Y_%m_%d_%H_%M_%S";
+    const char* format = "%Y_%m_%d_%H_%M_%S";
     std::strftime(timeBuffer, sizeof(timeBuffer), format, std::localtime(&currentTime));
     if (std::strftime(timeBuffer, sizeof(timeBuffer), format, std::localtime(&currentTime))) {
         std::cout << "FileTime:" << timeBuffer << std::endl;
@@ -42,9 +47,9 @@ void start_generate(cl_device_id device, cl_context context) {
     std::cout << "File Name: " << file_name << std::endl;
 
     outputVideo.open(
-            file_name,
-            cv::VideoWriter::fourcc('X', 'V', 'I', 'D'),
-            FRAME_RATE, frameSize
+        file_name,
+        cv::VideoWriter::fourcc('X', 'V', 'I', 'D'),
+        FRAME_RATE, frameSize
     );
 
     if (outputVideo.isOpened()) {
@@ -54,8 +59,18 @@ void start_generate(cl_device_id device, cl_context context) {
         exit(1);
     }
 
+    cv::Mat last_frame;
     // Chapter 1
-    chapter_1(context, device, CalcFrame(600), outputVideo);
+#ifdef ENABLE_CHAPTER_1
+    last_frame = chapter_1(context, device, CalcFrame(800), &outputVideo);
+#else
+    // White Canvas
+    last_frame = cv::Mat(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3, cv::Scalar(255, 255, 255));
+#endif
+
+#ifdef ENABLE_CHAPTER_2
+    last_frame = chapter_2(context, device, CalcFrame(600), &outputVideo, &last_frame);
+#endif
 
     outputVideo.release();
 

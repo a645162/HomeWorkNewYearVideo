@@ -29,15 +29,22 @@ __kernel void rotateImage(__global const uchar *input, __global uchar *output,
     int rotatedY = convert_int_rte(sinVal * (x - centerX) +
                                    cosVal * (y - centerY) + centerY);
 
+	int inputIndex = (rotatedY * width + rotatedX) * channels;
+    int outputIndex = (y * width + x) * channels;
     if (rotatedX >= 0 && rotatedX < width && rotatedY >= 0 &&
         rotatedY < height) {
-        int inputIndex = (rotatedY * width + rotatedX) * channels;
-        int outputIndex = (y * width + x) * channels;
-
         for (int c = 0; c < channels; ++c) {
             output[outputIndex + c] = input[inputIndex + c];
         }
-    }
+    } else {
+		// For AMD GPU to avoid exception.
+		for (int c = 0; c < channels; ++c) {
+            output[outputIndex + c] = 0;
+			// if (c == 3){
+			// 	output[outputIndex + c] = 255;
+			// }
+        }
+	}
 }
 
 )";

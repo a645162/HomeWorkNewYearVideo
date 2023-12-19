@@ -16,7 +16,9 @@ void conv_demo(cl_context context, cl_device_id device) {
 //    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGRA2BGR);
 
     // Convert to gray
-    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGR2GRAY);
+//    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGR2GRAY);
+
+    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGRA2BGR);
 
     auto width = image_ori.cols;
     auto height = image_ori.rows;
@@ -26,12 +28,9 @@ void conv_demo(cl_context context, cl_device_id device) {
 
     cl_command_queue queue = CLCreateCommandQueue(context, device);
 
-//    cl_program program = CLCreateProgramImageResize(context, device);
-
     OpenCLProgram program_conv = CLCreateProgram_Image_Conv(context, device);
 
-    // Create OpenCL buffers for input and output data
-
+    // Calculate Image Data Size
     const auto img_data_size = width * height * channels * sizeof(uchar);
 
     cl_mem devSrc = OpenCLMalloc(

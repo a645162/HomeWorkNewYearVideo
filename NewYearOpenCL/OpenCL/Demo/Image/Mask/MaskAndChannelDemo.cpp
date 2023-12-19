@@ -46,7 +46,7 @@ void processImageMaskOpenCL1(
             d_input, d_output,
             width, height, channels,
             centerX, centerY, radius,
-            0, 1,
+            1, 1,
             light_source_x, light_source_y,
             0, 0, 0, 150
     );

@@ -12,9 +12,9 @@
 #include "../../OpenCL/Include/OpenCLFlow.h"
 #include "../../OpenCL/Include/OpenCLProgram.h"
 
-void chapter_1(
+cv::Mat chapter_1(
         cl_context context, cl_device_id device,
-        int max_frame, cv::VideoWriter video_writer
+        int max_frame, cv::VideoWriter *video_writer
 );
 
 #endif //NEW_YEAR_OPENCL_VIDEO_CHAPTER_1_H
