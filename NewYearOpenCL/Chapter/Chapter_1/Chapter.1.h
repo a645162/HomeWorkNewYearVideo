@@ -9,7 +9,7 @@
 
 #include "../../OpenCL/Include/OpenCLInclude.h"
 #include "../../OpenCL/Include/OpenCLError.h"
-#include "../../OpenCL/Include/OpenCLFlow.h"
+#include "../../OpenCL/Include/OpenCLWorkFlow.h"
 #include "../../OpenCL/Include/RAII/OpenCLProgram.h"
 
 cv::Mat chapter_1(

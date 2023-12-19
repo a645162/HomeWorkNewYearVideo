@@ -7,7 +7,7 @@
 #define OPENCL_OPENCL_QUEUE_H
 
 #include "../OpenCLInclude.h"
-#include "../OpenCLFlow.h"
+#include "../OpenCLWorkFlow.h"
 
 class OpenCLQueue {
 private:

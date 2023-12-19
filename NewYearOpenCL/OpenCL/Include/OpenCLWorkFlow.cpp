@@ -3,7 +3,7 @@
 // https://github.com/a645162/HomeWorkNewYearVideo
 // OpenCL Flow Simplified and add error checking.
 
-#include "OpenCLFlow.h"
+#include "OpenCLWorkFlow.h"
 #include "OpenCLError.h"
 
 #include <vector>

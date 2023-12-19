@@ -3,8 +3,8 @@
 // https://github.com/a645162/HomeWorkNewYearVideo
 // OpenCL Flow Simplified and add error checking.
 
-#ifndef NEWYEAROPENCL_OPENCLFLOW_H
-#define NEWYEAROPENCL_OPENCLFLOW_H
+#ifndef OPENCL_OPENCL_WORK_FLOW_H
+#define OPENCL_OPENCL_WORK_FLOW_H
 
 #include "OpenCLInclude.h"
 
@@ -37,4 +37,4 @@ void CLKernelEnqueue(
     size_t* global_work_size
 );
 
-#endif //NEWYEAROPENCL_OPENCLFLOW_H
+#endif //OPENCL_OPENCL_WORK_FLOW_H

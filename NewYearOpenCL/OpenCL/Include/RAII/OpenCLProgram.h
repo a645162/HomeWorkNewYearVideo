@@ -7,7 +7,7 @@
 #define OPENCL_OPENCL_PROGRAM_H
 
 #include "../OpenCLInclude.h"
-#include "../OpenCLFlow.h"
+#include "../OpenCLWorkFlow.h"
 
 #include "OpenCLKernel.h"
 
