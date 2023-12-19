@@ -31,11 +31,35 @@ cv::Mat chapter_2(
 ) {
     cv::Mat result;
 
+    const int frame_each_section = max_frame / 8;
 
+    auto program_channel = CLCreateProgram_Image_Channel(context, device);
+    auto program_merge = CLCreateProgram_Image_Channel(context, device);
+    auto program_resize = CLCreateProgram_Image_Channel(context, device);
+
+    int frame_section_1 = frame_each_section * 2;
 #ifdef ENABLE_CHAPTER_2_SECTION_1
+
+    cv::Mat shmtu_logo = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
+
+    cl_mem shmtu_logo_buffer;
+    cl_mem shmtu_logo_buffer_resized;
+
+
 
 #endif
 
+#ifdef ENABLE_CHAPTER_2_SECTION_2
+
+#endif
+
+#ifdef ENABLE_CHAPTER_2_SECTION_3
+
+#endif
+
+#ifdef ENABLE_CHAPTER_2_SECTION_4
+
+#endif
 
     return result;
 }

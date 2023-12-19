@@ -21,6 +21,9 @@
 // 图像裁剪
 #include "../../OpenCL/Image/ImageCrop.h"
 
+// OpenCL Memset
+#include "../../OpenCL/Utils/OpenCLMemset.h"
+
 #define ENABLE_CHAPTER_1_SECTION_1
 #define ENABLE_CHAPTER_1_SECTION_2
 #define ENABLE_CHAPTER_1_SECTION_3
@@ -32,6 +35,8 @@ extern float RatioVideoFrame;
 extern int CANVAS_WIDTH, CANVAS_HEIGHT;
 extern int CANVAS_CENTER_X, CANVAS_CENTER_Y;
 extern int FRAME_RATE;
+
+constexpr auto CANVAS_CHANNEL = 4;
 
 const int chapter_index = 1;
 
@@ -53,8 +58,8 @@ cv::Mat chapter_1(
     cv::Mat shmtu_logo = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
 
     // Create White Canvas
-    cv::Mat canvas = cv::Mat::zeros(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC4);
-    canvas.setTo(cv::Scalar(255, 255, 255, 255));
+    // cv::Mat canvas = cv::Mat::zeros(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC4);
+    // canvas.setTo(cv::Scalar(255, 255, 255, 255));
 
     int logo_src_width = shmtu_logo.cols;
     int logo_src_height = shmtu_logo.rows;
@@ -67,16 +72,41 @@ cv::Mat chapter_1(
     OpenCLProgram program_channel = CLCreateProgram_Image_Channel(context, device);
     OpenCLProgram program_crop = CLCreateProgram_Image_Crop(context, device);
     OpenCLProgram program_mask = CLCreateProgram_Image_Mask(context, device);
+    OpenCLProgram program_memset = CLCreateProgram_Memset_2D(context, device);
 
     cv::Mat result(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC(3));
 
 #ifdef ENABLE_CHAPTER_1_SECTION_1
-    cl_mem device_canvas_ori = OpenCLMalloc(
+    // cl_mem device_canvas_ori = OpenCLMalloc(
+    //     context,
+    //     CANVAS_WIDTH * CANVAS_HEIGHT * logo_src_channels * sizeof(uchar),
+    //     CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
+    //     canvas.data
+    // );
+
+
+    auto device_canvas_ori = OpenCLMem(
         context,
-        CANVAS_WIDTH * CANVAS_HEIGHT * logo_src_channels * sizeof(uchar),
-        CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
-        canvas.data
+        CANVAS_WIDTH, CANVAS_HEIGHT, CANVAS_CHANNEL
     );
+
+    auto kernel_memset = program_memset.CreateKernelRAII();
+    KernelSetArg_Memset_2D(
+        kernel_memset.GetKernel(),
+        device_canvas_ori.GetMem(),
+        CANVAS_WIDTH, CANVAS_HEIGHT, CANVAS_CHANNEL,
+        255
+    );
+    size_t global_work_size_memset[3] = {
+        static_cast<size_t>(CANVAS_WIDTH),
+        static_cast<size_t>(CANVAS_HEIGHT),
+        static_cast<size_t>(CANVAS_CHANNEL)
+    };
+    CLKernelEnqueue(
+        queue, kernel_memset.GetKernel(),
+        3, global_work_size_memset
+    );
+    clFinish(queue);
 
     cl_mem device_logo_ori = OpenCLMalloc(
         context,
@@ -150,7 +180,7 @@ cv::Mat chapter_1(
         size_t global_work_size[2] = {static_cast<size_t>(CANVAS_WIDTH), static_cast<size_t>(CANVAS_HEIGHT)};
         KernelSetArg_Image_Merge(
             kernel_merge,
-            device_canvas_ori, device_resized_logo, device_merge_target,
+            device_canvas_ori.GetMem(), device_resized_logo, device_merge_target,
             CANVAS_WIDTH, CANVAS_HEIGHT, logo_src_channels,
             merge_target_x, merge_target_y,
             current_size, current_size, logo_src_channels,
@@ -196,7 +226,7 @@ cv::Mat chapter_1(
         video_writer->write(result);
     }
 
-    clReleaseMemObject(device_canvas_ori);
+    // clReleaseMemObject(device_canvas_ori);
     clReleaseMemObject(device_logo_ori);
     clReleaseMemObject(device_merge_target);
     clReleaseMemObject(device_output_3channel);
@@ -219,6 +249,17 @@ cv::Mat chapter_1(
             img_school_door_height
         )
     );
+
+    // When Width is not enough
+    if (img_school_door_width < CANVAS_WIDTH) {
+        img_school_door_width = CANVAS_WIDTH;
+        img_school_door_height = static_cast<int>(
+            calculateNewHeightByNewWidth(
+                img_school_door_width_ori, img_school_door_height_ori,
+                img_school_door_width
+            )
+        );
+    }
 
     cl_mem device_img_school_door_ori = OpenCLMalloc(
         context,

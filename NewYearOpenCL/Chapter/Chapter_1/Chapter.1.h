@@ -10,7 +10,8 @@
 #include "../../OpenCL/Include/OpenCLInclude.h"
 #include "../../OpenCL/Include/OpenCLError.h"
 #include "../../OpenCL/Include/OpenCLWorkFlow.h"
-#include "../../OpenCL/Include/RAII/OpenCLProgram.h"
+
+#include "../../OpenCL/Include/OpenCLRAII.h"
 
 cv::Mat chapter_1(
     cl_context context, cl_device_id device,

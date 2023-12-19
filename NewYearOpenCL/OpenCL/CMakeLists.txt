@@ -29,6 +29,12 @@ function(convert_cl_to_c_header cl_file hpp_template_file)
     )
 endfunction()
 
+# OpenCL Memset
+convert_cl_to_c_header(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/OpenCLMemset2D.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelOpenCLMemset2D.hpp"
+)
+
 # Draw Rectangle
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/DrawRect.cl"

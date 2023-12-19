@@ -45,9 +45,9 @@ if (WIN32)
     endif ()
 endif ()
 
-if(WIN32)
+if (WIN32)
     set(OpenCV_DIR "../../OpenCV-4.8.0-official")
-#    set(OpenCV_DIR "../../OpenCV-MinGW-Build-OpenCV-4.5.5-x64")
+    #    set(OpenCV_DIR "../../OpenCV-MinGW-Build-OpenCV-4.5.5-x64")
 endif ()
 
 find_package(OpenCV REQUIRED)
@@ -67,6 +67,9 @@ file(GLOB_RECURSE OPENCL_INCLUDE "OpenCL/Include/*.cpp")
 file(GLOB_RECURSE OPENCL_INCLUDE_HEADER "OpenCL/Include/*.h")
 file(GLOB_RECURSE OPENCL_DEVICE "OpenCL/Devices/*.cpp")
 file(GLOB_RECURSE OPENCL_DEVICE_HEADER "OpenCL/Devices/*.h")
+
+file(GLOB_RECURSE OpenCL_Utils "OpenCL/Utils/*.cpp")
+file(GLOB_RECURSE OpenCL_Utils_HEADER "OpenCL/Utils/*.h")
 
 file(GLOB_RECURSE OPENCL_IMAGE_OPERATION "OpenCL/Image/*.cpp")
 file(GLOB_RECURSE OPENCL_IMAGE_OPERATION_HEADER "OpenCL/Image/*.h")
@@ -98,6 +101,9 @@ add_executable(
         # OpenCL Device
         ${OPENCL_DEVICE}
         ${OPENCL_DEVICE_HEADER}
+
+        ${OpenCL_Utils}
+        ${OpenCL_Utils_HEADER}
 
         # OpenCL Image Process
         # + OpenCL Image Generate
