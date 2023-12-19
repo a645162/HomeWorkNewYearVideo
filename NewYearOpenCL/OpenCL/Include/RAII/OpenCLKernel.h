@@ -1,4 +1,4 @@
-// OpenCL Auto Release Kernel Memory
+// OpenCL Kernel RAII
 // Created by Haomin Kong on 2023/12/19.
 // https://github.com/a645162/HomeWorkNewYearVideo
 // RAII (Resource Acquisition Is Initialization)
@@ -10,15 +10,18 @@
 
 class OpenCLKernel {
 private:
-    bool isReleased = false;
-
-public:
+    bool isPtrReleased = false;
     cl_kernel kernel;
 
+public:
     OpenCLKernel(
         cl_program program,
         const char* kernel_name
     );
+
+    [[nodiscard]] cl_kernel GetKernel() const;
+
+    [[nodiscard]] bool isReleased() const;
 
     void ReleaseKernel();
 

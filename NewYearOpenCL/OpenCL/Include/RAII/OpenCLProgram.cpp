@@ -7,6 +7,7 @@
 
 #include <cstring>
 
+#include "OpenCLKernel.h"
 #include "../OpenCLError.h"
 
 OpenCLProgram::OpenCLProgram(
@@ -32,7 +33,7 @@ OpenCLProgram::OpenCLProgram(
     //    std::cout << "Building " << kernel_name << "..." << std::endl;
 }
 
-cl_kernel OpenCLProgram::CreateKernel() {
+cl_kernel OpenCLProgram::CreateKernel() const {
     cl_int err;
     cl_kernel kernel =
             clCreateKernel(
@@ -44,9 +45,17 @@ cl_kernel OpenCLProgram::CreateKernel() {
     return kernel;
 }
 
+OpenCLKernel OpenCLProgram::CreateKernelRAII() {
+    return {program, program_kernel_name};
+}
+
+bool OpenCLProgram::isReleased() const {
+    return isPtrReleased;
+}
+
 void OpenCLProgram::ReleaseProgram() {
-    if (!isReleased) {
-        isReleased = true;
+    if (!isReleased()) {
+        isPtrReleased = true;
         clReleaseProgram(program);
     }
 }

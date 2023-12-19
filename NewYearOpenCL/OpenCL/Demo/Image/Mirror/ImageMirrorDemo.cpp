@@ -4,52 +4,58 @@
 
 #include "ImageMirrorDemo.h"
 
+#include "../../../Include/RAII/OpenCLProgram.h"
+#include "../../../Include/RAII/OpenCLQueue.h"
+#include "../../../Include/RAII/OpenCLKernel.h"
+#include "../../../Include/RAII/OpenCLMem.h"
+
+#include "../../../../Utils/Calc.h"
+
 #include "../../../Image/ImageMirror.h"
 
 void mirror_demo(cl_context context, cl_device_id device) {
     cv::Mat image1 = cv::imread("../../../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
-    //    cv::Mat image2 = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
 
     //    cv::cvtColor(image1, image1, cv::COLOR_BGR2GRAY);
     //    cv::cvtColor(image1, image1, cv::COLOR_BGRA2GRAY);
     cv::cvtColor(image1, image1, cv::COLOR_BGRA2BGR);
 
     cv::resize(image1, image1, cv::Size(image1.cols / 4, image1.rows / 4));
-    int image1_width = image1.cols;
-    int image1_height = image1.rows;
-    int image1_channels = image1.channels();
+    const int image1_width = image1.cols;
+    const int image1_height = image1.rows;
+    const int image1_channels = image1.channels();
     std::cout << image1_width << "x" << image1_height << "x" << image1_channels << std::endl;
 
-    cl_command_queue queue = CLCreateCommandQueue(context, device);
+    const auto queue = OpenCLQueue(context, device);
 
     OpenCLProgram program_mirror = CLCreateProgram_Image_Mirror(context, device);
 
-    cl_mem device_image1 = OpenCLMalloc(
+    const auto device_image1 = OpenCLMem(
         context,
-        image1_width * image1_height * image1_channels * sizeof(uchar),
+        calcImageSize(image1_width, image1_height, image1_channels),
         CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
         image1.data
     );
 
-    cl_mem device_output = OpenCLMalloc(
+    const auto device_output = OpenCLMem(
         context,
-        image1_width * image1_height * image1_channels * sizeof(uchar),
+        calcImageSize(image1_width, image1_height, image1_channels),
         CL_MEM_WRITE_ONLY,
         nullptr
     );
 
-    cl_kernel kernel = program_mirror.CreateKernel();
+    const auto kernel = program_mirror.CreateKernelRAII();
 
     KernelSetArg_Image_Mirror(
-        kernel,
-        device_image1, device_output,
+        kernel.GetKernel(),
+        device_image1.GetMem(), device_output.GetMem(),
         image1_width, image1_height,
         image1_channels
     );
 
     KernelSetArg_Image_Mirror(
-        kernel,
-        device_image1, device_output,
+        kernel.GetKernel(),
+        device_image1.GetMem(), device_output.GetMem(),
         image1_width, image1_height,
         image1_channels,
         0
@@ -61,34 +67,24 @@ void mirror_demo(cl_context context, cl_device_id device) {
     };
 
     CLKernelEnqueue(
-        queue, kernel,
+        queue.GetQueue(), kernel.GetKernel(),
         2, globalWorkSize
     );
 
-    clFinish(queue);
+    queue.WaitFinish();
 
-    // Copy the result from OpenCL device memory back to Mat
-    cv::Mat result(image1_height, image1_width, CV_8UC(image1_channels));
+    const cv::Mat result(image1_height, image1_width, CV_8UC(image1_channels));
 
     OpenCLMemcpyFromDevice(
-        queue,
+        queue.GetQueue(),
         result.data,
-        device_output,
+        device_output.GetMem(),
         image1_width * image1_height * image1_channels * sizeof(uchar)
     );
 
-    // Free OpenCL resources
-
-    clReleaseMemObject(device_image1);
-    clReleaseMemObject(device_output);
-    clReleaseKernel(kernel);
-
-    //    clReleaseProgram(resize_program);
-
-    clReleaseCommandQueue(queue);
-
     std::cout << "Output:" << std::endl;
     std::cout << result.cols << "x" << result.rows << "x" << result.channels() << std::endl;
+
     cv::imshow("Output Image", result);
     cv::waitKey(0);
 }

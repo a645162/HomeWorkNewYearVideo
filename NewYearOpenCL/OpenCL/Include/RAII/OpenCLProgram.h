@@ -3,31 +3,37 @@
 // https://github.com/a645162/HomeWorkNewYearVideo
 // RAII (Resource Acquisition Is Initialization)
 
-#ifndef NEWYEAROPENCL_OPENCLPROGRAM_H
-#define NEWYEAROPENCL_OPENCLPROGRAM_H
+#ifndef OPENCL_OPENCL_PROGRAM_H
+#define OPENCL_OPENCL_PROGRAM_H
 
 #include "../OpenCLInclude.h"
 #include "../OpenCLFlow.h"
 
+#include "OpenCLKernel.h"
+
 class OpenCLProgram {
 private:
-    cl_program program;
-    char* program_kernel_name;
-    bool isReleased = false;
+	cl_program program;
+	char* program_kernel_name;
+	bool isPtrReleased = false;
 
 public:
-    OpenCLProgram(
-        cl_context context,
-        cl_device_id device,
-        const char* kernel_name,
-        const char* cl_kernel_source_code
-    );
+	OpenCLProgram(
+		cl_context context,
+		cl_device_id device,
+		const char* kernel_name,
+		const char* cl_kernel_source_code
+	);
 
-    cl_kernel CreateKernel();
+	cl_kernel CreateKernel() const;
 
-    void ReleaseProgram();
+	OpenCLKernel CreateKernelRAII();
 
-    ~OpenCLProgram();
+	[[nodiscard]] bool isReleased() const;
+
+	void ReleaseProgram();
+
+	~OpenCLProgram();
 };
 
-#endif //NEWYEAROPENCL_OPENCLPROGRAM_H
+#endif //OPENCL_OPENCL_PROGRAM_H
