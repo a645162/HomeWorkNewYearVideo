@@ -82,6 +82,11 @@ void video_main(cl_device_id device, cl_context context) {
 
     // Main Program
 #ifndef DEBUG_MODE
+    std::cout << "Please Set Ratio" << std::endl;
+
+    // There is a error,but it will be work when I add this line.
+    UserInputWithDefault("", DEFAULT_RESOLUTION_SCALE_RATIO);
+
     RatioVideoScale = UserInputWithDefault("Video Scale Ratio", DEFAULT_RESOLUTION_SCALE_RATIO);
     if (RatioVideoScale < 0.1) {
         RatioVideoScale = 0.1f;
@@ -101,26 +106,30 @@ void video_main(cl_device_id device, cl_context context) {
     }
 #endif
 
-    CANVAS_WIDTH = (int) (ORIGIN_CANVAS_WIDTH * RatioVideoScale);
-    CANVAS_HEIGHT = (int) (ORIGIN_CANVAS_HEIGHT * RatioVideoScale);
+    CANVAS_WIDTH = static_cast<int>(ORIGIN_CANVAS_WIDTH * RatioVideoScale);
+    CANVAS_HEIGHT = static_cast<int>(ORIGIN_CANVAS_HEIGHT * RatioVideoScale);
 
     CANVAS_CENTER_X = CANVAS_WIDTH / 2;
     CANVAS_CENTER_Y = CANVAS_HEIGHT / 2;
 
-    FRAME_RATE = (int) (DEFAULT_FRAME_RATE * RatioVideoFrame);
+    FRAME_RATE = static_cast<int>(DEFAULT_FRAME_RATE * RatioVideoFrame);
+
+    std::cout << "Canvas Size: " << CANVAS_WIDTH << " x " << CANVAS_HEIGHT << std::endl;
+    std::cout << "Frame Rate: " << FRAME_RATE << std::endl;
+    std::cout << "Canvas Center: " << "(" << CANVAS_CENTER_X << "," << CANVAS_CENTER_Y << ")" << std::endl;
 
     std::cout << "Ready to generate video" << std::endl;
 #ifndef DEBUG_MODE
     WaitForEnterPress();
 #endif
 
-    auto startTime = std::chrono::high_resolution_clock::now();
+    const auto startTime = std::chrono::high_resolution_clock::now();
 
     start_generate(device, context);
 
-    auto endTime = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-    double seconds = static_cast<double>(duration.count()) / 1000.0;
+    const auto endTime = std::chrono::high_resolution_clock::now();
+    const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+    const double seconds = static_cast<double>(duration.count()) / 1000.0;
     std::cout << std::fixed << std::setprecision(3);
     std::cout << "Run Time: " << seconds << " S" << std::endl;
 

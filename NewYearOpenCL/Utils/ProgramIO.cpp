@@ -28,6 +28,9 @@ T UserInputWithDefault(const char *prompt, T defaultValue) {
     std::cout << prompt << "(Default value: " << defaultValue << ")" << std::endl;
     std::getline(std::cin, userInput);
 
+    // Remove all spaces
+    userInput.erase(std::remove_if(userInput.begin(), userInput.end(), isspace), userInput.end());
+
     if (userInput.empty()) {
         // User Input Empty, try to use default value
         value = defaultValue;
