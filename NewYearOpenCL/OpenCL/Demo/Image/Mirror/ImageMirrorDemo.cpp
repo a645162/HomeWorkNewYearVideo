@@ -39,9 +39,7 @@ void mirror_demo(cl_context context, cl_device_id device) {
 
     const auto device_output = OpenCLMem(
         context,
-        calcImageSize(image1_width, image1_height, image1_channels),
-        CL_MEM_WRITE_ONLY,
-        nullptr
+        image1_width, image1_height, image1_channels
     );
 
     const auto kernel = program_mirror.CreateKernelRAII();
@@ -75,12 +73,7 @@ void mirror_demo(cl_context context, cl_device_id device) {
 
     const cv::Mat result(image1_height, image1_width, CV_8UC(image1_channels));
 
-    OpenCLMemcpyFromDevice(
-        queue.GetQueue(),
-        result.data,
-        device_output.GetMem(),
-        image1_width * image1_height * image1_channels * sizeof(uchar)
-    );
+    device_output.CopyToHost(queue.GetQueue(), result.data);
 
     std::cout << "Output:" << std::endl;
     std::cout << result.cols << "x" << result.rows << "x" << result.channels() << std::endl;

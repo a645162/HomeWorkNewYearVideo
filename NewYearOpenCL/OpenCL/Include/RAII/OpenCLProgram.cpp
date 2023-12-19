@@ -34,6 +34,11 @@ OpenCLProgram::OpenCLProgram(
 }
 
 cl_kernel OpenCLProgram::CreateKernel() const {
+    if (isReleased()) {
+        std::cerr << "Error: OpenCLProgram is released." << std::endl;
+        return nullptr;
+    }
+
     cl_int err;
     cl_kernel kernel =
             clCreateKernel(
@@ -46,6 +51,11 @@ cl_kernel OpenCLProgram::CreateKernel() const {
 }
 
 OpenCLKernel OpenCLProgram::CreateKernelRAII() {
+    if (isReleased()) {
+        std::cerr << "Error: OpenCLProgram is released." << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     return {program, program_kernel_name};
 }
 

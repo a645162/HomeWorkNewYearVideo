@@ -12,10 +12,20 @@ OpenCLQueue::OpenCLQueue(cl_context context, cl_device_id device) {
 }
 
 cl_command_queue OpenCLQueue::GetQueue() const {
+    if (isReleased()) {
+        std::cerr << "Error: OpenCL Queue is released." << std::endl;
+        return nullptr;
+    }
+
     return queue;
 }
 
 void OpenCLQueue::WaitFinish() const {
+    if (isReleased()) {
+        std::cerr << "Error: OpenCL Queue is released." << std::endl;
+        return;
+    }
+
     clFinish(queue);
 }
 

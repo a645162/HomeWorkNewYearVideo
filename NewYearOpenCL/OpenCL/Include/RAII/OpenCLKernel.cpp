@@ -19,6 +19,11 @@ OpenCLKernel::OpenCLKernel(cl_program program, const char* kernel_name) {
 }
 
 cl_kernel OpenCLKernel::GetKernel() const {
+    if (isReleased()) {
+        std::cerr << "Error: OpenCL Kernel is released." << std::endl;
+        return nullptr;
+    }
+
     return kernel;
 }
 
