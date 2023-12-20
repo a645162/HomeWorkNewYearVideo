@@ -25,7 +25,7 @@ public:
         return GetKernel();
     }
 
-    void KernelEnqueue(
+    void Execute(
         cl_command_queue queue,
         size_t work_dim,
         size_t* global_work_size,

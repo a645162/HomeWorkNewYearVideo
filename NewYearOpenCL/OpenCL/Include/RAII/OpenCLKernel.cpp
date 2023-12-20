@@ -29,7 +29,7 @@ cl_kernel OpenCLKernel::GetKernel() const {
     return kernel;
 }
 
-void OpenCLKernel::KernelEnqueue(
+void OpenCLKernel::Execute(
     cl_command_queue queue,
     size_t work_dim,
     size_t* global_work_size,

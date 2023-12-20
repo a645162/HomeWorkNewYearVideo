@@ -141,7 +141,7 @@ void conv_demo(cl_context context, cl_device_id device) {
         static_cast<size_t>(width),
         static_cast<size_t>(height)
     };
-    kernel_binaryzation.KernelEnqueue(queue, 2, globalWorkSize_2);
+    kernel_binaryzation.Execute(queue, 2, globalWorkSize_2);
 
 
     // Copy the result from OpenCL device memory back to Mat

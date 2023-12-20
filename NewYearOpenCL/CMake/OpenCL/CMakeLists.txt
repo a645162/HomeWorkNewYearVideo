@@ -58,4 +58,10 @@ target_link_libraries(
         OpenCLTestSourceBuild PRIVATE ${OpenCL_LIBRARIES}
 )
 
+target_link_libraries(OpenCLTestSourceBuild PRIVATE ${OpenCV_LIBS})
+target_link_libraries(
+        OpenCLTestSourceBuild PRIVATE
+        opencv_core opencv_highgui opencv_videoio
+)
+
 add_test(NAME OpenCLTestSourceBuildTest COMMAND OpenCLTestSourceBuild)

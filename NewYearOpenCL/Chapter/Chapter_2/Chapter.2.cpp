@@ -12,6 +12,7 @@
 #include "../../OpenCL/Image/GaussianKernel.h"
 
 // 图像合并
+#include "../../OpenCL/Image/ImageBinaryzation.h"
 #include "../../OpenCL/Image/ImageMerge.h"
 
 
@@ -49,8 +50,11 @@ cv::Mat chapter_2(
 
     cv::Mat result_3channel(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3);
 
-    size_t global_work_size_2[2] = {static_cast<size_t>(CANVAS_WIDTH), static_cast<size_t>(CANVAS_HEIGHT)};
-    size_t global_work_size_3[3] = {
+    size_t global_work_size_2[2] = {
+        static_cast<size_t>(CANVAS_WIDTH),
+        static_cast<size_t>(CANVAS_HEIGHT)
+    };
+    size_t global_work_size_3_4channel[3] = {
         static_cast<size_t>(CANVAS_WIDTH),
         static_cast<size_t>(CANVAS_HEIGHT),
         static_cast<size_t>(4)
@@ -67,6 +71,7 @@ cv::Mat chapter_2(
     auto program_conv = CLCreateProgram_Image_Conv(context, device);
     auto program_mask = CLCreateProgram_Image_Mask(context, device);
     auto program_crop = CLCreateProgram_Image_Crop(context, device);
+    auto program_binaryzation = CLCreateProgram_Image_Binaryzation(context, device);
 
     const int frame_section_1 = frame_each_section * 2;
 #ifdef ENABLE_CHAPTER_2_SECTION_1
@@ -139,7 +144,7 @@ cv::Mat chapter_2(
             device_conv_kernel,
             gaussian_kernel_size, conv_pad_size
         );
-        kernel_conv.KernelEnqueue(queue, 3, global_work_size_3);
+        kernel_conv.Execute(queue, 3, global_work_size_3_4channel);
 
         constexpr int logo_size = 400;
         const auto logo_new_size = static_cast<int>(
@@ -166,7 +171,7 @@ cv::Mat chapter_2(
             shmtu_logo.channels()
         );
         size_t global_work_size_logo[2] = {static_cast<size_t>(logo_new_size), static_cast<size_t>(logo_new_size)};
-        kernel_resize.KernelEnqueue(queue, 2, global_work_size_logo);
+        kernel_resize.Execute(queue, 2, global_work_size_logo);
 
         const auto kernel_merge = program_merge.CreateKernelRAII();
 
@@ -183,7 +188,7 @@ cv::Mat chapter_2(
             logo_new_size, logo_new_size, 4,
             alpha
         );
-        kernel_merge.KernelEnqueue(queue, 2, global_work_size_2);
+        kernel_merge.Execute(queue, 2, global_work_size_2);
 
         const auto kernel_channel_convert = program_channel.CreateKernelRAII();
         KernelSetArg_Image_Channel(
@@ -192,7 +197,7 @@ cv::Mat chapter_2(
             CANVAS_WIDTH, CANVAS_HEIGHT,
             4, 3
         );
-        kernel_channel_convert.KernelEnqueue(queue, 2, global_work_size_2);
+        kernel_channel_convert.Execute(queue, 2, global_work_size_2);
 
         mem_frame_channel3.CopyToHost(queue.GetQueue(), result_3channel.data);
 
@@ -239,7 +244,7 @@ cv::Mat chapter_2(
             light_source_x, light_source_y,
             0, 0, 0, 150
         );
-        kernel_mask.KernelEnqueue(queue, 2, global_work_size_2);
+        kernel_mask.Execute(queue, 2, global_work_size_2);
 
         // Channel Convert
         const auto kernel_channel_convert = program_channel.CreateKernelRAII();
@@ -249,7 +254,7 @@ cv::Mat chapter_2(
             CANVAS_WIDTH, CANVAS_HEIGHT,
             4, 3
         );
-        kernel_channel_convert.KernelEnqueue(queue, 2, global_work_size_2);
+        kernel_channel_convert.Execute(queue, 2, global_work_size_2);
         mem_frame_channel3.CopyToHost(queue.GetQueue(), result_3channel.data);
 
         video_writer->write(result_3channel);
@@ -305,7 +310,7 @@ cv::Mat chapter_2(
     // Because of here,global_work_size_2 is a const variable.
     // So The output may not full fill the Memory Area.
     // But we will crop them,so that it is doesn't matter.
-    kernel_resize.KernelEnqueue(queue, 2, global_work_size_2);
+    kernel_resize.Execute(queue, 2, global_work_size_2);
 
     const auto mem_img2_croped = OpenCLMem(
         context,
@@ -321,7 +326,7 @@ cv::Mat chapter_2(
         CANVAS_WIDTH, CANVAS_HEIGHT,
         img2_origin.channels()
     );
-    kernel_crop.KernelEnqueue(queue, 2, global_work_size_2);
+    kernel_crop.Execute(queue, 2, global_work_size_2);
 
     const auto mem_img2_4channel = OpenCLMem(
         context,
@@ -336,7 +341,7 @@ cv::Mat chapter_2(
         CANVAS_WIDTH, CANVAS_HEIGHT,
         img2_origin.channels(), 4
     );
-    kernel_channel_img2.KernelEnqueue(queue, 2, global_work_size_2);
+    kernel_channel_img2.Execute(queue, 2, global_work_size_2);
 
     mem_img2_4channel.ShowByOpenCV(queue);
 
@@ -364,9 +369,29 @@ cv::Mat chapter_2(
         laplacian_conv_kernel_size,
         laplacian_conv_kernel_size / 2
     );
-    kernel_laplacian.KernelEnqueue(queue, 3, global_work_size_3);
+    kernel_laplacian.Execute(queue, 3, global_work_size_3_4channel);
 
     mem_img2_line_4channel.ShowByOpenCV(queue);
+
+    // cv::Mat img2_line_4channel(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC4);
+    // mem_img2_line_4channel.CopyToHost(queue, img2_line_4channel.data);
+    // cv::imwrite("img2_line_4channel.png",img2_line_4channel);
+
+    const auto mem_img2_line_bin_4channel = OpenCLMem(
+        context,
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4
+    );
+    const auto kernel_binaryzation = program_binaryzation.CreateKernelRAII();
+    KernelSetArg_Image_Binaryzation(
+        kernel_binaryzation.GetKernel(),
+        mem_img2_line_4channel.GetMem(),
+        mem_img2_line_bin_4channel.GetMem(),
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+        30, false
+    );
+    kernel_binaryzation.Execute(queue, WORK_DIM_IMAGE_BINARYZATION, global_work_size_2);
+
+    mem_img2_line_bin_4channel.ShowByOpenCV(queue);
 
     const auto mem_frame_s3_channel4 = OpenCLMem(
         context,
