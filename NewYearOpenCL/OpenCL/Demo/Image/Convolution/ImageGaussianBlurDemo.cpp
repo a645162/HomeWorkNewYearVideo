@@ -13,7 +13,7 @@ void blur_conv_demo(cl_context context, cl_device_id device) {
     cv::resize(image_ori, image_ori, cv::Size(image_ori.cols / 4, image_ori.rows / 4));
 
     // remove alpha test
-    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGRA2BGR);
+    // cv::cvtColor(image_ori, image_ori, cv::COLOR_BGRA2BGR);
 
     // Convert to gray test
     //    cv::cvtColor(image_ori, image_ori, cv::COLOR_BGR2GRAY);
@@ -22,13 +22,15 @@ void blur_conv_demo(cl_context context, cl_device_id device) {
     auto height = image_ori.rows;
     auto channels = image_ori.channels();
 
+    cv::Mat image_white(height, width, CV_8UC(channels), cv::Scalar(255, 255, 255));
+
     std::cout << "Image size: " << width << "x" << height << "x" << channels << std::endl;
 
     cl_command_queue queue = CLCreateCommandQueue(context, device);
 
     //    cl_program program = CLCreateProgramImageResize(context, device);
 
-    OpenCLProgram program_conv = CLCreateProgram_Image_Conv(context, device);
+    const OpenCLProgram program_conv = CLCreateProgram_Image_Conv(context, device);
 
     // Create OpenCL buffers for input and output data
 
@@ -48,8 +50,8 @@ void blur_conv_demo(cl_context context, cl_device_id device) {
         nullptr
     );
 
-    auto gaussian_params = calcGaussianKernelParameters(90.0f);
-    auto kernel_gaussian = createGaussianKernel(gaussian_params);
+    const auto gaussian_params = calcGaussianKernelParameters(90.0f);
+    const auto kernel_gaussian = createGaussianKernel(gaussian_params);
 
     const int kernelSize = gaussian_params.size;
     const int padSize = kernelSize / 2;
@@ -60,6 +62,8 @@ void blur_conv_demo(cl_context context, cl_device_id device) {
         CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
         (void *) (kernel_gaussian)
     );
+
+    free(kernel_gaussian);
 
     cl_kernel kernel = program_conv.CreateKernel();
 

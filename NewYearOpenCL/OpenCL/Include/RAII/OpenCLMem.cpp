@@ -5,6 +5,8 @@
 
 #include "OpenCLMem.h"
 
+#include "../../../OpenCV/Include/OpenCVInclude.h"
+
 #include "../OpenCLError.h"
 #include "../../../Utils/Calc.h"
 
@@ -25,6 +27,13 @@ OpenCLMem::OpenCLMem(
     cl_mem_flags flags,
     void* host_ptr
 ) : OpenCLMem(context, calcImageSize(width, height, channel), flags, host_ptr) {
+    this->width = width;
+    this->height = height;
+    this->channel = channel;
+}
+
+bool OpenCLMem::isSizeVaild() const {
+    return width > 0 && height > 0 && channel > 0;
 }
 
 cl_mem OpenCLMem::GetMem() const {
@@ -39,6 +48,36 @@ void OpenCLMem::CopyToHost(cl_command_queue queue, void* dst_cpu) const {
             mem,
             mem_size
         );
+    }
+}
+
+void OpenCLMem::ShowByOpenCV(
+    cl_command_queue queue,
+    int width, int height, int channel,
+    int wait_time
+) const {
+    if (!isReleased()) {
+        cv::Mat mat(height, width, CV_MAKETYPE(CV_8U, channel));
+        CopyToHost(queue, mat.data);
+        cv::imshow("Image", mat);
+        cv::waitKey(wait_time);
+        mat.release();
+    }
+}
+
+void OpenCLMem::ShowByOpenCV(
+    cl_command_queue queue, int wait_time
+) const {
+    if (isSizeVaild()) {
+        ShowByOpenCV(
+            queue,
+            static_cast<int>(this->width),
+            static_cast<int>(this->height),
+            static_cast<int>(this->channel),
+            wait_time
+        );
+    } else {
+        std::cout << "This Memory is not initlize by size!" << std::endl;
     }
 }
 

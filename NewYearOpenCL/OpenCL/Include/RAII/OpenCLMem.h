@@ -14,6 +14,11 @@ private:
     cl_mem mem;
     size_t mem_size;
     bool isPtrReleased = false;
+    unsigned int width = 0;
+    unsigned int height = 0;
+    unsigned int channel = 0;
+
+    bool isSizeVaild() const;
 
 public:
     OpenCLMem(
@@ -39,6 +44,14 @@ public:
     }
 
     void CopyToHost(cl_command_queue queue, void* dst_cpu) const;
+
+    auto ShowByOpenCV(cl_command_queue queue, int wait_time = 0) const -> void;
+
+    void ShowByOpenCV(
+        cl_command_queue queue,
+        int width, int height, int channel,
+        int wait_time = 0
+    ) const;
 
     [[nodiscard]] bool isReleased() const;
 
