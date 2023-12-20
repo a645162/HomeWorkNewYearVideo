@@ -34,16 +34,20 @@ extern int CANVAS_WIDTH, CANVAS_HEIGHT;
 extern int CANVAS_CENTER_X, CANVAS_CENTER_Y;
 extern int FRAME_RATE;
 
+const int CHAPTER_INDEX = 1;
+
 cv::Mat chapter_2(
     cl_context context, cl_device_id device,
     int max_frame, cv::VideoWriter* video_writer,
     cv::Mat* last_frame
 ) {
+    std::cout << "Chapter 2" << std::endl;
+
     if (last_frame->channels() == 3) {
         cv::cvtColor(*last_frame, *last_frame, cv::COLOR_BGR2BGRA);
     }
 
-    cv::Mat result(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3);
+    cv::Mat result_3channel(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3);
 
     size_t global_work_size_2[2] = {static_cast<size_t>(CANVAS_WIDTH), static_cast<size_t>(CANVAS_HEIGHT)};
 
@@ -80,22 +84,17 @@ cv::Mat chapter_2(
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
     );
 
-    // const auto mem_frame_channel3 = OpenCLMem(
-    //     context,
-    //     CANVAS_WIDTH, CANVAS_HEIGHT, 3
-    // );
-    auto mem_frame_channel3 = OpenCLMalloc(
+    const auto mem_frame_channel3 = OpenCLMem(
         context,
-        CANVAS_WIDTH * CANVAS_HEIGHT * 3 * sizeof(uchar),
-        CL_MEM_READ_WRITE, nullptr
+        CANVAS_WIDTH, CANVAS_HEIGHT, 3
     );
 
-    const auto frame_section_1_1 = static_cast<int>(frame_section_1 * 0.7);
+    const auto frame_section_1_1 = static_cast<int>(frame_section_1 * 0.8);
 
     for (int i = 0; i < frame_section_1_1; ++i) {
         constexpr int logo_size = 400;
         const auto logo_new_size = static_cast<int>(
-            RatioVideoScale * logo_size *
+            RatioVideoScale *
             (
                 1 + (logo_size - 1) *
                 (
@@ -137,33 +136,25 @@ cv::Mat chapter_2(
         );
         kernel_merge.KernelEnqueue(queue, 2, global_work_size_2);
 
-        cv::Mat result4(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC4);
-        mem_frame_channel4.CopyToHost(queue.GetQueue(), result4.data);
-        cv::imshow("result4",result4);
-        cv::waitKey(0);
-
         const auto kernel_channel_convert = program_channel.CreateKernelRAII();
         KernelSetArg_Image_Channel(
             kernel_channel_convert.GetKernel(),
-            mem_frame_channel4.GetMem(), mem_frame_channel3,
+            mem_frame_channel4.GetMem(), mem_frame_channel3.GetMem(),
             CANVAS_WIDTH, CANVAS_HEIGHT,
             4, 3
         );
-        kernel_merge.KernelEnqueue(queue, 2, global_work_size_2);
+        kernel_channel_convert.KernelEnqueue(queue, 2, global_work_size_2);
 
-        // mem_frame_channel3.CopyToHost(queue.GetQueue(), result.data);
+        mem_frame_channel3.CopyToHost(queue.GetQueue(), result_3channel.data);
 
-        OpenCLMemcpyFromDevice(
-            queue,
-            result.data,
-            mem_frame_channel3,
-            CANVAS_WIDTH * CANVAS_HEIGHT * 3 * sizeof(uchar)
-        );
+        // cv::imshow("result 3", result_3channel);
+        // cv::waitKey(5);
 
-        cv::imshow("result",result);
-        cv::waitKey(0);
+        video_writer->write(result_3channel);
+    }
 
-        video_writer->write(result);
+    for (int i = frame_section_1; i < frame_section_1; ++i) {
+        video_writer->write(result_3channel);
     }
 
 #endif
@@ -182,5 +173,6 @@ cv::Mat chapter_2(
 
     // clReleaseCommandQueue(queue);
 
-    return result;
+    last_frame->release();
+    return result_3channel;
 }

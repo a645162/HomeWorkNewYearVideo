@@ -4,9 +4,15 @@
 
 #include "OpenCVVideo.h"
 
-cv::Mat lastFrame;
+void WriteFrame(cv::VideoWriter writer, cv::Mat* frame) {
+    if (writer.isOpened() == false) {
+        std::cout << "Error: VideoWriter is not opened." << std::endl;
+        return;
+    }
 
-void WriteFrame(cv::VideoWriter writer, cv::Mat& frame) {
-    writer.write(frame);
-    lastFrame = frame.clone();
+    writer.write(*frame);
+}
+
+void WriteFrame(const cv::VideoWriter& writer, cv::Mat& frame) {
+    WriteFrame(writer, &frame);
 }

@@ -22,7 +22,7 @@ int CANVAS_WIDTH = ORIGIN_CANVAS_WIDTH, CANVAS_HEIGHT = ORIGIN_CANVAS_HEIGHT;
 int CANVAS_CENTER_X = ORIGIN_CANVAS_WIDTH / 2, CANVAS_CENTER_Y = ORIGIN_CANVAS_HEIGHT / 2;
 int FRAME_RATE = DEFAULT_FRAME_RATE;
 
-// #define ENABLE_CHAPTER_1
+#define ENABLE_CHAPTER_1
 #define ENABLE_CHAPTER_2
 
 int CalcFrame(const int frame_length) {
@@ -69,8 +69,7 @@ void start_generate(cl_device_id device, cl_context context) {
 #endif
 
 #ifdef ENABLE_CHAPTER_2
-    last_frame = chapter_2(context, device, CalcFrame(600), &outputVideo, &last_frame);
-    last_frame.release();
+    last_frame = chapter_2(context, device, CalcFrame(1000), &outputVideo, &last_frame);
 #endif
 
     outputVideo.release();

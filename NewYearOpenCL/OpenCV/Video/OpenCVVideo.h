@@ -7,6 +7,8 @@
 
 #include "../Include/OpenCVInclude.h"
 
-void WriteFrame(cv::VideoWriter writer, cv::Mat& frame);
+void WriteFrame(cv::VideoWriter writer, cv::Mat* frame);
+
+void WriteFrame(const cv::VideoWriter& writer, cv::Mat& frame);
 
 #endif //NEWYEAROPENCL_OPENCVVIDEO_H
