@@ -180,3 +180,6 @@ endif ()
 
 # Demo
 add_subdirectory(OpenCL/Demo)
+
+include(CTest)
+add_subdirectory(CMake/OpenCL)

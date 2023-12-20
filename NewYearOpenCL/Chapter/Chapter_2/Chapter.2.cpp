@@ -39,6 +39,10 @@ cv::Mat chapter_2(
     int max_frame, cv::VideoWriter* video_writer,
     cv::Mat* last_frame
 ) {
+    if (last_frame->channels() == 3) {
+        cv::cvtColor(*last_frame, *last_frame, cv::COLOR_BGR2BGRA);
+    }
+
     cv::Mat result(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3);
 
     size_t global_work_size_2[2] = {static_cast<size_t>(CANVAS_WIDTH), static_cast<size_t>(CANVAS_HEIGHT)};
@@ -46,6 +50,7 @@ cv::Mat chapter_2(
     const int frame_each_section = max_frame / 8;
 
     const auto queue = OpenCLQueue(context, device);
+    // auto queue=CLCreateCommandQueue(context, device);
 
     auto program_channel = CLCreateProgram_Image_Channel(context, device);
     auto program_merge = CLCreateProgram_Image_Merge(context, device);
@@ -113,7 +118,7 @@ cv::Mat chapter_2(
             shmtu_logo.channels()
         );
         size_t global_work_size_logo[2] = {static_cast<size_t>(logo_new_size), static_cast<size_t>(logo_new_size)};
-        kernel_resize.KernelEnqueue(queue.GetQueue(), 2, global_work_size_logo);
+        kernel_resize.KernelEnqueue(queue, 2, global_work_size_logo);
 
         const auto kernel_merge = program_merge.CreateKernelRAII();
 
@@ -130,7 +135,12 @@ cv::Mat chapter_2(
             logo_new_size, logo_new_size, 4,
             alpha
         );
-        kernel_merge.KernelEnqueue(queue.GetQueue(), 2, global_work_size_2);
+        kernel_merge.KernelEnqueue(queue, 2, global_work_size_2);
+
+        cv::Mat result4(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC4);
+        mem_frame_channel4.CopyToHost(queue.GetQueue(), result4.data);
+        cv::imshow("result4",result4);
+        cv::waitKey(0);
 
         const auto kernel_channel_convert = program_channel.CreateKernelRAII();
         KernelSetArg_Image_Channel(
@@ -139,16 +149,19 @@ cv::Mat chapter_2(
             CANVAS_WIDTH, CANVAS_HEIGHT,
             4, 3
         );
-        kernel_merge.KernelEnqueue(queue.GetQueue(), 2, global_work_size_2);
+        kernel_merge.KernelEnqueue(queue, 2, global_work_size_2);
 
         // mem_frame_channel3.CopyToHost(queue.GetQueue(), result.data);
 
         OpenCLMemcpyFromDevice(
-            queue.GetQueue(),
+            queue,
             result.data,
             mem_frame_channel3,
             CANVAS_WIDTH * CANVAS_HEIGHT * 3 * sizeof(uchar)
         );
+
+        cv::imshow("result",result);
+        cv::waitKey(0);
 
         video_writer->write(result);
     }
@@ -166,6 +179,8 @@ cv::Mat chapter_2(
 #ifdef ENABLE_CHAPTER_2_SECTION_4
 
 #endif
+
+    // clReleaseCommandQueue(queue);
 
     return result;
 }

@@ -22,8 +22,8 @@ int CANVAS_WIDTH = ORIGIN_CANVAS_WIDTH, CANVAS_HEIGHT = ORIGIN_CANVAS_HEIGHT;
 int CANVAS_CENTER_X = ORIGIN_CANVAS_WIDTH / 2, CANVAS_CENTER_Y = ORIGIN_CANVAS_HEIGHT / 2;
 int FRAME_RATE = DEFAULT_FRAME_RATE;
 
-#define ENABLE_CHAPTER_1
-// #define ENABLE_CHAPTER_2
+// #define ENABLE_CHAPTER_1
+#define ENABLE_CHAPTER_2
 
 int CalcFrame(const int frame_length) {
     return static_cast<int>(static_cast<float>(frame_length) * RatioVideoFrame);
@@ -65,7 +65,7 @@ void start_generate(cl_device_id device, cl_context context) {
     last_frame = chapter_1(context, device, CalcFrame(800), &outputVideo);
 #else
     // White Canvas
-    last_frame = cv::Mat(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC4, cv::Scalar(255, 255, 255, 255));
+    last_frame = cv::Mat(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3, cv::Scalar(255, 255, 255, 255));
 #endif
 
 #ifdef ENABLE_CHAPTER_2
