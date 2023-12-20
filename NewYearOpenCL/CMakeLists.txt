@@ -61,6 +61,8 @@ message(STATUS "OpenCL Include Dirs: ${OpenCL_INCLUDE_DIRS}")
 # Use to generate C Header include OpenCL Kernel.
 add_subdirectory(OpenCL)
 
+file(GLOB_RECURSE CONFIG_HEADERS "Config/*.h")
+
 file(GLOB_RECURSE PROGRAM_UTILS "Utils/*.cpp")
 
 file(GLOB_RECURSE OPENCL_INCLUDE "OpenCL/Include/*.cpp")
@@ -89,6 +91,7 @@ add_executable(
         Author/Author.cpp
 
         # Some Program Utils
+        ${CONFIG_HEADERS}
         ${PROGRAM_UTILS}
 
         # OpenCV Function

@@ -23,6 +23,13 @@ void OpenCLMemcpyFromDevice(
     size_t size
 );
 
+void OpenCLMemcpyFromDevice(
+    cl_command_queue queue,
+    void* dst_cpu,
+    cl_mem src_device,
+    int width, int height, int channel
+);
+
 unsigned int OpenCLSetKernelArg(
     cl_kernel kernel,
     cl_uint* index_var,

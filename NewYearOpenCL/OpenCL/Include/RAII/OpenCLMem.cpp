@@ -24,14 +24,7 @@ OpenCLMem::OpenCLMem(
     unsigned int channel,
     cl_mem_flags flags,
     void* host_ptr
-) {
-    mem_size = calcImageSize(width, height, channel);
-    mem = OpenCLMalloc(
-        context,
-        mem_size,
-        flags,
-        host_ptr
-    );
+) : OpenCLMem(context, calcImageSize(width, height, channel), flags, host_ptr) {
 }
 
 cl_mem OpenCLMem::GetMem() const {

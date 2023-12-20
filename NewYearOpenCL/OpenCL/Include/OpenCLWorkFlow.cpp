@@ -8,6 +8,8 @@
 
 #include <vector>
 
+#include "../../Utils/Calc.h"
+
 cl_context CLCreateContext(cl_device_id device) {
     // Create OpenCL context
     cl_int err;
@@ -102,6 +104,15 @@ void OpenCLMemcpyFromDevice(
         nullptr
     );
     CHECK_CL_ERROR(err, "Failed to read buffer.");
+}
+
+void OpenCLMemcpyFromDevice(
+    cl_command_queue queue,
+    void* dst_cpu,
+    cl_mem src_device,
+    int width, int height, int channel
+) {
+    OpenCLMemcpyFromDevice(queue, dst_cpu, src_device, calcImageSize(width, height, channel));
 }
 
 unsigned int OpenCLSetKernelArg(
