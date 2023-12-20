@@ -11,6 +11,9 @@ file(GLOB_RECURSE OPENCL_DEVICE_HEADER "../../OpenCL/Devices/*.h")
 file(GLOB_RECURSE OPENCL_IMAGE "../../OpenCL/Image/*.cpp")
 file(GLOB_RECURSE OPENCL_IMAGE_HEADER "../../OpenCL/Image/*.h")
 
+file(GLOB_RECURSE OPENCL_UTILS "../../OpenCL/Utils/*.cpp")
+file(GLOB_RECURSE OPENCL_UTILS_HEADER "../../Utils/Image/*.h")
+
 add_executable(
         OpenCLTestSourceBuild
 
@@ -26,6 +29,9 @@ add_executable(
 
         ${OPENCL_IMAGE}
         ${OPENCL_IMAGE_HEADER}
+
+        ${OPENCL_UTILS}
+        ${OPENCL_UTILS_HEADER}
 )
 
 # OpenCL

@@ -24,6 +24,8 @@
 #include "../../OpenCL/Image/ImageChannelConvert.h"
 #include "../../OpenCL/Image/ImageGrayRGB.h"
 
+#include "../../OpenCL/Utils/OpenCLMemset.h"
+
 int main() {
     cl_device_id device = UserSelectDevice();
     cl_context context = CLCreateContext(device);
@@ -42,6 +44,8 @@ int main() {
     CLCreateProgram_Image_Rotate(context, device);
     CLCreateProgram_Image_Channel(context, device);
     CLCreateProgram_Image_Gray_RGB(context, device);
+
+    CLCreateProgram_Memset_2D(context, device);
 
     clReleaseContext(context);
     clReleaseDevice(device);
