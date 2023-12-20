@@ -75,9 +75,14 @@ cv::Mat chapter_2(
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
     );
 
-    const auto mem_frame_channel3 = OpenCLMem(
+    // const auto mem_frame_channel3 = OpenCLMem(
+    //     context,
+    //     CANVAS_WIDTH, CANVAS_HEIGHT, 3
+    // );
+    auto mem_frame_channel3 = OpenCLMalloc(
         context,
-        CANVAS_WIDTH, CANVAS_HEIGHT, 3
+        CANVAS_WIDTH * CANVAS_HEIGHT * 3 * sizeof(uchar),
+        CL_MEM_READ_WRITE, nullptr
     );
 
     const auto frame_section_1_1 = static_cast<int>(frame_section_1 * 0.7);
@@ -130,7 +135,7 @@ cv::Mat chapter_2(
         const auto kernel_channel_convert = program_channel.CreateKernelRAII();
         KernelSetArg_Image_Channel(
             kernel_channel_convert.GetKernel(),
-            mem_frame_channel4.GetMem(), mem_frame_channel3.GetMem(),
+            mem_frame_channel4.GetMem(), mem_frame_channel3,
             CANVAS_WIDTH, CANVAS_HEIGHT,
             4, 3
         );
@@ -141,7 +146,7 @@ cv::Mat chapter_2(
         OpenCLMemcpyFromDevice(
             queue.GetQueue(),
             result.data,
-            mem_frame_channel3.GetMem(),
+            mem_frame_channel3,
             CANVAS_WIDTH * CANVAS_HEIGHT * 3 * sizeof(uchar)
         );
 

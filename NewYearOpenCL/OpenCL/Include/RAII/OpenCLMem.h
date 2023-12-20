@@ -28,11 +28,15 @@ public:
         unsigned int width,
         unsigned int height,
         unsigned int channel,
-        cl_mem_flags flags= CL_MEM_READ_WRITE,
-        void* host_ptr= nullptr
+        cl_mem_flags flags = CL_MEM_READ_WRITE,
+        void* host_ptr = nullptr
     );
 
     [[nodiscard]] cl_mem GetMem() const;
+
+    operator cl_mem() const {
+        return GetMem();
+    }
 
     void CopyToHost(cl_command_queue queue, void* dst_cpu) const;
 
@@ -42,5 +46,14 @@ public:
 
     ~OpenCLMem();
 };
+
+OpenCLMem OpenCLMemFromHost(
+    cl_context context,
+    unsigned int width,
+    unsigned int height,
+    unsigned int channel,
+    void* host_ptr,
+    cl_mem_flags flags = CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR
+);
 
 #endif //OPENCL_OPENCL_MEM_H

@@ -45,15 +45,15 @@ void mirror_demo(cl_context context, cl_device_id device) {
     const auto kernel = program_mirror.CreateKernelRAII();
 
     KernelSetArg_Image_Mirror(
-        kernel.GetKernel(),
-        device_image1.GetMem(), device_output.GetMem(),
+        kernel,
+        device_image1, device_output,
         image1_width, image1_height,
         image1_channels
     );
 
     KernelSetArg_Image_Mirror(
-        kernel.GetKernel(),
-        device_image1.GetMem(), device_output.GetMem(),
+        kernel,
+        device_image1, device_output,
         image1_width, image1_height,
         image1_channels,
         0
@@ -65,7 +65,7 @@ void mirror_demo(cl_context context, cl_device_id device) {
     };
 
     CLKernelEnqueue(
-        queue.GetQueue(), kernel.GetKernel(),
+        queue, kernel,
         2, globalWorkSize
     );
 
@@ -73,7 +73,7 @@ void mirror_demo(cl_context context, cl_device_id device) {
 
     const cv::Mat result(image1_height, image1_width, CV_8UC(image1_channels));
 
-    device_output.CopyToHost(queue.GetQueue(), result.data);
+    device_output.CopyToHost(queue, result.data);
 
     std::cout << "Output:" << std::endl;
     std::cout << result.cols << "x" << result.rows << "x" << result.channels() << std::endl;

@@ -21,6 +21,10 @@ public:
 
     [[nodiscard]] cl_kernel GetKernel() const;
 
+    operator cl_kernel() const {
+        return GetKernel();
+    }
+
     void KernelEnqueue(
         cl_command_queue queue,
         size_t work_dim,

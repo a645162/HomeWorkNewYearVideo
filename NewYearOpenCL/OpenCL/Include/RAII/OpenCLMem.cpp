@@ -54,6 +54,17 @@ void OpenCLMem::Release() {
     }
 }
 
+OpenCLMem OpenCLMemFromHost(
+    cl_context context,
+    unsigned int width,
+    unsigned int height,
+    unsigned int channel,
+    void* host_ptr,
+    cl_mem_flags flags
+) {
+    return {context, width, height, channel, flags, host_ptr};
+}
+
 OpenCLMem::~OpenCLMem() {
     Release();
 }

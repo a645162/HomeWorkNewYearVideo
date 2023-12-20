@@ -25,7 +25,7 @@ public:
 		const char* cl_kernel_source_code
 	);
 
-	cl_kernel CreateKernel() const;
+	[[nodiscard]] cl_kernel CreateKernel() const;
 
 	OpenCLKernel CreateKernelRAII();
 
