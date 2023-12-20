@@ -183,3 +183,22 @@ add_subdirectory(OpenCL/Demo)
 
 include(CTest)
 add_subdirectory(CMake/OpenCL)
+
+# Tokei
+set(TOKEI_EXECUTABLE tokei)
+
+execute_process(
+        COMMAND ${TOKEI_EXECUTABLE} ${CMAKE_SOURCE_DIR}
+        RESULT_VARIABLE TOKEI_RESULT
+        OUTPUT_VARIABLE TOKEI_OUTPUT
+)
+
+# Step 3: Save output to a file
+file(WRITE Tokei.txt "${TOKEI_OUTPUT}")
+
+# Display a message indicating the result
+if (TOKEI_RESULT EQUAL 0)
+    message("Tokei execution successful. Output saved to Tokei.txt")
+else ()
+    message(FATAL_ERROR "Tokei execution failed with code ${TOKEI_RESULT}")
+endif ()

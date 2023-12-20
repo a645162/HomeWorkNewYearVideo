@@ -147,9 +147,6 @@ cv::Mat chapter_2(
 
         mem_frame_channel3.CopyToHost(queue.GetQueue(), result_3channel.data);
 
-        // cv::imshow("result 3", result_3channel);
-        // cv::waitKey(5);
-
         video_writer->write(result_3channel);
     }
 
