@@ -22,8 +22,8 @@
 
 #include "../../OpenCL/Include/OpenCLRAII.h"
 
-#define ENABLE_CHAPTER_2_SECTION_1
-#define ENABLE_CHAPTER_2_SECTION_2
+// #define ENABLE_CHAPTER_2_SECTION_1
+// #define ENABLE_CHAPTER_2_SECTION_2
 #define ENABLE_CHAPTER_2_SECTION_3
 #define ENABLE_CHAPTER_2_SECTION_4
 
@@ -66,8 +66,9 @@ cv::Mat chapter_2(
     auto program_resize = CLCreateProgram_Image_Resize(context, device);
     auto program_conv = CLCreateProgram_Image_Conv(context, device);
     auto program_mask = CLCreateProgram_Image_Mask(context, device);
+    auto program_crop = CLCreateProgram_Image_Crop(context, device);
 
-    const int frame_section_1 = frame_each_section * 3;
+    const int frame_section_1 = frame_each_section * 2;
 #ifdef ENABLE_CHAPTER_2_SECTION_1
 
     const cv::Mat shmtu_logo = cv::imread("../Resources/Image/shmtu_logo.png", cv::IMREAD_UNCHANGED);
@@ -256,7 +257,121 @@ cv::Mat chapter_2(
 
 #endif
 
+    const int frame_section_3 = frame_each_section * 2;
 #ifdef ENABLE_CHAPTER_2_SECTION_3
+    std::cout << "Chapter 2" << " Section 3" << std::endl;
+
+    cv::Mat img2_origin =
+            cv::imread("../Resources/Image/zhong_yuan_tu_shu_guan_.jpg");
+
+    const int img2_origin_width = img2_origin.cols;
+    const int img2_origin_height = img2_origin.rows;
+    const int img2_origin_channels = img2_origin.channels();
+
+    const auto mem_img2_origin = OpenCLMem(
+        context,
+        img2_origin_width, img2_origin_height, img2_origin_channels,
+        CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        img2_origin.data
+    );
+
+    unsigned int new_width = CANVAS_HEIGHT;
+    unsigned int new_height = calculateNewHeightByNewWidth(
+        img2_origin_width, img2_origin_height, new_width
+    );
+    if (new_height < CANVAS_HEIGHT) {
+        new_height = CANVAS_HEIGHT;
+        new_width = calculateNewWidthByNewHeight(
+            img2_origin_width, img2_origin_height, new_height
+        );
+    }
+
+    std::cout << "new_width=" << new_width << " new_height=" << new_height << std::endl;
+
+    const auto mem_img2_resized = OpenCLMem(
+        context,
+        new_width, new_height, img2_origin_channels
+    );
+
+    const auto kernel_resize = program_resize.CreateKernelRAII();
+    KernelSetArg_Image_Resize(
+        kernel_resize.GetKernel(),
+        mem_img2_origin.GetMem(), mem_img2_resized.GetMem(),
+        img2_origin_width, img2_origin_height,
+        static_cast<int>(new_width),
+        static_cast<int>(new_height),
+        img2_origin_channels
+    );
+    // Because of here,global_work_size_2 is a const variable.
+    // So The output may not full fill the Memory Area.
+    // But we will crop them,so that it is doesn't matter.
+    kernel_resize.KernelEnqueue(queue, 2, global_work_size_2);
+
+    const auto mem_img2_croped = OpenCLMem(
+        context,
+        CANVAS_WIDTH, CANVAS_HEIGHT, img2_origin.channels()
+    );
+    const auto kernel_crop = program_crop.CreateKernelRAII();
+    KernelSetArg_Image_Crop(
+        kernel_crop.GetKernel(),
+        mem_img2_resized.GetMem(), mem_img2_croped.GetMem(),
+        static_cast<int>(new_width), static_cast<int>(new_height),
+        CANVAS_WIDTH, CANVAS_HEIGHT,
+        0, 0,
+        CANVAS_WIDTH, CANVAS_HEIGHT,
+        img2_origin.channels()
+    );
+    kernel_crop.KernelEnqueue(queue, 2, global_work_size_2);
+
+    const auto mem_img2_4channel = OpenCLMem(
+        context,
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4
+    );
+
+    const auto kernel_channel_img2 = program_channel.CreateKernelRAII();
+    KernelSetArg_Image_Channel(
+        kernel_channel_img2.GetKernel(),
+        mem_img2_croped.GetMem(),
+        mem_img2_4channel.GetMem(),
+        CANVAS_WIDTH, CANVAS_HEIGHT,
+        img2_origin.channels(), 4
+    );
+    kernel_channel_img2.KernelEnqueue(queue, 2, global_work_size_2);
+
+    mem_img2_4channel.ShowByOpenCV(queue);
+
+    constexpr float laplacian_conv_kernel[] = {0, 1, 0, 1, -4, 1, 0, 1, 0};
+    constexpr int laplacian_conv_kernel_size = 3;
+
+    const auto mem_conv_kernel_laplacian = OpenCLMem(
+        context,
+        laplacian_conv_kernel_size * laplacian_conv_kernel_size * sizeof(float),
+        CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        (void *) (laplacian_conv_kernel)
+    );
+
+    const auto mem_img2_line_4channel = OpenCLMem(
+        context,
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4
+    );
+
+    const auto kernel_laplacian = program_conv.CreateKernelRAII();
+    KernelSetArg_Image_Conv(
+        kernel_laplacian.GetKernel(),
+        mem_img2_4channel.GetMem(), mem_img2_line_4channel.GetMem(),
+        CANVAS_HEIGHT, CANVAS_WIDTH, 4,
+        mem_conv_kernel_laplacian,
+        laplacian_conv_kernel_size,
+        laplacian_conv_kernel_size / 2
+    );
+    kernel_laplacian.KernelEnqueue(queue, 3, global_work_size_3);
+
+    mem_img2_line_4channel.ShowByOpenCV(queue);
+
+    const auto mem_frame_s3_channel4 = OpenCLMem(
+        context,
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4
+    );
 
 #endif
 

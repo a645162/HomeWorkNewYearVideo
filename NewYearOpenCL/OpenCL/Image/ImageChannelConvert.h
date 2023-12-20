@@ -8,6 +8,7 @@
 #include "../Include/OpenCLInclude.h"
 #include "../Include/OpenCLError.h"
 #include "../Include/OpenCLWorkFlow.h"
+
 #include "../Include/RAII/OpenCLProgram.h"
 
 OpenCLProgram CLCreateProgram_Image_Channel(cl_context context, cl_device_id device);

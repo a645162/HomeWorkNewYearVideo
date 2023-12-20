@@ -29,6 +29,12 @@ function(convert_cl_to_c_header cl_file hpp_template_file)
     )
 endfunction()
 
+# Image Binaryzation
+convert_cl_to_c_header(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageBinaryzation.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageBinaryzation.hpp"
+)
+
 # OpenCL Memset
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/OpenCLMemset2D.cl"
