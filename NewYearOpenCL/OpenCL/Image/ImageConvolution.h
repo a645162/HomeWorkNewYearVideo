@@ -10,6 +10,8 @@
 #include "../Include/OpenCLWorkFlow.h"
 #include "../Include/RAII/OpenCLProgram.h"
 
+#define WORK_DIM_IMAGE_CONV 3
+
 OpenCLProgram CLCreateProgram_Image_Conv(cl_context context, cl_device_id device);
 
 void KernelSetArg_Image_Conv(

@@ -60,7 +60,7 @@ void demo(cl_context context, cl_device_id device, int index) {
             draw_rect_demo(context, device);
             break;
         case 10:
-            // Convolution
+            // Convolution and Binaryzation
             conv_demo(context, device);
             break;
         case 11:
@@ -98,7 +98,7 @@ int main() {
     std::cout << "7. Rotate" << std::endl;
     std::cout << "8. Generate Gradient Color Image" << std::endl;
     std::cout << "9. Draw Rect" << std::endl;
-    std::cout << "10. Convolution" << std::endl;
+    std::cout << "10. Convolution then Binaryzation" << std::endl;
     std::cout << "11. Gaussian Blur Convolution" << std::endl;
     std::cout << "12. Mask demo" << std::endl;
     std::cout << "13. Mask and Channel demo" << std::endl;

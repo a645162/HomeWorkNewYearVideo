@@ -10,7 +10,8 @@
 #include "../../../Include/OpenCLInclude.h"
 #include "../../../Include/OpenCLError.h"
 #include "../../../Include/OpenCLWorkFlow.h"
-#include "../../../Include/RAII/OpenCLProgram.h"
+
+#include "../../../Include/OpenCLRAII.h"
 
 void conv_demo(cl_context context, cl_device_id device);
 

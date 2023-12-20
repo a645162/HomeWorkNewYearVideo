@@ -5,6 +5,7 @@
 #include "ImageConvolutionDemo.h"
 
 #include "../../../Image/ImageConvolution.h"
+#include "../../../Image/ImageBinaryzation.h"
 
 void conv_demo(cl_context context, cl_device_id device) {
     cv::Mat image_ori = cv::imread("../../../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
@@ -122,8 +123,30 @@ void conv_demo(cl_context context, cl_device_id device) {
 
     clFinish(queue);
 
+    auto program_binaryzation = CLCreateProgram_Image_Binaryzation(context, device);
+
+    const auto mem_binaryzation = OpenCLMem(
+        context,
+        width, height, channels
+    );
+
+    const auto kernel_binaryzation = program_binaryzation.CreateKernelRAII();
+    KernelSetArg_Image_Binaryzation(
+        kernel_binaryzation,
+        devDst1, mem_binaryzation,
+        width, height, channels,
+        100, false
+    );
+    size_t globalWorkSize_2[2] = {
+        static_cast<size_t>(width),
+        static_cast<size_t>(height)
+    };
+    kernel_binaryzation.KernelEnqueue(queue, 2, globalWorkSize_2);
+
+
     // Copy the result from OpenCL device memory back to Mat
     cv::Mat result(height, width, CV_8UC(channels));
+    cv::Mat result_bin(height, width, CV_8UC(channels));
 
     OpenCLMemcpyFromDevice(
         queue,
@@ -131,6 +154,8 @@ void conv_demo(cl_context context, cl_device_id device) {
         devDst1,
         img_data_size
     );
+
+    mem_binaryzation.CopyToHost(queue, result_bin.data);
 
     // Free OpenCL resources
 
@@ -144,5 +169,6 @@ void conv_demo(cl_context context, cl_device_id device) {
 
     cv::imshow("Input Image", image_ori);
     cv::imshow("Output Image", result);
+    cv::imshow("Output Bin Image", result_bin);
     cv::waitKey(0);
 }
