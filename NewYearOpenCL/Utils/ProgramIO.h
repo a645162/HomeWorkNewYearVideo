@@ -9,7 +9,7 @@ void print_multi_char(const char chr, unsigned int length);
 
 void WaitForEnterPress();
 
-template <typename T>
-T UserInputWithDefault(const char *prompt, T defaultValue);
+template<typename T>
+T UserInputWithDefault(const char* prompt, T defaultValue);
 
 #endif //NEW_YEAR_OPENCL_PROGRAM_IO_H

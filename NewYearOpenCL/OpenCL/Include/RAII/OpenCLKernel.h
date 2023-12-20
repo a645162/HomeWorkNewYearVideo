@@ -21,6 +21,13 @@ public:
 
     [[nodiscard]] cl_kernel GetKernel() const;
 
+    void KernelEnqueue(
+        cl_command_queue queue,
+        size_t work_dim,
+        size_t* global_work_size,
+        bool wait_finish = true
+    ) const;
+
     [[nodiscard]] bool isReleased() const;
 
     void ReleaseKernel();

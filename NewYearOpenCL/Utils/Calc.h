@@ -6,7 +6,7 @@
 #define NEW_YEAR_OPENCL_CALC_H
 
 unsigned int calcImageSize(
-        unsigned int width, unsigned int height, unsigned int channels
+    unsigned int width, unsigned int height, unsigned int channels
 );
 
 #endif //NEW_YEAR_OPENCL_CALC_H

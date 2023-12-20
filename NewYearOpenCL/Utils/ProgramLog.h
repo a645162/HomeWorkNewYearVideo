@@ -6,8 +6,8 @@
 #define NEW_YEAR_OPENCL_PROGRAM_LOG_H
 
 void output_frame_log(
-        unsigned int chapter, unsigned int section,
-        unsigned int index, unsigned int total_frame
+    unsigned int chapter, unsigned int section,
+    unsigned int index, unsigned int total_frame
 );
 
 #endif //NEW_YEAR_OPENCL_PROGRAM_LOG_H

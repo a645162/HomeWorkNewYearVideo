@@ -4,6 +4,8 @@
 
 #include "Calc.h"
 
+#include "../OpenCV/Include/OpenCVInclude.h"
+
 #include "../OpenCL/Include/OpenCLInclude.h"
 
 size_t calcGlobalWorkSize(size_t localWorkSize, size_t globalWorkSize) {
@@ -25,7 +27,7 @@ size_t calcLocalWorkSize(size_t localWorkSize, size_t globalWorkSize) {
 }
 
 unsigned int calcImageSize(
-        unsigned int width, unsigned int height, unsigned int channels
+    unsigned int width, unsigned int height, unsigned int channels
 ) {
-    return width * height * channels * sizeof(unsigned char);
+    return width * height * channels * sizeof(uchar);
 }

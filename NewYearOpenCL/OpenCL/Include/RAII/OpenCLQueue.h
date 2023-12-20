@@ -19,6 +19,13 @@ public:
 
     [[nodiscard]] cl_command_queue GetQueue() const;
 
+    void KernelEnqueue(
+        cl_kernel kernel,
+        size_t work_dim,
+        size_t* global_work_size,
+        bool wait_finish = true
+    ) const;
+
     void WaitFinish() const;
 
     [[nodiscard]] bool isReleased() const;

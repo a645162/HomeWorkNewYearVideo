@@ -7,8 +7,8 @@
 #include <iostream>
 
 void output_frame_log(
-        unsigned int chapter, unsigned int section,
-        unsigned int index, unsigned int total_frame
+    unsigned int chapter, unsigned int section,
+    unsigned int index, unsigned int total_frame
 ) {
     std::cout << "Chapter " << chapter << " Section " << section;
     std::cout << " Frame " << index + 1 << "/" << total_frame << std::endl;

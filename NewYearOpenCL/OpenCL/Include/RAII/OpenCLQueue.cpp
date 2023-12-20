@@ -20,6 +20,24 @@ cl_command_queue OpenCLQueue::GetQueue() const {
     return queue;
 }
 
+void OpenCLQueue::KernelEnqueue(
+    cl_kernel kernel,
+    size_t work_dim,
+    size_t* global_work_size,
+    const bool wait_finish
+) const {
+    if (isReleased()) {
+        std::cerr << "Error: OpenCL Queue is released." << std::endl;
+        return;
+    }
+
+    CLKernelEnqueue(queue, kernel, work_dim, global_work_size);
+
+    if (wait_finish) {
+        clFinish(queue);
+    }
+}
+
 void OpenCLQueue::WaitFinish() const {
     if (isReleased()) {
         std::cerr << "Error: OpenCL Queue is released." << std::endl;

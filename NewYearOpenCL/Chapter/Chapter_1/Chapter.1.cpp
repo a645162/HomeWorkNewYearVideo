@@ -609,5 +609,5 @@ cv::Mat chapter_1(
     clReleaseMemObject(device_img_school_door_frame_output);
 
     clReleaseCommandQueue(queue);
-    return result;
+    return result.clone();
 }

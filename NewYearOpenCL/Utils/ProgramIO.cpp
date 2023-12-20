@@ -20,8 +20,8 @@ void WaitForEnterPress() {
     std::cin.get();
 }
 
-template <typename T>
-T UserInputWithDefault(const char *prompt, T defaultValue) {
+template<typename T>
+T UserInputWithDefault(const char* prompt, T defaultValue) {
     std::string userInput;
     T value;
 
@@ -47,6 +47,8 @@ T UserInputWithDefault(const char *prompt, T defaultValue) {
     return value;
 }
 
-template int UserInputWithDefault<int>(const char *prompt, int defaultValue);
-template float UserInputWithDefault<float>(const char *prompt, float defaultValue);
-template double UserInputWithDefault<double>(const char *prompt, double defaultValue);
+template int UserInputWithDefault<int>(const char* prompt, int defaultValue);
+
+template float UserInputWithDefault<float>(const char* prompt, float defaultValue);
+
+template double UserInputWithDefault<double>(const char* prompt, double defaultValue);
