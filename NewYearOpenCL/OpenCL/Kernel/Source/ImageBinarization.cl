@@ -3,7 +3,7 @@
 // 2023/12/20
 // https://github.com/a645162/HomeWorkNewYearVideo
 
-__kernel void ImageBinaryzation(__global const uchar *inputImage,
+__kernel void ImageBinarization(__global const uchar *inputImage,
                                 __global uchar *outputImage, int width,
                                 int height, int channels, uchar threshold,
                                 int reverse_color) {

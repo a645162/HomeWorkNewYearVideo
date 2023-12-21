@@ -31,8 +31,8 @@ endfunction()
 
 # Image Binaryzation
 convert_cl_to_c_header(
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageBinaryzation.cl"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageBinaryzation.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageBinarization.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageBinarization.hpp"
 )
 
 # OpenCL Memset

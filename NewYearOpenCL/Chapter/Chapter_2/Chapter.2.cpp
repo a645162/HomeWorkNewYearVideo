@@ -12,21 +12,34 @@
 #include "../../OpenCL/Image/GaussianKernel.h"
 
 // 图像合并
-#include "../../OpenCL/Image/ImageBinaryzation.h"
 #include "../../OpenCL/Image/ImageMerge.h"
 
+// 图像二值化
+#include "../../OpenCL/Image/ImageBinarization.h"
 
-#include "../../OpenCL/Image/ImageChannelConvert.h"
+// 图像掩膜
 #include "../../OpenCL/Image/ImageMask.h"
+
+// 图像裁剪
 #include "../../OpenCL/Image/ImageCrop.h"
+
+// 图像缩放
 #include "../../OpenCL/Image/ImageResize.h"
 
+// 图像填充
+#include "../../OpenCL/Utils/OpenCLMemset.h"
+
+// OpenCL RAII Model
 #include "../../OpenCL/Include/OpenCLRAII.h"
 
 // #define ENABLE_CHAPTER_2_SECTION_1
 // #define ENABLE_CHAPTER_2_SECTION_2
 #define ENABLE_CHAPTER_2_SECTION_3
+
+#ifdef ENABLE_CHAPTER_2_SECTION_3
+// Section 4 Must Based on Section 3
 #define ENABLE_CHAPTER_2_SECTION_4
+#endif
 
 extern float RatioVideoScale;
 extern float RatioVideoFrame;
@@ -50,6 +63,11 @@ cv::Mat chapter_2(
 
     cv::Mat result_3channel(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3);
 
+    const auto mem_frame_channel3 = OpenCLMem(
+        context,
+        CANVAS_WIDTH, CANVAS_HEIGHT, 3
+    );
+
     size_t global_work_size_2[2] = {
         static_cast<size_t>(CANVAS_WIDTH),
         static_cast<size_t>(CANVAS_HEIGHT)
@@ -72,6 +90,7 @@ cv::Mat chapter_2(
     auto program_mask = CLCreateProgram_Image_Mask(context, device);
     auto program_crop = CLCreateProgram_Image_Crop(context, device);
     auto program_binaryzation = CLCreateProgram_Image_Binaryzation(context, device);
+    auto program_memset2d = CLCreateProgram_Memset_2D(context, device);
 
     const int frame_section_1 = frame_each_section * 2;
 #ifdef ENABLE_CHAPTER_2_SECTION_1
@@ -100,11 +119,6 @@ cv::Mat chapter_2(
     const auto mem_frame_s1_channel4 = OpenCLMem(
         context,
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
-    );
-
-    const auto mem_frame_channel3 = OpenCLMem(
-        context,
-        CANVAS_WIDTH, CANVAS_HEIGHT, 3
     );
 
     const auto frame_section_1_1 = static_cast<int>(frame_section_1 * 0.7);
@@ -215,6 +229,7 @@ cv::Mat chapter_2(
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
     );
 
+    const int frame_section_2 = frame_each_section * 2;
 #ifdef ENABLE_CHAPTER_2_SECTION_2
     std::cout << "Chapter 2" << " Section 2" << std::endl;
     const auto max_r = static_cast<float>(sqrt(
@@ -225,7 +240,6 @@ cv::Mat chapter_2(
     auto light_source_x = static_cast<int>(CANVAS_CENTER_X);
     auto light_source_y = static_cast<int>(-100 * RatioVideoScale);
 
-    const int frame_section_2 = frame_each_section * 2;
     for (int i = 0; i < frame_section_2; ++i) {
         const auto radius =
                 max_r - max_r * (
@@ -398,9 +412,109 @@ cv::Mat chapter_2(
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
     );
 
+    const auto mem_background_black = OpenCLMem(
+        context,
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4
+    );
+    const auto kernel_memset = program_memset2d.CreateKernelRAII();
+    KernelSetArg_Memset_2D(
+        kernel_memset.GetKernel(),
+        mem_background_black.GetMem(),
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+        0
+    );
+    kernel_memset.Execute(queue, 2, global_work_size_2);
+
+    for (int i = 0; i < frame_section_3; ++i) {
+        const auto alpha = static_cast<uchar>(
+            255.0f *
+            (static_cast<float>(i) / static_cast<float>(frame_section_3 - 0))
+        );
+
+        const auto kernel_merge_line = program_merge.CreateKernelRAII();
+        KernelSetArg_Image_Merge(
+            kernel_merge_line.GetKernel(),
+            mem_background_black.GetMem(),
+            mem_img2_line_bin_4channel.GetMem(),
+            mem_frame_s3_channel4.GetMem(),
+            CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+            0, 0,
+            CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+            alpha
+        );
+        kernel_merge_line.Execute(queue, 2, global_work_size_2);
+
+        // Channel Convert
+        const auto kernel_channel_convert = program_channel.CreateKernelRAII();
+        KernelSetArg_Image_Channel(
+            kernel_channel_convert.GetKernel(),
+            mem_frame_s3_channel4.GetMem(),
+            mem_frame_channel3.GetMem(),
+            CANVAS_WIDTH, CANVAS_HEIGHT,
+            4, 3
+        );
+        kernel_channel_convert.Execute(queue, 2, global_work_size_2);
+        mem_frame_channel3.CopyToHost(queue.GetQueue(), result_3channel.data);
+
+        video_writer->write(result_3channel);
+    }
+
+
 #endif
 
+    const int frame_section_4 = max_frame - frame_section_1 - frame_section_2 - frame_section_3;
 #ifdef ENABLE_CHAPTER_2_SECTION_4
+
+    // Based on Section 3 Result
+    // const auto mem_section4_background = OpenCLMem(
+    //     context,
+    //     CANVAS_WIDTH, CANVAS_HEIGHT, 4
+    // );
+    // mem_section4_background.CopyFromOtherMem(
+    //     queue,
+    //     mem_frame_s3_channel4
+    // );
+    // Cover mem_img2_4channel to mem_frame_s3_channel4
+
+    const auto mem_frame_s4_channel4 = OpenCLMem(
+        context,
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4
+    );
+
+    for (int i = 0; i < frame_section_4; ++i) {
+        const auto alpha = static_cast<char>(
+            255.0f *
+            (static_cast<float>(i) / static_cast<float>(frame_section_4 - 0))
+        );
+
+        // Merge
+        const auto kernel_merge = program_merge.CreateKernelRAII();
+        KernelSetArg_Image_Merge(
+            kernel_merge.GetKernel(),
+            mem_frame_s3_channel4.GetMem(),
+            mem_img2_4channel.GetMem(),
+            mem_frame_s4_channel4.GetMem(),
+            CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+            0, 0,
+            CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+            alpha
+        );
+        kernel_merge.Execute(queue, 2, global_work_size_2);
+
+        // Channel Convert
+        const auto kernel_channel_convert = program_channel.CreateKernelRAII();
+        KernelSetArg_Image_Channel(
+            kernel_channel_convert.GetKernel(),
+            mem_frame_s4_channel4.GetMem(),
+            mem_frame_channel3.GetMem(),
+            CANVAS_WIDTH, CANVAS_HEIGHT,
+            4, 3
+        );
+        kernel_channel_convert.Execute(queue, 2, global_work_size_2);
+
+        mem_frame_channel3.CopyToHost(queue.GetQueue(), result_3channel.data);
+        video_writer->write(result_3channel);
+    }
 
 #endif
 

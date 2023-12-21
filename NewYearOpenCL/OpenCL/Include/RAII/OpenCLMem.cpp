@@ -51,6 +51,36 @@ void OpenCLMem::CopyToHost(cl_command_queue queue, void* dst_cpu) const {
     }
 }
 
+void OpenCLMem::CopyFromOtherMem(cl_command_queue queue, cl_mem src) const {
+    const auto err = clEnqueueCopyBuffer(
+        queue,
+        src,
+        mem,
+        0,
+        0,
+        mem_size,
+        0,
+        nullptr,
+        nullptr
+    );
+    CHECK_CL_ERROR(err, "clEnqueueCopyBuffer(FromOtherMem)");
+}
+
+void OpenCLMem::CopyToOtherMem(cl_command_queue queue, cl_mem dst) const {
+    const auto err = clEnqueueCopyBuffer(
+        queue,
+        mem,
+        dst,
+        0,
+        0,
+        mem_size,
+        0,
+        nullptr,
+        nullptr
+    );
+    CHECK_CL_ERROR(err, "clEnqueueCopyBuffer(CopyToOtherMem)");
+}
+
 void OpenCLMem::ShowByOpenCV(
     cl_command_queue queue,
     int width, int height, int channel,

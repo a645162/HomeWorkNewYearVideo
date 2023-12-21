@@ -16,8 +16,8 @@ int main() {
     KHM::sayHello();
 #endif
 
-    cl_device_id device = UserSelectDevice();
-    cl_context context = CLCreateContext(device);
+    const cl_device_id device = UserSelectDevice();
+    const cl_context context = CLCreateContext(device);
 
     // Main Program
     video_main(device, context);

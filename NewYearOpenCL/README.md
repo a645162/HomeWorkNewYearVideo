@@ -69,3 +69,4 @@ Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
 - Gradient Image Generate
 - Image Rectangle
 - Image Gaussian Blur
+- Image Binarization

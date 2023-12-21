@@ -45,6 +45,10 @@ public:
 
     void CopyToHost(cl_command_queue queue, void* dst_cpu) const;
 
+    void CopyFromOtherMem(cl_command_queue queue, cl_mem src) const;
+
+    void CopyToOtherMem(cl_command_queue queue, cl_mem dst) const;
+
     auto ShowByOpenCV(cl_command_queue queue, int wait_time = 0) const -> void;
 
     void ShowByOpenCV(

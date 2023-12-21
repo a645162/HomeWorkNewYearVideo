@@ -2,15 +2,15 @@
 // Created by Haomin Kong on 23-12-20.
 // https://github.com/a645162/HomeWorkNewYearVideo
 
-#include "ImageBinaryzation.h"
+#include "ImageBinarization.h"
 
-#include "../Kernel/KernelImageBinaryzation.h"
+#include "../Kernel/KernelImageBinarization.h"
 
 OpenCLProgram CLCreateProgram_Image_Binaryzation(cl_context context, cl_device_id device) {
     return {
         context,
         device,
-        "ImageBinaryzation",
+        "ImageBinarization",
         cl_kernel_image_binary
     };
 }

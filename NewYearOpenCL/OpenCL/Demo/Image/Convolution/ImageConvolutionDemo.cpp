@@ -5,7 +5,7 @@
 #include "ImageConvolutionDemo.h"
 
 #include "../../../Image/ImageConvolution.h"
-#include "../../../Image/ImageBinaryzation.h"
+#include "../../../Image/ImageBinarization.h"
 
 void conv_demo(cl_context context, cl_device_id device) {
     cv::Mat image_ori = cv::imread("../../../Resources/Image/input.png", cv::IMREAD_UNCHANGED);
