@@ -38,7 +38,7 @@
 
 #ifdef ENABLE_CHAPTER_2_SECTION_3
 // Section 4 Must Based on Section 3
-#define ENABLE_CHAPTER_2_SECTION_4
+// #define ENABLE_CHAPTER_2_SECTION_4
 #endif
 
 extern float RatioVideoScale;
@@ -298,7 +298,7 @@ cv::Mat chapter_2(
     unsigned int new_height = calculateNewHeightByNewWidth(
         img2_origin_width, img2_origin_height, new_width
     );
-    if (new_height < CANVAS_HEIGHT) {
+    if (new_height < static_cast<unsigned int>(CANVAS_HEIGHT)) {
         new_height = CANVAS_HEIGHT;
         new_width = calculateNewWidthByNewHeight(
             img2_origin_width, img2_origin_height, new_height
@@ -357,7 +357,7 @@ cv::Mat chapter_2(
     );
     kernel_channel_img2.Execute(queue, 2, global_work_size_2);
 
-    mem_img2_4channel.ShowByOpenCV(queue);
+    // mem_img2_4channel.ShowByOpenCV(queue);
 
     constexpr float laplacian_conv_kernel[] = {0, 1, 0, 1, -4, 1, 0, 1, 0};
     constexpr int laplacian_conv_kernel_size = 3;
@@ -385,7 +385,7 @@ cv::Mat chapter_2(
     );
     kernel_laplacian.Execute(queue, 3, global_work_size_3_4channel);
 
-    mem_img2_line_4channel.ShowByOpenCV(queue);
+    // mem_img2_line_4channel.ShowByOpenCV(queue);
 
     // cv::Mat img2_line_4channel(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC4);
     // mem_img2_line_4channel.CopyToHost(queue, img2_line_4channel.data);
@@ -405,7 +405,7 @@ cv::Mat chapter_2(
     );
     kernel_binaryzation.Execute(queue, WORK_DIM_IMAGE_BINARYZATION, global_work_size_2);
 
-    mem_img2_line_bin_4channel.ShowByOpenCV(queue);
+    // mem_img2_line_bin_4channel.ShowByOpenCV(queue);
 
     // Frame Section 3(Channel 4)
     const auto mem_frame_s3_channel4 = OpenCLMem(
@@ -446,19 +446,28 @@ cv::Mat chapter_2(
             alpha
         );
         kernel_merge_line.Execute(queue, 2, global_work_size_2);
+        if (i == frame_section_3 - 1) {
+            std::cout << "Last Frame on Section 3" << std::endl;
+            mem_frame_s3_channel4.ShowByOpenCV(queue);
+        }
 
-        // Channel Convert
-        const auto kernel_channel_convert = program_channel.CreateKernelRAII();
+        // TODO:Channel Convert
+        const auto kernel_channel_convert1 = program_channel.CreateKernelRAII();
         KernelSetArg_Image_Channel(
-            kernel_channel_convert.GetKernel(),
+            kernel_channel_convert1.GetKernel(),
             mem_frame_s3_channel4.GetMem(),
             mem_frame_channel3.GetMem(),
             CANVAS_WIDTH, CANVAS_HEIGHT,
             4, 3
         );
-        kernel_channel_convert.Execute(queue, 2, global_work_size_2);
-        mem_frame_channel3.CopyToHost(queue.GetQueue(), result_3channel.data);
+        kernel_channel_convert1.Execute(queue, 2, global_work_size_2);
 
+        if (i == frame_section_3 - 1) {
+            std::cout << "Last Frame on Section 3" << std::endl;
+            mem_frame_channel3.ShowByOpenCV(queue);
+        }
+
+        mem_frame_channel3.CopyToHost(queue.GetQueue(), result_3channel.data);
         video_writer->write(result_3channel);
     }
 

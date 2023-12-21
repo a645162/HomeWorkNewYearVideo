@@ -89,6 +89,7 @@ void OpenCLMem::ShowByOpenCV(
     if (!isReleased()) {
         cv::Mat mat(height, width, CV_MAKETYPE(CV_8U, channel));
         CopyToHost(queue, mat.data);
+        std::cout << "Image " << width << "x" << height << "x" << channel << std::endl;
         cv::imshow("Image", mat);
         cv::waitKey(wait_time);
         mat.release();

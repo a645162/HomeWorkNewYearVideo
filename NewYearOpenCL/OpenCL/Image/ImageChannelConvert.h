@@ -11,6 +11,8 @@
 
 #include "../Include/RAII/OpenCLProgram.h"
 
+#define WORK_DIM_IMAGE_CHANNEL 2
+
 OpenCLProgram CLCreateProgram_Image_Channel(cl_context context, cl_device_id device);
 
 void KernelSetArg_Image_Channel(
