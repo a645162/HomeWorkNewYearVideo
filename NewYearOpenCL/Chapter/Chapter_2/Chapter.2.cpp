@@ -407,6 +407,7 @@ cv::Mat chapter_2(
 
     mem_img2_line_bin_4channel.ShowByOpenCV(queue);
 
+    // Frame Section 3(Channel 4)
     const auto mem_frame_s3_channel4 = OpenCLMem(
         context,
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
@@ -416,6 +417,8 @@ cv::Mat chapter_2(
         context,
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
     );
+
+    // Apply Background to Black Color
     const auto kernel_memset = program_memset2d.CreateKernelRAII();
     KernelSetArg_Memset_2D(
         kernel_memset.GetKernel(),
@@ -474,13 +477,14 @@ cv::Mat chapter_2(
     //     queue,
     //     mem_frame_s3_channel4
     // );
-    // Cover mem_img2_4channel to mem_frame_s3_channel4
 
+    // Frame Section 4(Channel 4)
     const auto mem_frame_s4_channel4 = OpenCLMem(
         context,
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
     );
 
+    // Cover mem_img2_4channel to mem_frame_s3_channel4
     for (int i = 0; i < frame_section_4; ++i) {
         const auto alpha = static_cast<char>(
             255.0f *
@@ -517,8 +521,6 @@ cv::Mat chapter_2(
     }
 
 #endif
-
-    // clReleaseCommandQueue(queue);
 
     last_frame->release();
     return result_3channel;
