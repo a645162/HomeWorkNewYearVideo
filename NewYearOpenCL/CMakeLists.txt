@@ -184,6 +184,10 @@ add_subdirectory(OpenCL/Demo)
 include(CTest)
 add_subdirectory(CMake/OpenCL)
 
+set(TOKEI_OUTPUT ON)
+
+if (TOKEI_OUTPUT)
+
 # Tokei
 set(TOKEI_EXECUTABLE tokei)
 
@@ -202,3 +206,14 @@ if (TOKEI_RESULT EQUAL 0)
 else ()
     message(FATAL_ERROR "Tokei execution failed with code ${TOKEI_RESULT}")
 endif ()
+
+endif ()
+
+message(STATUS "@Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "@Compiler Path: ${CMAKE_CXX_COMPILER}")
+message(STATUS "@Architecture: ${CMAKE_SYSTEM_PROCESSOR}")
+message(STATUS "@System: ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION}")
+message(STATUS "@CMake Generator: ${CMAKE_GENERATOR}")
+message(STATUS "@CMake Build tool: ${CMAKE_BUILD_TOOL}")
+message(STATUS "@CMake Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "@CMake CXX Flags: ${CMAKE_CXX_FLAGS}")
