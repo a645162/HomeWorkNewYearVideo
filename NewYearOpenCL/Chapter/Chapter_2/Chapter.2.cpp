@@ -48,7 +48,7 @@ extern int CANVAS_WIDTH, CANVAS_HEIGHT;
 extern int CANVAS_CENTER_X, CANVAS_CENTER_Y;
 extern int FRAME_RATE;
 
-const int CHAPTER_INDEX = 1;
+const int CHAPTER_INDEX = 2;
 
 cv::Mat chapter_2(
     cl_context context, cl_device_id device,

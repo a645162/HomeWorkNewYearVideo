@@ -47,6 +47,7 @@ endif ()
 
 if (WIN32)
     set(OpenCV_DIR "../../OpenCV-4.8.0-official")
+    set(OpenCV_DIR "../../OpenCV-4.8.1-MSVC17")
     #    set(OpenCV_DIR "../../OpenCV-MinGW-Build-OpenCV-4.5.5-x64")
 endif ()
 

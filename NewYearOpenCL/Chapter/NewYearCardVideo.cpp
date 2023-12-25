@@ -8,6 +8,7 @@
 
 #include "Chapter_1/Chapter.1.h"
 #include "Chapter_2/Chapter.2.h"
+#include "Chapter_3/Chapter.3.h"
 
 #include <iostream>
 #include <iomanip>
@@ -23,13 +24,16 @@ int CANVAS_CENTER_X = ORIGIN_CANVAS_WIDTH / 2, CANVAS_CENTER_Y = ORIGIN_CANVAS_H
 int FRAME_RATE = DEFAULT_FRAME_RATE;
 
 // #define ENABLE_CHAPTER_1
-#define ENABLE_CHAPTER_2
+// #define ENABLE_CHAPTER_2
+#define ENABLE_CHAPTER_3
 
-int CalcFrame(const int frame_length) {
+int CalcFrame(const int frame_length)
+{
     return static_cast<int>(static_cast<float>(frame_length) * RatioVideoFrame);
 }
 
-void start_generate(cl_device_id device, cl_context context) {
+void start_generate(cl_device_id device, cl_context context)
+{
     cv::VideoWriter outputVideo;
     const cv::Size frame_size(CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -39,7 +43,8 @@ void start_generate(cl_device_id device, cl_context context) {
     char timeBuffer[80];
     const auto format = "%Y_%m_%d_%H_%M_%S";
     std::strftime(timeBuffer, sizeof(timeBuffer), format, std::localtime(&currentTime));
-    if (std::strftime(timeBuffer, sizeof(timeBuffer), format, std::localtime(&currentTime))) {
+    if (std::strftime(timeBuffer, sizeof(timeBuffer), format, std::localtime(&currentTime)))
+    {
         std::cout << "File Time:" << timeBuffer << std::endl;
         snprintf(file_name, sizeof(file_name), "NewYearCardVideo_%s.avi", timeBuffer);
     }
@@ -52,9 +57,12 @@ void start_generate(cl_device_id device, cl_context context) {
         FRAME_RATE, frame_size
     );
 
-    if (outputVideo.isOpened()) {
+    if (outputVideo.isOpened())
+    {
         std::cout << "Open file success!" << std::endl;
-    } else {
+    }
+    else
+    {
         std::cout << "Cannot open file!" << std::endl;
         exit(1);
     }
@@ -70,6 +78,13 @@ void start_generate(cl_device_id device, cl_context context) {
 
 #ifdef ENABLE_CHAPTER_2
     last_frame = chapter_2(context, device, CalcFrame(1000), &outputVideo, &last_frame);
+#else
+    // White Canvas
+    last_frame = cv::Mat(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3, cv::Scalar(255, 255, 255, 255));
+#endif
+
+#ifdef ENABLE_CHAPTER_3
+    last_frame = chapter_3(context, device, CalcFrame(1000), &outputVideo, &last_frame);
 #endif
 
     outputVideo.release();
@@ -77,7 +92,8 @@ void start_generate(cl_device_id device, cl_context context) {
     cv::destroyAllWindows();
 }
 
-void video_main(cl_device_id device, cl_context context) {
+void video_main(cl_device_id device, cl_context context)
+{
     std::cout << "New Year Card Video" << std::endl;
 
     // Main Program
