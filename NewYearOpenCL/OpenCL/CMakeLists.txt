@@ -29,6 +29,12 @@ function(convert_cl_to_c_header cl_file hpp_template_file)
     )
 endfunction()
 
+# Image Reverse Color
+convert_cl_to_c_header(
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageReverseColor.cl"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/KernelImageReverseColor.hpp"
+)
+
 # Image Binaryzation
 convert_cl_to_c_header(
         "${CMAKE_CURRENT_SOURCE_DIR}/Kernel/Source/ImageBinarization.cl"

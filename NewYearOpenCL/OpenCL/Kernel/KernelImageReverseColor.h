@@ -1,3 +1,11 @@
+// OpenCL Kernel Function of Image Reverse Color
+// Created by Haomin Kong on 23-12-25.
+// https://github.com/a645162/HomeWorkNewYearVideo
+
+#ifndef NEW_YEAR_OPENCL_KERNEL_IMAGE_REVERSE_COLOR_H
+#define NEW_YEAR_OPENCL_KERNEL_IMAGE_REVERSE_COLOR_H
+
+const char* cl_kernel_reverse_color = R"(
 // ImageReverseColor.cl
 
 // OpenCL Kernel Function of Image Reverse Color
@@ -21,3 +29,7 @@ __kernel void ImageReverseColor(__global const uchar *src, __global uchar *dst,
         }
     }
 }
+
+)";
+
+#endif //NEW_YEAR_OPENCL_KERNEL_IMAGE_REVERSE_COLOR_H
