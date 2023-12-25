@@ -12,9 +12,9 @@ __kernel void ImageReverseColor(__global const uchar *src, __global uchar *dst,
     if (x < width && y < height) {
         int index = (y * width + x) * channels;
 
-        dst[index + 0] = 255 - src[index + 0];
-        dst[index + 1] = 255 - src[index + 1];
-        dst[index + 2] = 255 - src[index + 2];
+        for (int c = 0; c < max(channels, 3); ++c) {
+            dst[index + c] = 255 - src[index + c];
+        }
 
         if (channels == 4) {
             dst[index + 3] = src[index + 3];

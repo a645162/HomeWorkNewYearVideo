@@ -85,6 +85,7 @@ void start_generate(cl_device_id device, cl_context context)
 
 #ifdef ENABLE_CHAPTER_3
     last_frame = chapter_3(context, device, CalcFrame(1000), &outputVideo, &last_frame);
+    last_frame.release();
 #endif
 
     outputVideo.release();

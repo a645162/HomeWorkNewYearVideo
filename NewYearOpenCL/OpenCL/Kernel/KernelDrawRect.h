@@ -54,6 +54,10 @@ __kernel void drawRectangle(__global uchar *d_image, const int width,
                 d_image[index + 0] = fill_color_b;
                 d_image[index + 1] = fill_color_g;
                 d_image[index + 2] = fill_color_r;
+
+                if (channels == 4) {
+                    d_image[index + 3] = 255;
+                }
             }
         } else {
             // Bord Area
@@ -96,6 +100,10 @@ __kernel void drawRectangle(__global uchar *d_image, const int width,
             d_image[index + 0] = current_board_color_b;
             d_image[index + 1] = current_board_color_g;
             d_image[index + 2] = current_board_color_r;
+
+            if (channels == 4) {
+                d_image[index + 3] = 255;
+            }
         }
     }
 }
