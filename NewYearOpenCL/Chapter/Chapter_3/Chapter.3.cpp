@@ -402,6 +402,8 @@ cv::Mat chapter_3(
     const auto frame_section_3 = max_frame - frame_section_1 - frame_section_2;
 #ifdef ENABLE_CHAPTER_3_SECTION_3
 
+    std::cout << "Chapter " << CHAPTER_INDEX << " Section 3" << std::endl;
+
     auto host_image_text =
         cv::imread("../Resources/Image/NewYearText.png", cv::IMREAD_UNCHANGED);
     if (host_image_text.channels() == 3)
