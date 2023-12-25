@@ -4,6 +4,8 @@
 
 #include "Chapter.3.h"
 
+#include "../../Config/ConstVar.h"
+
 // 通道转换
 #include "../../OpenCL/Image/ImageChannelConvert.h"
 
