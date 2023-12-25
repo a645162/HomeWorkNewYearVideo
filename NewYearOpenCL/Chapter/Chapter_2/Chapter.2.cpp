@@ -308,7 +308,7 @@ cv::Mat chapter_2(
         );
     }
 
-    std::cout << "new_width=" << new_width << " new_height=" << new_height << std::endl;
+    // std::cout << "new_width=" << new_width << " new_height=" << new_height << std::endl;
 
     const auto mem_img2_resized = OpenCLMem(
         context,
