@@ -45,8 +45,29 @@ if (WIN32)
     endif ()
 endif ()
 
+########################################################################
+# OpenCV Static Library
+set(USE_OPENCV_STATIC OFF)
+#################################
+# Here should be same as OpenCV build setting.
+if (NOT DEFINED USE_OPENCV_STATIC OR NOT USE_OPENCV_STATIC)
+    set(BUILD_SHARED_LIBS ON)
+else ()
+    set(BUILD_SHARED_LIBS OFF)
+endif ()
+
+if (NOT DEFINED OpenCV_STATIC)
+    # look for global setting
+    if (NOT DEFINED BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
+        set(OpenCV_STATIC OFF)
+    else ()
+        set(OpenCV_STATIC ON)
+    endif ()
+endif ()
+########################################################################
+
 if (WIN32)
-    set(OpenCV_DIR "../../OpenCV-4.8.0-official")
+    #    set(OpenCV_DIR "../../OpenCV-4.8.0-official")
     set(OpenCV_DIR "../../OpenCV-4.8.1-MSVC17")
     #    set(OpenCV_DIR "../../OpenCV-MinGW-Build-OpenCV-4.5.5-x64")
 endif ()
@@ -136,8 +157,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCL_LIBRARIES})
 
 # OpenCV
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
-target_link_libraries(${PROJECT_NAME} PRIVATE opencv_core opencv_highgui opencv_videoio)
-
+target_link_libraries(${PROJECT_NAME} PRIVATE
+        opencv_core
+        opencv_highgui
+        opencv_imgproc opencv_imgcodecs
+        opencv_videoio opencv_video
+)
 
 # AVX2 SIMD Optimization
 if (WIN32)
@@ -189,24 +214,24 @@ set(TOKEI_OUTPUT ON)
 
 if (TOKEI_OUTPUT)
 
-# Tokei
-set(TOKEI_EXECUTABLE tokei)
+    # Tokei
+    set(TOKEI_EXECUTABLE tokei)
 
-execute_process(
-        COMMAND ${TOKEI_EXECUTABLE} ${CMAKE_SOURCE_DIR}
-        RESULT_VARIABLE TOKEI_RESULT
-        OUTPUT_VARIABLE TOKEI_OUTPUT
-)
+    execute_process(
+            COMMAND ${TOKEI_EXECUTABLE} ${CMAKE_SOURCE_DIR}
+            RESULT_VARIABLE TOKEI_RESULT
+            OUTPUT_VARIABLE TOKEI_OUTPUT
+    )
 
-# Step 3: Save output to a file
-file(WRITE Tokei.txt "${TOKEI_OUTPUT}")
+    # Step 3: Save output to a file
+    file(WRITE Tokei.txt "${TOKEI_OUTPUT}")
 
-# Display a message indicating the result
-if (TOKEI_RESULT EQUAL 0)
-    message("Tokei execution successful. Output saved to Tokei.txt")
-else ()
-    message(FATAL_ERROR "Tokei execution failed with code ${TOKEI_RESULT}")
-endif ()
+    # Display a message indicating the result
+    if (TOKEI_RESULT EQUAL 0)
+        message("Tokei execution successful. Output saved to Tokei.txt")
+    else ()
+        message(FATAL_ERROR "Tokei execution failed with code ${TOKEI_RESULT}")
+    endif ()
 
 endif ()
 

@@ -70,14 +70,14 @@ void start_generate(cl_device_id device, cl_context context)
     cv::Mat last_frame;
     // Chapter 1
 #ifdef ENABLE_CHAPTER_1
-    last_frame = chapter_1(context, device, CalcFrame(800), &outputVideo);
+    last_frame = chapter_1(context, device, CalcFrame(1000), &outputVideo);
 #else
     // White Canvas(Debug)
     last_frame = cv::Mat(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3, cv::Scalar(255, 255, 255, 255));
 #endif
 
 #ifdef ENABLE_CHAPTER_2
-    last_frame = chapter_2(context, device, CalcFrame(1000), &outputVideo, &last_frame);
+    last_frame = chapter_2(context, device, CalcFrame(1500), &outputVideo, &last_frame);
 #else
     // White Canvas(Debug)
     last_frame = cv::Mat(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC3, cv::Scalar(255, 255, 255, 255));

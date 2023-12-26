@@ -60,14 +60,15 @@ Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
 - [x] Image Resize
 - [x] Image Mask(focus light effect)
 - [x] Image Crop
-- [ ] Image Rotate
+- [x] Image Rotate
 - [x] Image Merge
 - [x] Channel Convert
 - [ ] Image Gray (average gray and weighted gray)
 - [ ] Image Mirror
-- [ ] Gradient Color Generate
-- [ ] Gradient Image Generate
-- [ ] Image Rectangle
+- [x] Gradient Color Generate
+- [x] Gradient Image Generate
+- [x] Image Rectangle
 - [x] Image Convolution
 - [x] Image Gaussian Blur
 - [x] Image Binarization
+- [x] Image Reverse Color

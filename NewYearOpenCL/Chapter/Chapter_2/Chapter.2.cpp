@@ -26,6 +26,9 @@
 // 图像缩放
 #include "../../OpenCL/Image/ImageResize.h"
 
+// 图像旋转
+#include "../../OpenCL/Image/ImageRotate.h"
+
 // 图像填充
 #include "../../OpenCL/Utils/OpenCLMemset.h"
 
@@ -93,6 +96,7 @@ cv::Mat chapter_2(
     auto program_crop = CLCreateProgram_Image_Crop(context, device);
     auto program_binaryzation = CLCreateProgram_Image_Binaryzation(context, device);
     auto program_memset2d = CLCreateProgram_Memset_2D(context, device);
+    auto program_rotate = CLCreateProgram_Image_Rotate(context, device);
 
     const int frame_section_1 = frame_each_section * 2;
 #ifdef ENABLE_CHAPTER_2_SECTION_1
@@ -128,16 +132,17 @@ cv::Mat chapter_2(
     std::cout << "Chapter 2" << " Section 1" << std::endl;
 
     // Setcion 1 Main Loop
-    for (int i = 0; i < frame_section_1_1; ++i) {
+    for (int i = 0; i < frame_section_1_1; ++i)
+    {
         const auto blur_intensity =
-                100 * (
-                    static_cast<float>(i)
-                    /
-                    static_cast<float>(frame_section_1_1)
-                );
+            100 * (
+                static_cast<float>(i)
+                /
+                static_cast<float>(frame_section_1_1)
+            );
         // std::cout << "Blur Intensity: " << blur_intensity << std::endl;
         auto gaussian_params =
-                calcGaussianKernelParameters(blur_intensity);
+            calcGaussianKernelParameters(blur_intensity);
         auto kernel_gaussian = createGaussianKernel(gaussian_params);
 
         int gaussian_kernel_size = gaussian_params.size;
@@ -147,7 +152,7 @@ cv::Mat chapter_2(
             context,
             gaussian_kernel_size * gaussian_kernel_size * sizeof(float),
             CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-            (void *) kernel_gaussian
+            (void*)kernel_gaussian
         );
 
         free(kernel_gaussian);
@@ -189,6 +194,25 @@ cv::Mat chapter_2(
         size_t global_work_size_logo[2] = {static_cast<size_t>(logo_new_size), static_cast<size_t>(logo_new_size)};
         kernel_resize.Execute(queue, 2, global_work_size_logo);
 
+        // Rotate
+
+        // Angle
+        const auto angle = 360.0f * static_cast<float>(i) / static_cast<float>(frame_section_1_1);
+
+        const auto mem_shmtu_logo_rotate = OpenCLMem(
+            context,
+            logo_new_size, logo_new_size, shmtu_logo.channels()
+        );
+        const auto kernel_rotate = program_rotate.CreateKernelRAII();
+        KernelSetArg_Image_Rotate(
+            kernel_rotate.GetKernel(),
+            mem_shmtu_logo_resized.GetMem(), mem_shmtu_logo_rotate.GetMem(),
+            logo_new_size, logo_new_size,
+            shmtu_logo.channels(),
+            angle
+        );
+        kernel_rotate.Execute(queue, 2, global_work_size_logo);
+
         const auto kernel_merge = program_merge.CreateKernelRAII();
 
         const auto alpha = static_cast<uchar>(
@@ -197,7 +221,7 @@ cv::Mat chapter_2(
         );
         KernelSetArg_Image_Merge(
             kernel_merge.GetKernel(),
-            mem_background_blur.GetMem(), mem_shmtu_logo_resized.GetMem(),
+            mem_background_blur.GetMem(), mem_shmtu_logo_rotate.GetMem(),
             mem_frame_s1_channel4.GetMem(),
             CANVAS_WIDTH, CANVAS_HEIGHT, 4,
             CANVAS_CENTER_X - logo_new_size / 2, CANVAS_CENTER_Y - logo_new_size / 2,
@@ -220,7 +244,8 @@ cv::Mat chapter_2(
         video_writer->write(result_3channel);
     }
 
-    for (int i = frame_section_1_1; i < frame_section_1; ++i) {
+    for (int i = frame_section_1_1; i < frame_section_1; ++i)
+    {
         video_writer->write(result_3channel);
     }
 
@@ -242,13 +267,14 @@ cv::Mat chapter_2(
     auto light_source_x = static_cast<int>(CANVAS_CENTER_X);
     auto light_source_y = static_cast<int>(-100 * RatioVideoScale);
 
-    for (int i = 0; i < frame_section_2; ++i) {
+    for (int i = 0; i < frame_section_2; ++i)
+    {
         const auto radius =
-                max_r - max_r * (
-                    static_cast<float>(i)
-                    /
-                    static_cast<float>(frame_section_2)
-                );
+            max_r - max_r * (
+                static_cast<float>(i)
+                /
+                static_cast<float>(frame_section_2)
+            );
 
         const auto kernel_mask = program_mask.CreateKernelRAII();
         KernelSetArg_Image_Mask_Simple(
