@@ -165,7 +165,7 @@ cv::Mat chapter_2(
             device_conv_kernel,
             gaussian_kernel_size, conv_pad_size
         );
-        kernel_conv.Execute(queue, 3, global_work_size_3_4channel);
+        kernel_conv.Execute(queue, 3, global_work_size_3_4channel, false);
 
         constexpr int logo_size = 400;
         const auto logo_new_size = static_cast<int>(
@@ -219,15 +219,33 @@ cv::Mat chapter_2(
             255.0f *
             static_cast<float>(i) / static_cast<float>(frame_section_1_1 - 0)
         );
-        KernelSetArg_Image_Merge(
-            kernel_merge.GetKernel(),
-            mem_background_blur.GetMem(), mem_shmtu_logo_rotate.GetMem(),
-            mem_frame_s1_channel4.GetMem(),
-            CANVAS_WIDTH, CANVAS_HEIGHT, 4,
-            CANVAS_CENTER_X - logo_new_size / 2, CANVAS_CENTER_Y - logo_new_size / 2,
-            logo_new_size, logo_new_size, 4,
-            alpha
-        );
+
+        if (i == frame_section_1_1 - 1)
+        {
+            // Use ori frame on last frame to avoid sawtooth
+            KernelSetArg_Image_Merge(
+                kernel_merge.GetKernel(),
+                mem_background_blur.GetMem(), mem_shmtu_logo_resized.GetMem(),
+                mem_frame_s1_channel4.GetMem(),
+                CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+                CANVAS_CENTER_X - logo_new_size / 2, CANVAS_CENTER_Y - logo_new_size / 2,
+                logo_new_size, logo_new_size, 4,
+                alpha
+            );
+        }
+        else
+        {
+            KernelSetArg_Image_Merge(
+                kernel_merge.GetKernel(),
+                mem_background_blur.GetMem(), mem_shmtu_logo_rotate.GetMem(),
+                mem_frame_s1_channel4.GetMem(),
+                CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+                CANVAS_CENTER_X - logo_new_size / 2, CANVAS_CENTER_Y - logo_new_size / 2,
+                logo_new_size, logo_new_size, 4,
+                alpha
+            );
+        }
+
         kernel_merge.Execute(queue, 2, global_work_size_2);
 
         const auto kernel_channel_convert = program_channel.CreateKernelRAII();

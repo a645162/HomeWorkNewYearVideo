@@ -20,6 +20,7 @@
 #include "Image/Mirror/ImageMirrorDemo.h"
 #include "Image/Mask/ImageMaskDemo.h"
 #include "Image/Mask/MaskAndChannelDemo.h"
+#include "Image/ReverseColor/ImageReverseColorDemo.h"
 
 void demo(cl_context context, cl_device_id device, int index) {
     switch (index) {
@@ -75,6 +76,10 @@ void demo(cl_context context, cl_device_id device, int index) {
             // Mask and Channel demo
             mask_channel_demo(context, device);
             break;
+        case 14:
+            // Image Reverse Color demo
+            reverse_color_demo(context, device);
+            break;
         default:
             std::cout << "Index Invaild!" << std::endl;
             break;
@@ -102,11 +107,12 @@ int main() {
     std::cout << "11. Gaussian Blur Convolution" << std::endl;
     std::cout << "12. Mask demo" << std::endl;
     std::cout << "13. Mask and Channel demo" << std::endl;
+    std::cout << "14. Reverse Color demo" << std::endl;
 
     std::cin >> index;
 
     if (index == 0) {
-        for (int i = 1; i < 13 + 1; ++i) {
+        for (int i = 1; i < 14 + 1; ++i) {
             demo(context, device, i);
         }
     }

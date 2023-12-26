@@ -351,7 +351,7 @@ cv::Mat chapter_3(
             gradient_x, gradient_y, max_r,
             4, 255
         );
-        kernel_gradient_image.Execute(queue, 2, global_work_size_3_4channel);
+        kernel_gradient_image.Execute(queue, 2, global_work_size_3_4channel, false);
 
         const auto kernel_mask = program_mask.CreateKernelRAII();
         const auto current_r = rect_max_r *
@@ -564,7 +564,7 @@ cv::Mat chapter_3(
             gradient_x, gradient_y, max_r,
             4, 255
         );
-        kernel_gradient_image.Execute(queue, 2, global_work_size_3_4channel);
+        kernel_gradient_image.Execute(queue, 2, global_work_size_3_4channel, false);
 
         {
             const auto kernel_draw_rect = program_draw_rect.CreateKernelRAII();
@@ -581,9 +581,11 @@ cv::Mat chapter_3(
                 true,
                 true, current_rect_freq
             );
-            kernel_draw_rect.Execute(queue, 2, global_work_size_2);
+            kernel_draw_rect.Execute(queue, 2, global_work_size_2, false);
             // mem_rect_output.ShowByOpenCV(queue);
         }
+
+        clFinish(queue);
 
         const auto kernel_merge = program_merge.CreateKernelRAII();
         KernelSetArg_Image_Merge(
