@@ -107,7 +107,7 @@ cv::Mat chapter_3(
 
     auto program_memset_2d = CLCreateProgram_Memset_2D(context, device);
 
-    const auto frame_section_1 = frame_each_section * 2;
+    const auto frame_section_1 = frame_each_section * 1;
 
     const auto max_r_center = std::sqrt(
         static_cast<float>(CANVAS_CENTER_X * CANVAS_CENTER_X + CANVAS_CENTER_Y * CANVAS_CENTER_Y)
@@ -494,6 +494,9 @@ cv::Mat chapter_3(
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
     );
 
+    bool last_reverse = false;
+    bool is_reverse_color = true;
+
     for (int frame_index = 0; frame_index < frame_section_3; ++frame_index)
     {
         if (frame_index % reverse_frame == 0)
@@ -501,8 +504,18 @@ cv::Mat chapter_3(
             is_reverse = !is_reverse;
         }
 
+        if (last_reverse != is_reverse)
+        {
+            last_reverse = is_reverse;
+            if(!is_reverse)
+            {
+                // 当从逐渐隐藏模式转换为逐渐显示模式，则要切换颜色
+                is_reverse_color = !is_reverse_color;
+            }
+        }
+
         auto current_mem_text = &mem_text_output;
-        if (is_reverse)
+        if (is_reverse_color)
         {
             current_mem_text = &mem_text_reverse;
         }

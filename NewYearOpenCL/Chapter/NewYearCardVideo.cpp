@@ -16,7 +16,7 @@
 #include <ctime>
 #include <chrono>
 
-float RatioVideoScale = DEFAULT_RESOLUTION_SCALE_RATIO;
+float RatioVideoScale = 2;
 float RatioVideoFrame = DEFAULT_FRAME_RATE_SCALE_RATIO;
 
 int CANVAS_WIDTH = ORIGIN_CANVAS_WIDTH, CANVAS_HEIGHT = ORIGIN_CANVAS_HEIGHT;
@@ -84,7 +84,7 @@ void start_generate(cl_device_id device, cl_context context)
 #endif
 
 #ifdef ENABLE_CHAPTER_3
-    last_frame = chapter_3(context, device, CalcFrame(1000), &outputVideo, &last_frame);
+    last_frame = chapter_3(context, device, CalcFrame(1500), &outputVideo, &last_frame);
     last_frame.release();
 #endif
 
