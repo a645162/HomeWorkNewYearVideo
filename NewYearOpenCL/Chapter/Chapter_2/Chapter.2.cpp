@@ -36,7 +36,12 @@
 #include "../../OpenCL/Include/OpenCLRAII.h"
 
 #define ENABLE_CHAPTER_2_SECTION_1
+
+#ifdef ENABLE_CHAPTER_2_SECTION_1
+// Section 2 Must Based on Section 1
 #define ENABLE_CHAPTER_2_SECTION_2
+#endif
+
 #define ENABLE_CHAPTER_2_SECTION_3
 
 #ifdef ENABLE_CHAPTER_2_SECTION_3
@@ -421,6 +426,16 @@ cv::Mat chapter_2(
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
     );
 
+    // To avoid error on AMD GPU
+    const auto kernel_memset = program_memset2d.CreateKernelRAII();
+    KernelSetArg_Memset_2D(
+        kernel_memset.GetKernel(),
+        mem_img2_line_4channel.GetMem(),
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+        0
+    );
+    kernel_memset.Execute(queue, 2, global_work_size_2);
+
     const auto kernel_laplacian = program_conv.CreateKernelRAII();
     KernelSetArg_Image_Conv(
         kernel_laplacian.GetKernel(),
@@ -466,7 +481,7 @@ cv::Mat chapter_2(
     );
 
     // Apply Background to Black Color
-    const auto kernel_memset = program_memset2d.CreateKernelRAII();
+    const auto kernel_memset_1 = program_memset2d.CreateKernelRAII();
     KernelSetArg_Memset_2D(
         kernel_memset.GetKernel(),
         mem_background_black.GetMem(),

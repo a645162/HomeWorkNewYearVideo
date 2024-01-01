@@ -16,8 +16,8 @@
 #include <ctime>
 #include <chrono>
 
-float RatioVideoScale = 2;
-float RatioVideoFrame = DEFAULT_FRAME_RATE_SCALE_RATIO;
+float RatioVideoScale = 1.0f;
+float RatioVideoFrame = 1.0f;
 
 int CANVAS_WIDTH = ORIGIN_CANVAS_WIDTH, CANVAS_HEIGHT = ORIGIN_CANVAS_HEIGHT;
 int CANVAS_CENTER_X = ORIGIN_CANVAS_WIDTH / 2, CANVAS_CENTER_Y = ORIGIN_CANVAS_HEIGHT / 2;
