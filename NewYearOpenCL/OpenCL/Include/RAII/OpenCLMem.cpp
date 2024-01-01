@@ -15,7 +15,8 @@ OpenCLMem::OpenCLMem(
     size_t size,
     cl_mem_flags flags,
     void* host_ptr
-): mem_size(size) {
+): mem_size(size)
+{
     mem = OpenCLMalloc(context, size, flags, host_ptr);
 }
 
@@ -26,22 +27,27 @@ OpenCLMem::OpenCLMem(
     unsigned int channel,
     cl_mem_flags flags,
     void* host_ptr
-) : OpenCLMem(context, calcImageSize(width, height, channel), flags, host_ptr) {
+) : OpenCLMem(context, calcImageSize(width, height, channel), flags, host_ptr)
+{
     this->width = width;
     this->height = height;
     this->channel = channel;
 }
 
-bool OpenCLMem::isSizeVaild() const {
+bool OpenCLMem::isSizeVaild() const
+{
     return width > 0 && height > 0 && channel > 0;
 }
 
-cl_mem OpenCLMem::GetMem() const {
+cl_mem OpenCLMem::GetMem() const
+{
     return mem;
 }
 
-void OpenCLMem::CopyToHost(cl_command_queue queue, void* dst_cpu) const {
-    if (!isReleased()) {
+void OpenCLMem::CopyToHost(cl_command_queue queue, void* dst_cpu) const
+{
+    if (!isReleased())
+    {
         OpenCLMemcpyFromDevice(
             queue,
             dst_cpu,
@@ -51,7 +57,8 @@ void OpenCLMem::CopyToHost(cl_command_queue queue, void* dst_cpu) const {
     }
 }
 
-void OpenCLMem::CopyFromOtherMem(cl_command_queue queue, cl_mem src) const {
+void OpenCLMem::CopyFromOtherMem(cl_command_queue queue, cl_mem src) const
+{
     const auto err = clEnqueueCopyBuffer(
         queue,
         src,
@@ -66,7 +73,8 @@ void OpenCLMem::CopyFromOtherMem(cl_command_queue queue, cl_mem src) const {
     CHECK_CL_ERROR(err, "clEnqueueCopyBuffer(FromOtherMem)");
 }
 
-void OpenCLMem::CopyToOtherMem(cl_command_queue queue, cl_mem dst) const {
+void OpenCLMem::CopyToOtherMem(cl_command_queue queue, cl_mem dst) const
+{
     const auto err = clEnqueueCopyBuffer(
         queue,
         mem,
@@ -85,8 +93,10 @@ void OpenCLMem::ShowByOpenCV(
     cl_command_queue queue,
     int width, int height, int channel,
     int wait_time
-) const {
-    if (!isReleased()) {
+) const
+{
+    if (!isReleased())
+    {
         cv::Mat mat(height, width, CV_MAKETYPE(CV_8U, channel));
         CopyToHost(queue, mat.data);
         std::cout << "Image " << width << "x" << height << "x" << channel << std::endl;
@@ -98,8 +108,14 @@ void OpenCLMem::ShowByOpenCV(
 
 void OpenCLMem::ShowByOpenCV(
     cl_command_queue queue, int wait_time
-) const {
-    if (isSizeVaild()) {
+) const
+{
+#ifndef DEBUG_MODE
+    return;
+#endif
+
+    if (isSizeVaild())
+    {
         ShowByOpenCV(
             queue,
             static_cast<int>(this->width),
@@ -107,17 +123,22 @@ void OpenCLMem::ShowByOpenCV(
             static_cast<int>(this->channel),
             wait_time
         );
-    } else {
+    }
+    else
+    {
         std::cout << "This Memory is not initlize by size!" << std::endl;
     }
 }
 
-bool OpenCLMem::isReleased() const {
+bool OpenCLMem::isReleased() const
+{
     return isPtrReleased;
 }
 
-void OpenCLMem::Release() {
-    if (!isReleased()) {
+void OpenCLMem::Release()
+{
+    if (!isReleased())
+    {
         const cl_int err = clReleaseMemObject(mem);
         CHECK_CL_ERROR(err, "clReleaseMemObject");
         isPtrReleased = true;
@@ -131,10 +152,12 @@ OpenCLMem OpenCLMemFromHost(
     unsigned int channel,
     void* host_ptr,
     cl_mem_flags flags
-) {
+)
+{
     return {context, width, height, channel, flags, host_ptr};
 }
 
-OpenCLMem::~OpenCLMem() {
+OpenCLMem::~OpenCLMem()
+{
     Release();
 }

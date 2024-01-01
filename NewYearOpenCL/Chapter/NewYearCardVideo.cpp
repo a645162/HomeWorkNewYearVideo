@@ -17,11 +17,11 @@
 #include <chrono>
 
 float RatioVideoScale = 1.0f;
-float RatioVideoFrame = 1.0f;
+float RatioVideoFrame = 0.5f;
+int FRAME_RATE = 60;
 
 int CANVAS_WIDTH = ORIGIN_CANVAS_WIDTH, CANVAS_HEIGHT = ORIGIN_CANVAS_HEIGHT;
 int CANVAS_CENTER_X = ORIGIN_CANVAS_WIDTH / 2, CANVAS_CENTER_Y = ORIGIN_CANVAS_HEIGHT / 2;
-int FRAME_RATE = DEFAULT_FRAME_RATE;
 
 #define ENABLE_CHAPTER_1
 #define ENABLE_CHAPTER_2

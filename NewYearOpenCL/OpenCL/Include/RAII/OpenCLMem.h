@@ -9,7 +9,8 @@
 #include "../OpenCLInclude.h"
 #include "../OpenCLWorkFlow.h"
 
-class OpenCLMem {
+class OpenCLMem
+{
 private:
     cl_mem mem;
     size_t mem_size;
@@ -39,7 +40,8 @@ public:
 
     [[nodiscard]] cl_mem GetMem() const;
 
-    operator cl_mem() const {
+    operator cl_mem() const
+    {
         return GetMem();
     }
 

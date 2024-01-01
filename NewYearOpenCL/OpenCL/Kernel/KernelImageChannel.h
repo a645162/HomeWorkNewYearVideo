@@ -27,7 +27,8 @@ __kernel void ImageChannelConvert(__global const uchar *inputImage,
                 255.0f;
         }
 
-        for (int c = 0; c < dst_channels; c++) {
+		int minChannel = min(src_channels, dst_channels);
+        for (int c = 0; c < minChannel; c++) {
             const int dst_index = (y * width + x) * dst_channels + c;
             const int src_index = (y * width + x) * src_channels + c;
             outputImage[dst_index] =

@@ -449,6 +449,8 @@ cv::Mat chapter_2(
 
     // mem_img2_line_4channel.ShowByOpenCV(queue);
 
+    // mem_img2_line_4channel.ShowByOpenCV(queue);
+
     // cv::Mat img2_line_4channel(CANVAS_HEIGHT, CANVAS_WIDTH, CV_8UC4);
     // mem_img2_line_4channel.CopyToHost(queue, img2_line_4channel.data);
     // cv::imwrite("img2_line_4channel.png",img2_line_4channel);
@@ -457,6 +459,15 @@ cv::Mat chapter_2(
         context,
         CANVAS_WIDTH, CANVAS_HEIGHT, 4
     );
+
+    KernelSetArg_Memset_2D(
+        kernel_memset.GetKernel(),
+        mem_img2_line_bin_4channel.GetMem(),
+        CANVAS_WIDTH, CANVAS_HEIGHT, 4,
+        0
+    );
+    kernel_memset.Execute(queue, 2, global_work_size_2);
+
     const auto kernel_binaryzation = program_binaryzation.CreateKernelRAII();
     KernelSetArg_Image_Binaryzation(
         kernel_binaryzation.GetKernel(),
